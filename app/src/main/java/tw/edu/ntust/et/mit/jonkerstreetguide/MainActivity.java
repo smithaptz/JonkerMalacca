@@ -8,6 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseCrashReporting;
+import com.parse.ParseInstallation;
 
 
 public class MainActivity extends FragmentActivity {
@@ -46,6 +50,8 @@ public class MainActivity extends FragmentActivity {
                 SECTION_CULTURE_NUM);
         addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator("Map", null),
                 SECTION_MAP_NUM);
+
+        initializeParse();
     }
 
     private void addTab(TabHost.TabSpec tabSpec, int sectionNum) {
@@ -53,7 +59,12 @@ public class MainActivity extends FragmentActivity {
         bundle.putInt(ARG_SECTION_NUM, sectionNum);
         mTabHost.addTab(tabSpec, MainFragment.class, bundle);
     }
-
+    protected void initializeParse() {
+        ParseCrashReporting.enable(this);
+        Parse.initialize(this, getString(R.string.parse_app_id),
+                getString(R.string.parse_client_key));
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,8 +87,5 @@ public class MainActivity extends FragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 }

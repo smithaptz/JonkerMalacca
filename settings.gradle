@@ -1,1 +1,3 @@
-include ':app'
+include ':app', ':SlideExpandableListView', 'FancyCoverFlow'
+project(':SlideExpandableListView').projectDir = new File('app/libs/SlideExpandableListView')
+project(':FancyCoverFlow').projectDir = new File('app/libs/FancyCoverFlow')
