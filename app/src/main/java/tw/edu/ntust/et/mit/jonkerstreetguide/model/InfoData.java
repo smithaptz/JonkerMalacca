@@ -14,7 +14,6 @@ import java.util.List;
  */
 
 public class InfoData {
-    public static final String ID = "objectId";
     public static final String REFERENCE_ID = "referenceId";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";

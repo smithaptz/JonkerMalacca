@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.widget.TabHost;
 
 import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseCrashReporting;
 import com.parse.ParseInstallation;
 
 
@@ -29,6 +27,7 @@ public class MainActivity extends FragmentActivity {
     private FragmentTabHost mTabHost;
 
 
+
     /**
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
@@ -42,14 +41,20 @@ public class MainActivity extends FragmentActivity {
         mTabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-        addTab(mTabHost.newTabSpec(SECTION_FOOD_TAG).setIndicator("Food", null),
+        addTab(mTabHost.newTabSpec(SECTION_FOOD_TAG).setIndicator(null,
+                        getResources().getDrawable(R.drawable.food_icon_selector)),
                 SECTION_FOOD_NUM);
-        addTab(mTabHost.newTabSpec(SECTION_HOT_SPOT_TAG).setIndicator("Hot Spot", null),
+        addTab(mTabHost.newTabSpec(SECTION_HOT_SPOT_TAG).setIndicator(null,
+                        getResources().getDrawable(R.drawable.hotspot_icon_selector)),
                 SECTION_HOT_SPOT_NUM);
-        addTab(mTabHost.newTabSpec(SECTION_CULTURE_TAG).setIndicator("Culture", null),
+        addTab(mTabHost.newTabSpec(SECTION_CULTURE_TAG).setIndicator(null,
+                        getResources().getDrawable(R.drawable.culture_icon_selector)),
                 SECTION_CULTURE_NUM);
-        addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator("Map", null),
+        addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
+                        getResources().getDrawable(R.drawable.map_icon_selector)),
                 SECTION_MAP_NUM);
+
+
 
         initializeParse();
     }
@@ -60,7 +65,6 @@ public class MainActivity extends FragmentActivity {
         mTabHost.addTab(tabSpec, MainFragment.class, bundle);
     }
     protected void initializeParse() {
-        ParseCrashReporting.enable(this);
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
         ParseInstallation.getCurrentInstallation().saveInBackground();

@@ -8,11 +8,12 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
             android:id="@+id/img_list_item_cover"
-            android:src="@drawable/food_2"
-            android:adjustViewBounds="true" />
+            android:src="@drawable/loading_01"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -125,7 +126,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/list_item_description"
                 android:layout_below="@+id/list_item_hour"
                 android:layout_alignLeft="@+id/list_item_hour_const"
@@ -135,7 +135,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="4/6 Kaland jfkdjffcld;e jiglskd kfjid Melaka"
                 android:id="@+id/list_item_address"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentLeft="false"
@@ -147,7 +146,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="8:00~16:00"
                 android:id="@+id/list_item_hour"
                 android:layout_toRightOf="@+id/list_item_hour_const"
                 android:layout_alignTop="@+id/list_item_hour_const" />
@@ -161,11 +159,19 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="275dp"
             android:layout_gravity="center_horizontal"
             android:background="#ffffffff"
-            android:layout_marginTop="8dp" >
+            android:layout_marginTop="8dp"
+            android:gravity="center">
 
+            <at.technikum.mti.fancycoverflow.FancyCoverFlow
+                android:id="@+id/list_item_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
         </LinearLayout>
 
         <View
