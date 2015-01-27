@@ -2,6 +2,7 @@ package tw.edu.ntust.et.mit.jonkerstreetguide;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,6 +30,7 @@ import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.ListAdapter;
@@ -37,7 +39,7 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 
 
 public class ListFragment extends Fragment implements LocationListener,
-        SlideExpandableListAdapter.OnItemExpandCollapseListener {
+        SlideExpandableListAdapter.OnItemExpandCollapseListener, ListAdapter.OnPhotoClickListener {
     public static final String ARG_SUBSECTION_NUM = "ARG_SUBSECTION_NUM";
     public static final int FOOD_SEC_STARTING_NUM = 0;
     public static final int HOT_SPOT_SEC_STARTING_NUM = 2;
@@ -48,6 +50,7 @@ public class ListFragment extends Fragment implements LocationListener,
     private String mProvider;
     private Location mCurrentLocation;
 
+    private ListView mListView;
     private ListAdapter mAdapter;
     private SlideExpandableListAdapter mSlideExpandableAdapter;
 
@@ -83,17 +86,19 @@ public class ListFragment extends Fragment implements LocationListener,
                              Bundle savedInstanceState) {
         System.out.println("--------------------------onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        ListView lv = (ListView) rootView.findViewById(R.id.listView);
+        ListView mListView = (ListView) rootView.findViewById(R.id.listView);
+        mListView.setVerticalScrollBarEnabled(false); // disable scroll bar
 
         mAdapter = new ListAdapter(getActivity());
         mAdapter.setLocation(mCurrentLocation);
+        mAdapter.setOnItemGalleryClickListener(this);
 
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
                 mAdapter,
                 R.id.list_item_expand_btn,
                 R.id.list_item_expand_layout);
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
-        lv.setAdapter(mSlideExpandableAdapter);
+        mListView.setAdapter(mSlideExpandableAdapter);
 
 
         updateData();
@@ -126,6 +131,35 @@ public class ListFragment extends Fragment implements LocationListener,
         query.whereEqualTo("referenceId", referenceId);
         query.whereEqualTo("public", true);
         query.findInBackground(new ParsePhotoDataCallback(item));
+    }
+
+    @Override
+    public void onPhotoClick(AdapterView<?> parent, View view, ListAdapter.Item item, int position) {
+        String language = Locale.getDefault().getLanguage().toString();
+        ArrayList<String> photoUrls = new ArrayList<String>();
+        ArrayList<String> photoDescriptions = new ArrayList<String>();
+
+        for(PhotoData photoData : item.getPhotos()) {
+            photoUrls.add(photoData.getUrl());
+            String description;
+            if("zh_TW".equals(language) || "zh_HK".equals(language)) {
+                description = photoData.getDescriptionCht();
+            } else if("zh_CN".equals(language)) {
+                description = photoData.getDescriptionChs();
+            } else {
+                description = photoData.getDescriptionEng();
+            }
+            photoDescriptions.add(description);
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(ImageViewerActivity.ARG_PHOTO_URL_LIST, photoUrls);
+        bundle.putStringArrayList(ImageViewerActivity.ARG_PHOTO_DESCRIPTION_LIST, photoDescriptions);
+        bundle.putInt(ImageViewerActivity.ARG_FIRST_PHOTO_INDEX, position);
+
+        Intent intent = new Intent(getActivity(), ImageViewerActivity.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 
     private class ParseInfoDataCallback extends FindCallback<ParseObject> {
@@ -183,6 +217,8 @@ public class ListFragment extends Fragment implements LocationListener,
         if(item.getPhotos() == null) {
             updatePhoto(item);
         }
+
+
     }
 
     @Override
@@ -211,24 +247,4 @@ public class ListFragment extends Fragment implements LocationListener,
     public void onProviderDisabled(String provider) {
 
     }
-
-//    @Override
-//    public void onClick(View itemView, View clickedView, int position) {
-//        if(clickedView.getTag() == null) {
-//            clickedView.setTag(ExpandState.COLLAPSE);
-//        }
-//
-//        if(ExpandState.COLLAPSE.equals(clickedView.getTag())) {
-//            clickedView.setTag(ExpandState.EXPAND);
-//            ((ImageView) clickedView).setImageResource(R.drawable.up_button);
-//        } else {
-//            clickedView.setTag(ExpandState.COLLAPSE);
-//            ((ImageView) clickedView).setImageResource(R.drawable.up_button);
-//        }
-//
-//    }
-//
-//    enum ExpandState {
-//        COLLAPSE, EXPAND
-//    }
 }

@@ -22,8 +22,10 @@
         android:id="@+id/listView"
         android:layout_gravity="center"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:dividerHeight="5dp"
+        android:divider="#ffeeeeee" />
 </LinearLayout>

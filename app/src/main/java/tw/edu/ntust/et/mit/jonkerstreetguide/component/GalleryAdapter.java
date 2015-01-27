@@ -19,11 +19,19 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
  * Created by 123 on 2015/1/26.
  */
 public class GalleryAdapter extends FancyCoverFlowAdapter {
+    private static final int IMAGE_SIZE_X_DP = 150;
+    private static final int IMAGE_SIZE_Y_DP = 150;
+
     private final Context mContext;
     private List<PhotoData> mPhotos;
 
+    private final int IMAGE_SIZE_X_PIXEL;
+    private final int IMAGE_SIZE_Y_PIXEL;
+
     public GalleryAdapter(Context context) {
         mContext = context;
+        IMAGE_SIZE_X_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_X_DP, mContext);
+        IMAGE_SIZE_Y_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_Y_DP, mContext);
     }
 
     public void setItems(List<PhotoData> photos) {
@@ -41,7 +49,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
         } else {
             iv = new ImageView(parent.getContext());
             //iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            iv.setLayoutParams(new FancyCoverFlow.LayoutParams(200, 200));
+            iv.setLayoutParams(new FancyCoverFlow.LayoutParams(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL));
         }
 
         System.out.println("-----------------getCoverFlowItem: " + position);
@@ -50,7 +58,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
             iv.setTag(getItem(position));
 
             Picasso.with(mContext).load(getItem(position).getUrl())
-                    .resize(200, 200)
+                    .resize(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL)
                     .error(R.drawable.food_2)
                     .into(iv, new Callback.EmptyCallback() {
                         @Override public void onSuccess() {

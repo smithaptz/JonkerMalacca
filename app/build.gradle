@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ntust_mitlab'
+            keyPassword 'mitlabmitlab'
+            storeFile file('D:/mitlab.jks')
+            storePassword 'mitlabmitlab'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
-
     defaultConfig {
         applicationId "tw.edu.ntust.et.mit.jonkerstreetguide"
         minSdkVersion 15
@@ -15,15 +22,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    compile project(":SlideExpandableListView")
-    compile project(":FancyCoverFlow")
+    compile project(':SlideExpandableListView')
+    compile project(':FancyCoverFlow')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.google.android.gms:play-services:6.5.87'
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_viewer_photo"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/food_subject"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_viewer_description"
+        android:textColor="#ffffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_above="@+id/image_viewer_dummy"
+        android:background="#af000000"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="description" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/image_viewer_index"
+        android:textColor="#ffffffff"
+        android:layout_above="@+id/image_viewer_dummy_2"
+        android:layout_alignParentLeft="true"
+        android:background="#af000000"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+    <View
+        android:id="@+id/image_viewer_dummy"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#af000000"
+        android:layout_above="@+id/image_viewer_index"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp" />
+
+    <View
+        android:id="@+id/image_viewer_dummy_2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentBottom="true"
+        android:background="#af000000"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp" />
+</RelativeLayout>

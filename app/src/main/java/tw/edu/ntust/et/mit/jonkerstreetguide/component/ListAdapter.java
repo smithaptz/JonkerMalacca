@@ -5,6 +5,7 @@ import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,13 +23,33 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 /**
  * Created by 123 on 2015/1/23.
  */
-public class ListAdapter extends ArrayAdapter<ListAdapter.Item> {
+public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
+        FancyCoverFlow.OnItemClickListener {
     private final LayoutInflater mInflater;
     private Location mLocation;
+
+    private OnPhotoClickListener mOnPhotoClickListener;
+
+    public interface OnPhotoClickListener {
+        void onPhotoClick(AdapterView<?> parent, View view,
+                          ListAdapter.Item item, int position);
+    }
 
     public ListAdapter(Context context) {
         super(context, 0);
         mInflater = LayoutInflater.from(context);
+    }
+
+    public void setOnItemGalleryClickListener(OnPhotoClickListener listener) {
+        mOnPhotoClickListener = listener;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(mOnPhotoClickListener != null) {
+            mOnPhotoClickListener.onPhotoClick(parent, view,
+                    (ListAdapter.Item) parent.getTag(), position);
+        }
     }
 
     public void setLocation(Location location) {
@@ -81,6 +102,8 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> {
         gallery.setMaxRotation(90);
         gallery.setScaleDownGravity(0.5f);
         gallery.setActionDistance(FancyCoverFlow.ACTION_DISTANCE_AUTO);
+        gallery.setOnItemClickListener(this);
+
         return gallery;
     }
 

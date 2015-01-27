@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -25,7 +27,7 @@ public class MainActivity extends FragmentActivity {
     public static final String SECTION_MAP_TAG = "SECTION_MAP";
 
     private FragmentTabHost mTabHost;
-
+    private TabWidget mTabWidget;
 
 
     /**
@@ -50,12 +52,15 @@ public class MainActivity extends FragmentActivity {
         addTab(mTabHost.newTabSpec(SECTION_CULTURE_TAG).setIndicator(null,
                         getResources().getDrawable(R.drawable.culture_icon_selector)),
                 SECTION_CULTURE_NUM);
-        addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
-                        getResources().getDrawable(R.drawable.map_icon_selector)),
-                SECTION_MAP_NUM);
 
+//        addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
+//                        getResources().getDrawable(R.drawable.map_icon_selector)),
+//                SECTION_MAP_NUM);
+        mTabHost.addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
+                getResources().getDrawable(R.drawable.map_icon_selector)), MapFragment.class, null);
 
-
+        mTabWidget = mTabHost.getTabWidget();
+        setTabWidgetStyle();
         initializeParse();
     }
 
@@ -63,6 +68,13 @@ public class MainActivity extends FragmentActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUM, sectionNum);
         mTabHost.addTab(tabSpec, MainFragment.class, bundle);
+    }
+
+    private void setTabWidgetStyle() {
+        for(int i = 0; i < mTabWidget.getChildCount(); i++) {
+            View v = mTabWidget.getChildAt(i);
+            v.setBackgroundResource(R.drawable.tab_indicator);
+        }
     }
     protected void initializeParse() {
         Parse.initialize(this, getString(R.string.parse_app_id),
