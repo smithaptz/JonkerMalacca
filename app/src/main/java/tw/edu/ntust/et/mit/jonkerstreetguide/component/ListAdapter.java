@@ -91,7 +91,24 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         Picasso.with(getContext()).load(infoData.getLogoUrl()).into(iv, new Callback.EmptyCallback() {
             @Override public void onSuccess() {}
         });
+
+        Location loc = infoData.getLocation();
+        ImageView map = ((ImageView) view.findViewById(R.id.list_item_map));
+        Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 450, 180, 17))
+                .into(map, new Callback.EmptyCallback() {
+            @Override
+            public void onSuccess() {
+            }
+        });
+
         return view;
+    }
+
+    private String getGoogleMapPicUrl(double latitude, double longitude, int sizeX, int sizeY, int zoom) {
+        //" http://maps.googleapis.com/maps/api/staticmap?center=2.196493,102.246815&markers=2.196493,102.246815&zoom=17&size=450x180&scale=2&&format=JPEG";
+        return  String.format("http://maps.googleapis.com/maps/api/staticmap?" +
+                        "center=%f,%f&markers=%f,%f&zoom=%d&size=%dx%d&scale=2&&format=jpg",
+                latitude, longitude, latitude, longitude, zoom, sizeX, sizeY);
     }
 
     private FancyCoverFlow setupGallery(FancyCoverFlow gallery) {

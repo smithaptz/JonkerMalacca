@@ -189,10 +189,19 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:background="#ffffffff"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_item_map"
+                android:layout_gravity="center"
+                android:focusableInTouchMode="true" />
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -200,5 +209,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:background="@drawable/drop_shadow" />
+        android:background="@drawable/drop_shadow"/>
 </LinearLayout>

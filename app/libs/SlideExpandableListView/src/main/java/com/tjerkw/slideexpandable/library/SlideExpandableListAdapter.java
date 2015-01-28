@@ -2,6 +2,7 @@ package com.tjerkw.slideexpandable.library;
 
 import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 /**
  * ListAdapter that adds sliding functionality to a list.
@@ -21,7 +22,7 @@ public class SlideExpandableListAdapter extends AbstractSlideExpandableListAdapt
 		this.expandable_view_id = expandable_view_id;
 	}
 
-	public SlideExpandableListAdapter(ListAdapter wrapped) {
+	public SlideExpandableListAdapter(ListAdapter wrapped, ListView listView) {
 		this(wrapped, R.id.expandable_toggle_button, R.id.expandable);
 	}
 

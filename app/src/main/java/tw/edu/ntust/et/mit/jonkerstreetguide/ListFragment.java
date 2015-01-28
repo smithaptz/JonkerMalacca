@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.MapsInitializer;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -85,8 +87,9 @@ public class ListFragment extends Fragment implements LocationListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         System.out.println("--------------------------onCreateView");
+
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        ListView mListView = (ListView) rootView.findViewById(R.id.listView);
+        mListView = (ListView) rootView.findViewById(R.id.listView);
         mListView.setVerticalScrollBarEnabled(false); // disable scroll bar
 
         mAdapter = new ListAdapter(getActivity());
@@ -97,6 +100,7 @@ public class ListFragment extends Fragment implements LocationListener,
                 mAdapter,
                 R.id.list_item_expand_btn,
                 R.id.list_item_expand_layout);
+        mSlideExpandableAdapter.setAnimationDuration(500);
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
         mListView.setAdapter(mSlideExpandableAdapter);
 
@@ -218,13 +222,14 @@ public class ListFragment extends Fragment implements LocationListener,
             updatePhoto(item);
         }
 
-
+        System.out.println("----------mListView == null: " + (mListView == null) + ", " + position);
     }
 
     @Override
     public void onCollapse(View itemView, int position) {
         ListAdapter.Item item = mAdapter.getItem(position);
         item.setExpandViewState(false);
+
     }
 
     @Override

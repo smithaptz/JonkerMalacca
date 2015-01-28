@@ -59,6 +59,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
 
             Picasso.with(mContext).load(getItem(position).getUrl())
                     .resize(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL)
+                    .centerCrop()
                     .error(R.drawable.food_2)
                     .into(iv, new Callback.EmptyCallback() {
                         @Override public void onSuccess() {

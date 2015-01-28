@@ -40,7 +40,7 @@ class SlideExpandableListView extends ListView {
 	}
 
     public void setAdapter(ListAdapter adapter) {
-        this.adapter = new SlideExpandableListAdapter(adapter);
+        this.adapter = new SlideExpandableListAdapter(adapter, this);
         super.setAdapter(this.adapter);
     }
 
