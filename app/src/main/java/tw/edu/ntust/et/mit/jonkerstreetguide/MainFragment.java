@@ -21,6 +21,12 @@ public class MainFragment extends Fragment {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+    public static final int FOOD_CHINESE = 0;
+    public static final int FOOD_NYONYA = 1;
+    public static final int SPOT_TRADITION = 2;
+    public static final int SPOT_ASSOCIATION = 3;
+    public static final int SPOT_TEMPLE = 4;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,7 +98,51 @@ public class MainFragment extends Fragment {
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            return ListFragment.newInstance(getSubsectionNum(position));
+            String title;
+            String subtitle;
+            int queryType;
+            int pagePositionType;
+
+            switch(getSubsectionNum(position)) {
+                case FOOD_CHINESE:
+                    title = "美食主題";
+                    subtitle = "華人";
+                    queryType = FOOD_CHINESE;
+                    pagePositionType = ListFragment.PAGE_POSITION_LEFT;
+                 break;
+                case FOOD_NYONYA:
+                    title = "美食主題";
+                    subtitle = "峇峇娘惹";
+                    queryType = FOOD_NYONYA;
+                    pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
+                    break;
+                case SPOT_TRADITION:
+                    title = "文化景點";
+                    subtitle = "傳統行業";
+                    queryType = SPOT_TRADITION;
+                    pagePositionType = ListFragment.PAGE_POSITION_LEFT;
+                    break;
+                case SPOT_ASSOCIATION:
+                    title = "文化景點";
+                    subtitle = "會館鄉團";
+                    queryType = SPOT_ASSOCIATION;
+                    pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;
+                    break;
+                case SPOT_TEMPLE:
+                    title = "文化景點";
+                    subtitle = "廟宇教堂";
+                    queryType = SPOT_TEMPLE;
+                    pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
+                    break;
+                default:
+                    title = "其它";
+                    subtitle = "其它";
+                    queryType = -1;
+                    pagePositionType = ListFragment.PAGE_POSITION_SINGLE;
+
+            }
+
+            return ListFragment.newInstance(title, subtitle, queryType, pagePositionType);
         }
 
         private int getSubsectionNum(int position) {
@@ -107,6 +157,7 @@ public class MainFragment extends Fragment {
 
             return 0;
         }
+
 
         @Override
         public int getCount() {

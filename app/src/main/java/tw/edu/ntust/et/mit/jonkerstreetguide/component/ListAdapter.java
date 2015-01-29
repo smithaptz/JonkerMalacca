@@ -24,15 +24,21 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
  * Created by 123 on 2015/1/23.
  */
 public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
-        FancyCoverFlow.OnItemClickListener {
+        FancyCoverFlow.OnItemClickListener, View.OnClickListener {
     private final LayoutInflater mInflater;
     private Location mLocation;
 
     private OnPhotoClickListener mOnPhotoClickListener;
+    private OnMapClickListener mOnMapClickListener;
+
 
     public interface OnPhotoClickListener {
         void onPhotoClick(AdapterView<?> parent, View view,
                           ListAdapter.Item item, int position);
+    }
+
+    public interface OnMapClickListener {
+        void onMapClick(InfoData infoData);
     }
 
     public ListAdapter(Context context) {
@@ -44,11 +50,23 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         mOnPhotoClickListener = listener;
     }
 
+    public void setOnMapClickListener(OnMapClickListener listener) {
+        mOnMapClickListener = listener;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(mOnPhotoClickListener != null) {
             mOnPhotoClickListener.onPhotoClick(parent, view,
                     (ListAdapter.Item) parent.getTag(), position);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mOnMapClickListener != null && v.getTag() != null) {
+            mOnMapClickListener.onMapClick(((ListAdapter.Item)
+                    v.getTag()).getInfoData());
         }
     }
 
@@ -61,6 +79,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         View view;
         if (convertView == null) {
             view = mInflater.inflate(R.layout.list_item, null);
+            view.findViewById(R.id.list_item_navigation).setOnClickListener(this);
             setupGallery((FancyCoverFlow) view.findViewById(R.id.list_item_gallery));
         } else {
             view = convertView;
@@ -68,23 +87,9 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
         ListAdapter.Item item = getItem(i);
         InfoData infoData = item.getInfoData();
+
         ((TextView) ViewHolder.get(view, R.id.list_item_name)).setText(infoData.getName());
-        ((TextView) ViewHolder.get(view,R.id.list_item_hour)).setText(infoData.getBusinessHour());
-        ((TextView) ViewHolder.get(view,R.id.list_item_description)).setText(infoData.getDescription());
-
-        ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
-                .setImageResource(item.isViewExpand() ?
-                        R.drawable.up_button : R.drawable.down_button);
-
-        FancyCoverFlow gallery = ViewHolder.get(view,R.id.list_item_gallery);
-
-        if(!item.equals(gallery.getTag()) && item.getPhotos() != null && item.isViewExpand()) {
-            GalleryAdapter galleryAdapter = (GalleryAdapter) gallery.getAdapter();
-            galleryAdapter.setItems(item.getPhotos());
-            gallery.setTag(item);
-        }
-
-        ((TextView) ViewHolder.get(view,R.id.list_item_dist)).setText(
+        ((TextView) ViewHolder.get(view, R.id.list_item_dist)).setText(
                 Utility.calDistance(mLocation, infoData.getLocation()));
 
         ImageView iv = ((ImageView) view.findViewById(R.id.img_list_item_cover));
@@ -92,22 +97,42 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             @Override public void onSuccess() {}
         });
 
-        Location loc = infoData.getLocation();
-        ImageView map = ((ImageView) view.findViewById(R.id.list_item_map));
-        Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 450, 180, 17))
-                .into(map, new Callback.EmptyCallback() {
-            @Override
-            public void onSuccess() {
+        ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
+                .setImageResource(item.isViewExpand() ?
+                        R.drawable.up_button : R.drawable.down_button);
+
+        if(item.isViewExpand()) {
+            ((TextView) ViewHolder.get(view, R.id.list_item_address)).setText(infoData.getAddress());
+            ((TextView) ViewHolder.get(view, R.id.list_item_hour)).setText(infoData.getBusinessHour());
+            ((TextView) ViewHolder.get(view, R.id.list_item_description)).setText(infoData.getDescription());
+            ((TextView) ViewHolder.get(view, R.id.list_item_address_2)).setText(infoData.getAddress());
+            ViewHolder.get(view, R.id.list_item_navigation).setTag(item);
+
+            FancyCoverFlow gallery = ViewHolder.get(view, R.id.list_item_gallery);
+
+            if(!item.equals(gallery.getTag()) && item.getPhotos() != null) {
+                GalleryAdapter galleryAdapter = (GalleryAdapter) gallery.getAdapter();
+                galleryAdapter.setItems(item.getPhotos());
+                gallery.setTag(item);
             }
-        });
+
+            Location loc = infoData.getLocation();
+            ImageView map = ViewHolder.get(view, R.id.list_item_map);
+            Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
+                    .into(map, new Callback.EmptyCallback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+                    });
+        }
 
         return view;
     }
 
     private String getGoogleMapPicUrl(double latitude, double longitude, int sizeX, int sizeY, int zoom) {
-        //" http://maps.googleapis.com/maps/api/staticmap?center=2.196493,102.246815&markers=2.196493,102.246815&zoom=17&size=450x180&scale=2&&format=JPEG";
-        return  String.format("http://maps.googleapis.com/maps/api/staticmap?" +
-                        "center=%f,%f&markers=%f,%f&zoom=%d&size=%dx%d&scale=2&&format=jpg",
+       return  String.format("http://maps.googleapis.com/maps/api/staticmap?" +
+                        "center=%f,%f&markers=%f,%f&zoom=%d&size=%dx%d&" +
+                       "scale=2&sensor=true&format=jpg",
                 latitude, longitude, latitude, longitude, zoom, sizeX, sizeY);
     }
 

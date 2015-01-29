@@ -6,15 +6,73 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imgSubcategory"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/food_subject"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:scaleType="centerInside" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:id="@+id/imgSubcategory"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/food_subject"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_circle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="美食主題"
+                android:id="@+id/list_section_title"
+                android:textColor="#ffffffff"
+                android:textSize="18sp"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="峇峇娘惹"
+                android:id="@+id/list_subsection_title"
+                android:textColor="#ffffffff"
+                android:textSize="28sp"
+                android:autoText="false"
+                android:gravity="center"
+                android:longClickable="false"
+                android:linksClickable="false"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_left_button"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/left_button"
+            android:adjustViewBounds="true" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_right_button"
+            android:layout_alignParentLeft="false"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/right_button" />
+    </RelativeLayout>
 
     <ListView
         android:layout_width="wrap_content"

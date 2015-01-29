@@ -21,6 +21,7 @@ public class ExpandCollapseAnimation extends Animation {
 	public final static int EXPAND = 0;
 	private LinearLayout.LayoutParams mLayoutParams;
 
+
 	/**
 	 * Initializes expand collapse animation, has two types, collapse (1) and expand (0).
 	 * @param view The view to animate

@@ -1,13 +1,16 @@
 package tw.edu.ntust.et.mit.jonkerstreetguide;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -41,12 +45,23 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 
 
 public class ListFragment extends Fragment implements LocationListener,
-        SlideExpandableListAdapter.OnItemExpandCollapseListener, ListAdapter.OnPhotoClickListener {
-    public static final String ARG_SUBSECTION_NUM = "ARG_SUBSECTION_NUM";
-    public static final int FOOD_SEC_STARTING_NUM = 0;
-    public static final int HOT_SPOT_SEC_STARTING_NUM = 2;
-    public static final int CULTURE_SEC_STARTING_NUM = 5;
-    public static final int MAP_SEC_STARTING_NUM = 6;
+        SlideExpandableListAdapter.OnItemExpandCollapseListener,
+        ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener {
+    public static final String ARG_TITLE = "ARG_TITLE";
+    public static final String ARG_SUBTITLE = "ARG_SUBTITLE";
+    public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
+    public static final String ARG_PAGE_POSITION_TYPE = "ARG_PAGE_POSITION_TYPE";
+
+    public static final int PAGE_POSITION_SINGLE = 0;
+    public static final int PAGE_POSITION_LEFT = 1;
+    public static final int PAGE_POSITION_MIDDLE = 2;
+    public static final int PAGE_POSITION_RIGHT = 3;
+
+    private String mTitle;
+    private String mSubtitle;
+    private int mQueryType = -1;
+    private int mPagePositionType;
+
 
     private LocationManager mLocationManager;
     private String mProvider;
@@ -88,13 +103,35 @@ public class ListFragment extends Fragment implements LocationListener,
                              Bundle savedInstanceState) {
         System.out.println("--------------------------onCreateView");
 
+        if(getArguments() != null) {
+            Bundle args = getArguments();
+            mTitle = args.getString(ARG_TITLE);
+            mSubtitle = args.getString(ARG_SUBTITLE);
+            mQueryType = args.getInt(ARG_QUERY_TYPE);
+            mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        ((TextView) rootView.findViewById(R.id.list_section_title)).setText(mTitle);
+        ((TextView) rootView.findViewById(R.id.list_subsection_title)).setText(mSubtitle);
+
+        rootView.findViewById(R.id.list_right_button).setVisibility((
+                mPagePositionType == PAGE_POSITION_LEFT ||
+                mPagePositionType == PAGE_POSITION_MIDDLE) ?
+                View.VISIBLE : View.GONE);
+
+        rootView.findViewById(R.id.list_left_button).setVisibility((
+                mPagePositionType == PAGE_POSITION_RIGHT ||
+                        mPagePositionType == PAGE_POSITION_MIDDLE) ?
+                View.VISIBLE : View.GONE);
+
         mListView = (ListView) rootView.findViewById(R.id.listView);
         mListView.setVerticalScrollBarEnabled(false); // disable scroll bar
-
+        //mListView.addFooterView(inflater.inflate(R.layout.dummy_view, null, false));
         mAdapter = new ListAdapter(getActivity());
         mAdapter.setLocation(mCurrentLocation);
         mAdapter.setOnItemGalleryClickListener(this);
+        mAdapter.setOnMapClickListener(this);
 
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
                 mAdapter,
@@ -104,17 +141,21 @@ public class ListFragment extends Fragment implements LocationListener,
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
         mListView.setAdapter(mSlideExpandableAdapter);
 
-
         updateData();
 
         return rootView;
     }
 
-    public static ListFragment newInstance(int subsectionNum) {
+    public static ListFragment newInstance(String title, String subtitle, int queryType, int pagePositionType) {
         ListFragment fragment = new ListFragment();
+
         Bundle args = new Bundle();
-        args.putInt(ARG_SUBSECTION_NUM, subsectionNum);
+        args.putString(ARG_TITLE, title);
+        args.putString(ARG_SUBTITLE, subtitle);
+        args.putInt(ARG_QUERY_TYPE, queryType);
+        args.putInt(ARG_PAGE_POSITION_TYPE, pagePositionType);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -123,6 +164,7 @@ public class ListFragment extends Fragment implements LocationListener,
         ParseQuery<ParseObject> query = ParseQuery.getQuery("InfoEng");
 //        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
 //        query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
+        query.whereEqualTo("type", mQueryType);
         query.whereEqualTo("public", true);
         query.findInBackground(new ParseInfoDataCallback());
     }
@@ -164,6 +206,33 @@ public class ListFragment extends Fragment implements LocationListener,
         Intent intent = new Intent(getActivity(), ImageViewerActivity.class);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onMapClick(InfoData infoData) {
+        final Location location = infoData.getLocation();
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Warning")
+                .setMessage("Open google map")
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String url = (mCurrentLocation == null) ?
+                                String.format("https://maps.google.com/maps?q=%f,%f",
+                                location.getLatitude(), location.getLongitude()) :
+                                String.format("http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",
+                                        mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(),
+                                        location.getLatitude(), location.getLongitude());
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    }
+                }).create();
+        dialog.show();
     }
 
     private class ParseInfoDataCallback extends FindCallback<ParseObject> {

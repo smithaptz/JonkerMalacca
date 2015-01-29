@@ -14,7 +14,7 @@
             android:id="@+id/img_list_item_cover"
             android:src="@drawable/loading_01"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside" />
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -81,8 +81,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:id="@+id/list_item_expand_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -186,22 +186,44 @@
             android:layout_height="6dp"
             android:background="@drawable/drop_shadow" />
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
             android:background="#ffffffff"
             android:layout_marginTop="5dp"
-            android:gravity="center">
+            android:gravity="left|top"
+            android:layout_gravity="center_horizontal">
 
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:id="@+id/list_item_map"
+                android:focusableInTouchMode="true"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:layout_alignParentTop="true" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/list_item_map"
-                android:layout_gravity="center"
-                android:focusableInTouchMode="true" />
-        </LinearLayout>
+                android:text="New Text"
+                android:id="@+id/list_item_address_2"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/list_item_navigation"
+                android:src="@drawable/navigation_06"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp" />
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -210,4 +232,5 @@
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@drawable/drop_shadow"/>
+
 </LinearLayout>

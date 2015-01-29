@@ -27,7 +27,8 @@ public class InfoData {
     protected ParseObject mParseObject;
 
     public enum Type {
-        MAIN, SNACK, FRUIT, TBI, OTHER
+        FOOD_CHINESE, FOOD_NYONYA, SPOT_TRADITION,
+        SPOT_ASSOCIATION, SPOT_TEMPLE, OTHER
     }
 
     public InfoData(ParseObject parseObject) {
@@ -81,13 +82,15 @@ public class InfoData {
     public Type getType() {
         switch(mParseObject.getInt(TYPE)) {
             case 0:
-                return Type.MAIN;
+                return Type.FOOD_CHINESE;
             case 1:
-                return Type.SNACK;
+                return Type.FOOD_NYONYA;
             case 2:
-                return Type.FRUIT;
+                return Type.SPOT_TRADITION;
             case 3:
-                return Type.TBI;
+                return Type.SPOT_ASSOCIATION;
+            case 4:
+                return Type.SPOT_TEMPLE;
             default:
                 return Type.OTHER;
         }

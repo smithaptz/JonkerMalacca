@@ -1,14 +1,19 @@
 package com.tjerkw.slideexpandable.library;
 
 import java.util.BitSet;
+
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -66,6 +71,9 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 	}
 
 	private OnItemExpandCollapseListener expandCollapseListener;
+
+    private int listViewHeight;
+    private int exapndableItemHeight;
 
 	/**
 	 * Sets a listener which gets call on item expand or collapse
@@ -310,14 +318,22 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 				target,
 				type
 		);
+
+        if (parent instanceof ListView) {
+            ListView listView = (ListView) parent;
+            listView.invalidateViews();
+        }
+
 		anim.setDuration(getAnimationDuration());
 		anim.setAnimationListener(new AnimationListener() {
-
 			@Override
 			public void onAnimationStart(Animation animation) {
-                if (parent instanceof ListView &&
-                        type == ExpandCollapseAnimation.EXPAND) {
-                    ((ListView) parent).setSelection(position);
+
+                if (parent instanceof ListView) {
+                    ListView listView =  (ListView) parent;
+                    if(type == ExpandCollapseAnimation.EXPAND) {
+                        listView.setSelection(position);
+                    }
                 }
             }
 
@@ -326,36 +342,10 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-//                if (parent instanceof ListView &&
-//                        type == ExpandCollapseAnimation.COLLAPSE) {
-//                    ((ListView) parent).setSelection(position);
-//                }
-
-//				if (type == ExpandCollapseAnimation.EXPAND) {
-//					if (parent instanceof ListView) {
-//						ListView listView = (ListView) parent;
-//						int movement = target.getBottom();
-//
-//						Rect r = new Rect();
-//						boolean visible = target.getGlobalVisibleRect(r);
-//						Rect r2 = new Rect();
-//						listView.getGlobalVisibleRect(r2);
-//
-//						if (!visible) {
-//							listView.smoothScrollBy(movement, getAnimationDuration());
-//						} else {
-//							if (r2.bottom == r.bottom) {
-//								listView.smoothScrollBy(movement, getAnimationDuration());
-//							}
-//						}
-//					}
-//				}
-
-                if (parent instanceof ListView) {
+                if (parent instanceof ListView &&
+                        type == ExpandCollapseAnimation.COLLAPSE) {
                     ((ListView) parent).setSelection(position);
                 }
-
-
 			}
 		});
 		target.startAnimation(anim);
@@ -464,4 +454,17 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 			}
 		};
 	}
+
+    private static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
+    }
+    private static float convertPixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float dp = px / (metrics.densityDpi / 160f);
+        return dp;
+    }
 }
