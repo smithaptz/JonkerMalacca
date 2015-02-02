@@ -4,16 +4,20 @@ import java.util.BitSet;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.SparseIntArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -61,19 +65,30 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 	 */
 	private final SparseIntArray viewHeights = new SparseIntArray(10);
 
+
+    private final ListView mListView;
+    private View mDummyView;
+    private AbsListView.LayoutParams mDummyViewParams;
+
 	/**
 	* Will point to the ListView
 	*/
 	private ViewGroup parent;
 
-	public AbstractSlideExpandableListAdapter(ListAdapter wrapped) {
+	public AbstractSlideExpandableListAdapter(ListView listView, ListAdapter wrapped) {
 		super(wrapped);
+        mListView = listView;
+        mDummyViewParams = new AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT,
+                AbsListView.LayoutParams.MATCH_PARENT);
+        mDummyView = new LinearLayout(mListView.getContext());
+        mDummyView.setLayoutParams(mDummyViewParams);
+        mDummyView.setVisibility(View.GONE);
+        mListView.addFooterView(mDummyView);
+
 	}
 
 	private OnItemExpandCollapseListener expandCollapseListener;
-
-    private int listViewHeight;
-    private int exapndableItemHeight;
 
 	/**
 	 * Sets a listener which gets call on item expand or collapse
@@ -212,12 +227,12 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		View itemToolbar = getExpandableView(parent);
 		itemToolbar.measure(parent.getWidth(), parent.getHeight());
 
-		enableFor(more, itemToolbar, position);
+		enableFor(parent, more, itemToolbar, position);
 		itemToolbar.requestLayout();
 	}
 
 
-	private void enableFor(final View button, final View target, final int position) {
+	private void enableFor(final View itemView, final View button, final View target, final int position) {
 		if(target == lastOpen && position!=lastOpenPosition) {
 			// lastOpen is recycled, so its reference is false
 			lastOpen = null;
@@ -238,7 +253,6 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View view) {
-
 				Animation a = target.getAnimation();
 
 				if (a != null && a.hasStarted() && !a.hasEnded()) {
@@ -272,6 +286,14 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 					} else {
 						openItems.set(position, false);
 					}
+
+                    final int itemHeight = mListView.getMeasuredHeight() / mListView.getChildCount();
+                    final int leftItemCount = getCount() - (position + 1);
+                    if(mListView.getChildCount() > leftItemCount && ((type == ExpandCollapseAnimation.EXPAND))) {
+                        mDummyViewParams.height = itemHeight * (mListView.getChildCount() - leftItemCount - 1);
+                        mDummyView.setVisibility(View.VISIBLE);
+                    }
+
 					// check if we need to collapse a different view
 					if (type == ExpandCollapseAnimation.EXPAND) {
 						if (lastOpenPosition != -1 && lastOpenPosition != position) {
@@ -307,6 +329,29 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		}
 	}
 
+    private void animateDummyView(int type) {
+        Animation anim = new ExpandCollapseAnimation(
+                mDummyView,
+                type
+        );
+
+        //mDummyView.setAnimation(anim);
+        anim.setDuration(getAnimationDuration());
+        anim.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+        });
+        mDummyView.startAnimation(anim);
+    }
+
 	/**
 	 * Performs either COLLAPSE or EXPAND animation on the target view
 	 * @param target the view to animate
@@ -319,22 +364,16 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 				type
 		);
 
-        if (parent instanceof ListView) {
-            ListView listView = (ListView) parent;
-            listView.invalidateViews();
+        mListView.invalidateViews();
+
+        if(type == ExpandCollapseAnimation.EXPAND) {
+            mListView.setSelection(position);
         }
 
 		anim.setDuration(getAnimationDuration());
 		anim.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-
-                if (parent instanceof ListView) {
-                    ListView listView =  (ListView) parent;
-                    if(type == ExpandCollapseAnimation.EXPAND) {
-                        listView.setSelection(position);
-                    }
-                }
             }
 
 			@Override
@@ -342,10 +381,12 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-                if (parent instanceof ListView &&
-                        type == ExpandCollapseAnimation.COLLAPSE) {
-                    ((ListView) parent).setSelection(position);
+                if (type == ExpandCollapseAnimation.COLLAPSE) {
+                    mListView.setSelection(position);
                 }
+
+                mDummyViewParams.height = 0;
+                mDummyView.setVisibility(View.GONE);
 			}
 		});
 		target.startAnimation(anim);

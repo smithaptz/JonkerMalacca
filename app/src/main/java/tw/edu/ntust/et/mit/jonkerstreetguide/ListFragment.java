@@ -134,6 +134,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mAdapter.setOnMapClickListener(this);
 
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
+                mListView,
                 mAdapter,
                 R.id.list_item_expand_btn,
                 R.id.list_item_expand_layout);
@@ -162,8 +163,8 @@ public class ListFragment extends Fragment implements LocationListener,
     private void updateData() {
         System.out.println("--------------------------UpdateData");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("InfoEng");
-//        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-//        query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
         query.whereEqualTo("type", mQueryType);
         query.whereEqualTo("public", true);
         query.findInBackground(new ParseInfoDataCallback());
@@ -172,8 +173,8 @@ public class ListFragment extends Fragment implements LocationListener,
     private void updatePhoto(ListAdapter.Item item) {
         String referenceId = item.getInfoData().getReferenceId();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
-//        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-//        query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
         query.whereEqualTo("referenceId", referenceId);
         query.whereEqualTo("public", true);
         query.findInBackground(new ParsePhotoDataCallback(item));
