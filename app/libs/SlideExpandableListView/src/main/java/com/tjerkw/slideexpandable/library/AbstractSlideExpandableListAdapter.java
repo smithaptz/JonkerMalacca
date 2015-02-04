@@ -289,6 +289,9 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 
                     final int itemHeight = mListView.getMeasuredHeight() / mListView.getChildCount();
                     final int leftItemCount = getCount() - (position + 1);
+
+                    System.out.println("---------------------getChildCount: " + mListView.getChildCount() +
+                            ", leftItemCount: " + leftItemCount + ", itemHeight: " + itemHeight);
                     if(mListView.getChildCount() > leftItemCount && ((type == ExpandCollapseAnimation.EXPAND))) {
                         mDummyViewParams.height = itemHeight * (mListView.getChildCount() - leftItemCount - 1);
                         mDummyView.setVisibility(View.VISIBLE);
@@ -329,28 +332,6 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		}
 	}
 
-    private void animateDummyView(int type) {
-        Animation anim = new ExpandCollapseAnimation(
-                mDummyView,
-                type
-        );
-
-        //mDummyView.setAnimation(anim);
-        anim.setDuration(getAnimationDuration());
-        anim.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-        });
-        mDummyView.startAnimation(anim);
-    }
 
 	/**
 	 * Performs either COLLAPSE or EXPAND animation on the target view
@@ -367,7 +348,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
         mListView.invalidateViews();
 
         if(type == ExpandCollapseAnimation.EXPAND) {
-            mListView.setSelection(position);
+            mListView.setSelection(position + mListView.getHeaderViewsCount());
         }
 
 		anim.setDuration(getAnimationDuration());
@@ -382,7 +363,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 			@Override
 			public void onAnimationEnd(Animation animation) {
                 if (type == ExpandCollapseAnimation.COLLAPSE) {
-                    mListView.setSelection(position);
+                    mListView.setSelection(position + mListView.getHeaderViewsCount());
                 }
 
                 mDummyViewParams.height = 0;

@@ -9,44 +9,40 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.MapsInitializer;
+import com.daimajia.swipe.SwipeLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.tjerkw.slideexpandable.library.AbstractSlideExpandableListAdapter;
-import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
-import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.ListAdapter;
+import tw.edu.ntust.et.mit.jonkerstreetguide.component.Utility;
 import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
 import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 
 
 public class ListFragment extends Fragment implements LocationListener,
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
-        ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener {
+        ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener,
+        ListView.OnTouchListener {
     public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_SUBTITLE = "ARG_SUBTITLE";
     public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
@@ -62,6 +58,10 @@ public class ListFragment extends Fragment implements LocationListener,
     private int mQueryType = -1;
     private int mPagePositionType;
 
+    private int touchDownX;
+    private int touchDownY;
+    private boolean onPullDown;
+
 
     private LocationManager mLocationManager;
     private String mProvider;
@@ -70,6 +70,8 @@ public class ListFragment extends Fragment implements LocationListener,
     private ListView mListView;
     private ListAdapter mAdapter;
     private SlideExpandableListAdapter mSlideExpandableAdapter;
+
+    private SwipeLayout mSwipeView;
 
     private List<InfoData> mInfos;
 
@@ -125,9 +127,11 @@ public class ListFragment extends Fragment implements LocationListener,
                         mPagePositionType == PAGE_POSITION_MIDDLE) ?
                 View.VISIBLE : View.GONE);
 
-        mListView = (ListView) rootView.findViewById(R.id.listView);
-        mListView.setVerticalScrollBarEnabled(false); // disable scroll bar
-        //mListView.addFooterView(inflater.inflate(R.layout.dummy_view, null, false));
+
+        mListView = (ListView) rootView.findViewById(R.id.list_items);
+        mListView.setVerticalScrollBarEnabled(false);
+        mListView.setOnTouchListener(this);
+
         mAdapter = new ListAdapter(getActivity());
         mAdapter.setLocation(mCurrentLocation);
         mAdapter.setOnItemGalleryClickListener(this);
@@ -141,6 +145,13 @@ public class ListFragment extends Fragment implements LocationListener,
         mSlideExpandableAdapter.setAnimationDuration(500);
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
         mListView.setAdapter(mSlideExpandableAdapter);
+
+        mSwipeView =  (SwipeLayout) rootView.findViewById(R.id.list_swipe_layout);
+        mSwipeView.setShowMode(SwipeLayout.ShowMode.PullOut);
+        mSwipeView.setDragEdge(SwipeLayout.DragEdge.Top);
+
+        ((ViewGroup) rootView.findViewById(R.id.list_swipe_wrapper))
+                .addView(inflater.inflate(R.layout.test, null, false));
 
         updateData();
 
@@ -182,7 +193,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     @Override
     public void onPhotoClick(AdapterView<?> parent, View view, ListAdapter.Item item, int position) {
-        String language = Locale.getDefault().getLanguage().toString();
+        String language = Locale.getDefault().toString();
         ArrayList<String> photoUrls = new ArrayList<String>();
         ArrayList<String> photoDescriptions = new ArrayList<String>();
 
@@ -191,7 +202,7 @@ public class ListFragment extends Fragment implements LocationListener,
             String description;
             if("zh_TW".equals(language) || "zh_HK".equals(language)) {
                 description = photoData.getDescriptionCht();
-            } else if("zh_CN".equals(language)) {
+            } else if("zh_CN".equals(language) || "zh_SG".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
                 description = photoData.getDescriptionEng();
@@ -234,6 +245,33 @@ public class ListFragment extends Fragment implements LocationListener,
                     }
                 }).create();
         dialog.show();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        boolean result = false;
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            touchDownX = (int) event.getRawX();
+            touchDownY = (int) event.getRawY();
+        }
+
+        if (mListView.getFirstVisiblePosition() == 0 &&
+                mListView.getChildAt(0).getTop() >= 0) {
+            mSwipeView.onTouchEvent(event);
+
+            int dist = (int) event.getRawY() - touchDownY;
+
+            if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
+                result = true;
+            } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
+                    event.getAction() == MotionEvent.ACTION_UP) &&
+                    dist > Utility.convertDpToPixel(100, getActivity())) {
+                    mSwipeView.open();
+            }
+
+        }
+        return result;
     }
 
     private class ParseInfoDataCallback extends FindCallback<ParseObject> {

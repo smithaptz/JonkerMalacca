@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:id="@+id/img_list_item_cover"
+            android:id="@+id/list_item_cover"
             android:src="@drawable/loading_01"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />

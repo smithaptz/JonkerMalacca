@@ -92,14 +92,14 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         ((TextView) ViewHolder.get(view, R.id.list_item_dist)).setText(
                 Utility.calDistance(mLocation, infoData.getLocation()));
 
-        ImageView iv = ((ImageView) view.findViewById(R.id.img_list_item_cover));
+        ImageView iv = ((ImageView) view.findViewById(R.id.list_item_cover));
         Picasso.with(getContext()).load(infoData.getLogoUrl()).into(iv, new Callback.EmptyCallback() {
             @Override public void onSuccess() {}
         });
 
         ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
                 .setImageResource(item.isViewExpand() ?
-                        R.drawable.up_button : R.drawable.down_button);
+        R.drawable.up_button : R.drawable.down_button);
 
         if(item.isViewExpand()) {
             ((TextView) ViewHolder.get(view, R.id.list_item_address)).setText(infoData.getAddress());
