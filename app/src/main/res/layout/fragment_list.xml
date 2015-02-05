@@ -22,14 +22,13 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_alignParentEnd="false"
             android:layout_alignParentStart="false"
             android:layout_alignParentTop="false"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_circle">
+            android:layout_centerInParent="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,7 +40,7 @@
                 android:layout_marginTop="6dp" />
 
             <TextView
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="峇峇娘惹"
                 android:id="@+id/list_subsection_title"

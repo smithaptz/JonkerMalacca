@@ -54,7 +54,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
 
         System.out.println("-----------------getCoverFlowItem: " + position);
 
-        if(!getItem(position).equals(iv.getTag())) {
+        if (!getItem(position).equals(iv.getTag())) {
             iv.setTag(getItem(position));
 
             Picasso.with(mContext).load(getItem(position).getUrl())
@@ -75,7 +75,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
 
     @Override
     public int getCount() {
-        if(mPhotos == null) {
+        if (mPhotos == null) {
             return 0;
         }
 
@@ -84,7 +84,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
 
     @Override
     public PhotoData getItem(int position) {
-        if(mPhotos == null) {
+        if (mPhotos == null) {
             return null;
         }
 

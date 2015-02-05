@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,6 +54,8 @@ public class ListFragment extends Fragment implements LocationListener,
     public static final int PAGE_POSITION_MIDDLE = 2;
     public static final int PAGE_POSITION_RIGHT = 3;
 
+    private static final int PULL_DOWN_THRESHOLD_LENGTH = 125;
+
     private String mTitle;
     private String mSubtitle;
     private int mQueryType = -1;
@@ -62,6 +65,8 @@ public class ListFragment extends Fragment implements LocationListener,
     private int touchDownY;
     private boolean onPullDown;
 
+    private TextView mTitleTxtView;
+    private TextView mSubtitleTxtView;
 
     private LocationManager mLocationManager;
     private String mProvider;
@@ -73,6 +78,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private SwipeLayout mSwipeView;
 
+
     private List<InfoData> mInfos;
 
     public ListFragment() {
@@ -82,12 +88,14 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("=============onResume================");
         mLocationManager.requestLocationUpdates(mProvider, 10000, 0, this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        System.out.println("=============onPause==============");
         mLocationManager.removeUpdates(this);
     }
 
@@ -105,7 +113,7 @@ public class ListFragment extends Fragment implements LocationListener,
                              Bundle savedInstanceState) {
         System.out.println("--------------------------onCreateView");
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             Bundle args = getArguments();
             mTitle = args.getString(ARG_TITLE);
             mSubtitle = args.getString(ARG_SUBTITLE);
@@ -114,8 +122,12 @@ public class ListFragment extends Fragment implements LocationListener,
         }
 
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        ((TextView) rootView.findViewById(R.id.list_section_title)).setText(mTitle);
-        ((TextView) rootView.findViewById(R.id.list_subsection_title)).setText(mSubtitle);
+
+        mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);
+        mSubtitleTxtView = (TextView) rootView.findViewById(R.id.list_subsection_title);
+
+        mTitleTxtView.setText(mTitle);
+        mSubtitleTxtView.setText(mSubtitle);
 
         rootView.findViewById(R.id.list_right_button).setVisibility((
                 mPagePositionType == PAGE_POSITION_LEFT ||
@@ -126,7 +138,6 @@ public class ListFragment extends Fragment implements LocationListener,
                 mPagePositionType == PAGE_POSITION_RIGHT ||
                         mPagePositionType == PAGE_POSITION_MIDDLE) ?
                 View.VISIBLE : View.GONE);
-
 
         mListView = (ListView) rootView.findViewById(R.id.list_items);
         mListView.setVerticalScrollBarEnabled(false);
@@ -149,6 +160,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mSwipeView =  (SwipeLayout) rootView.findViewById(R.id.list_swipe_layout);
         mSwipeView.setShowMode(SwipeLayout.ShowMode.PullOut);
         mSwipeView.setDragEdge(SwipeLayout.DragEdge.Top);
+        mSwipeView.addSwipeListener(mSwipeListener);
 
         ((ViewGroup) rootView.findViewById(R.id.list_swipe_wrapper))
                 .addView(inflater.inflate(R.layout.test, null, false));
@@ -197,12 +209,12 @@ public class ListFragment extends Fragment implements LocationListener,
         ArrayList<String> photoUrls = new ArrayList<String>();
         ArrayList<String> photoDescriptions = new ArrayList<String>();
 
-        for(PhotoData photoData : item.getPhotos()) {
+        for (PhotoData photoData : item.getPhotos()) {
             photoUrls.add(photoData.getUrl());
             String description;
-            if("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
                 description = photoData.getDescriptionCht();
-            } else if("zh_CN".equals(language) || "zh_SG".equals(language)) {
+            } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
                 description = photoData.getDescriptionEng();
@@ -251,26 +263,36 @@ public class ListFragment extends Fragment implements LocationListener,
     public boolean onTouch(View v, MotionEvent event) {
         boolean result = false;
 
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             touchDownX = (int) event.getRawX();
             touchDownY = (int) event.getRawY();
         }
 
+        int dist = (int) event.getRawY() - touchDownY;
+
         if (mListView.getFirstVisiblePosition() == 0 &&
                 mListView.getChildAt(0).getTop() >= 0) {
-            mSwipeView.onTouchEvent(event);
-
-            int dist = (int) event.getRawY() - touchDownY;
+            onPullDown = true;
 
             if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
                 result = true;
             } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
                     event.getAction() == MotionEvent.ACTION_UP) &&
-                    dist > Utility.convertDpToPixel(100, getActivity())) {
+                    dist > Utility.convertDpToPixel(
+                            PULL_DOWN_THRESHOLD_LENGTH, getActivity())) {
                     mSwipeView.open();
             }
-
         }
+
+        if (onPullDown) {
+            mSwipeView.onTouchEvent(event);
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_CANCEL ||
+                event.getAction() == MotionEvent.ACTION_UP) {
+            onPullDown = false;
+        }
+
         return result;
     }
 
@@ -309,24 +331,86 @@ public class ListFragment extends Fragment implements LocationListener,
         }
     };
 
+    private SwipeLayout.SwipeListener mSwipeListener =
+            new SwipeLayout.SwipeListener() {
+        private boolean mInitialized = false;
+        private int mDefaultTitleTxtSize;
+        private int mDefaultSubtitleTxtSize;
+
+        @Override
+        public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+            float openRatio = (float) topOffset / layout.getMeasuredHeight();
+            setOpenRatio(openRatio);
+        }
+
+        @Override
+        public void onStartOpen(SwipeLayout swipeLayout) {
+            if (mInitialized) {
+                return;
+            }
+            mDefaultTitleTxtSize = (int) mTitleTxtView.getTextSize();
+            mDefaultSubtitleTxtSize = (int) mSubtitleTxtView.getTextSize();
+
+            mInitialized = true;
+        }
+
+        @Override
+        public void onOpen(SwipeLayout layout) {
+        }
+
+        @Override
+        public void onStartClose(SwipeLayout swipeLayout) {
+        }
+
+        @Override
+        public void onClose(SwipeLayout layout) {
+        }
+
+        @Override
+        public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+
+            if (!mInitialized) {
+                return;
+            }
+
+            SwipeLayout.Status openStatus = layout.getOpenStatus();
+
+            if (SwipeLayout.Status.Open.equals(openStatus)) {
+                setOpenRatio(1.0f);
+            } else if (SwipeLayout.Status.Close.equals(openStatus)) {
+                setOpenRatio(0);
+            }
+        }
+
+        private void setOpenRatio(float ratio) {
+            mTitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
+                    mDefaultTitleTxtSize * lerp(1.0f, 0, ratio));
+            mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
+                    mDefaultSubtitleTxtSize * lerp(1.0f, 2.0f, ratio));
+        }
+
+        private float lerp(float x, float y, float ratio) {
+            return x * (1.0f - ratio) + y * ratio;
+        }
+    };
 
 
     private List<ListAdapter.Item> transToAdapterItems(List<InfoData> infos) {
         List<ListAdapter.Item> items = new ArrayList<ListAdapter.Item>();
-
-        for(InfoData infoData : infos) {
+        for (InfoData infoData : infos) {
             items.add(new ListAdapter.Item(infoData));
         }
 
         return items;
     }
 
+
     @Override
     public void onExpand(View itemView, int position) {
         ListAdapter.Item item = mAdapter.getItem(position);
         item.setExpandViewState(true);
 
-        if(item.getPhotos() == null) {
+        if (item.getPhotos() == null) {
             updatePhoto(item);
         }
 

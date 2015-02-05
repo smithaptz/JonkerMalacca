@@ -67,7 +67,7 @@ public class InfoData {
         ParseGeoPoint geoPoint =  mParseObject.getParseGeoPoint(LOCATION);
         Location location = new Location(getName());
 
-        if(geoPoint != null) {
+        if (geoPoint != null) {
             location.setLatitude(geoPoint.getLatitude());
             location.setLongitude(geoPoint.getLongitude());
         }
@@ -98,7 +98,7 @@ public class InfoData {
 
     public static List<InfoData> adaptParseObjects(List<ParseObject> parseObjects) {
         List<InfoData> list = new ArrayList<InfoData>();
-        for(ParseObject parseObject : parseObjects) {
+        for (ParseObject parseObject : parseObjects) {
             list.add(new InfoData(parseObject));
         }
 

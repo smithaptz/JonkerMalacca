@@ -42,7 +42,7 @@ public class PhotoData {
 
     public static List<PhotoData> adaptParseObjects(List<ParseObject> parseObjects) {
         List<PhotoData> list = new ArrayList<PhotoData>();
-        for(ParseObject parseObject : parseObjects) {
+        for (ParseObject parseObject : parseObjects) {
             list.add(new PhotoData(parseObject));
         }
 

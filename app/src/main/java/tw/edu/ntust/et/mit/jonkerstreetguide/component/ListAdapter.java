@@ -56,7 +56,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(mOnPhotoClickListener != null) {
+        if (mOnPhotoClickListener != null) {
             mOnPhotoClickListener.onPhotoClick(parent, view,
                     (ListAdapter.Item) parent.getTag(), position);
         }
@@ -64,7 +64,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
     @Override
     public void onClick(View v) {
-        if(mOnMapClickListener != null && v.getTag() != null) {
+        if (mOnMapClickListener != null && v.getTag() != null) {
             mOnMapClickListener.onMapClick(((ListAdapter.Item)
                     v.getTag()).getInfoData());
         }
@@ -101,7 +101,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
                 .setImageResource(item.isViewExpand() ?
         R.drawable.up_button : R.drawable.down_button);
 
-        if(item.isViewExpand()) {
+        if (item.isViewExpand()) {
             ((TextView) ViewHolder.get(view, R.id.list_item_address)).setText(infoData.getAddress());
             ((TextView) ViewHolder.get(view, R.id.list_item_hour)).setText(infoData.getBusinessHour());
             ((TextView) ViewHolder.get(view, R.id.list_item_description)).setText(infoData.getDescription());
@@ -110,7 +110,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
             FancyCoverFlow gallery = ViewHolder.get(view, R.id.list_item_gallery);
 
-            if(!item.equals(gallery.getTag()) && item.getPhotos() != null) {
+            if (!item.equals(gallery.getTag()) && item.getPhotos() != null) {
                 GalleryAdapter galleryAdapter = (GalleryAdapter) gallery.getAdapter();
                 galleryAdapter.setItems(item.getPhotos());
                 gallery.setTag(item);

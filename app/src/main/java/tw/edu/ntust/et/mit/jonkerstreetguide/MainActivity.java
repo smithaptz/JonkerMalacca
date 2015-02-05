@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setTabWidgetStyle() {
-        for(int i = 0; i < mTabWidget.getChildCount(); i++) {
+        for (int i = 0; i < mTabWidget.getChildCount(); i++) {
             View v = mTabWidget.getChildAt(i);
             v.setBackgroundResource(R.drawable.tab_indicator);
         }

@@ -45,7 +45,7 @@ public class ImageViewerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             mPhotoUrls = bundle.getStringArrayList(
                     ARG_PHOTO_URL_LIST);
             mPhotoDescriptions = bundle.getStringArrayList(
@@ -71,12 +71,12 @@ public class ImageViewerFragment extends Fragment {
         ArrayList<String> photoUrls = new ArrayList<String>();
         ArrayList<String> photoDescriptions = new ArrayList<String>();
 
-        for(PhotoData photoData : photos) {
+        for (PhotoData photoData : photos) {
             photoUrls.add(photoData.getUrl());
             String description;
-            if("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
                 description = photoData.getDescriptionCht();
-            } else if("zh_CN".equals(language)) {
+            } else if ("zh_CN".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
                 description = photoData.getDescriptionEng();
