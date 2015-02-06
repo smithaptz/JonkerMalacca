@@ -15,6 +15,8 @@ import com.parse.ParseInstallation;
 
 
 public class MainActivity extends FragmentActivity {
+    public static final String TAG = "MainActivity";
+
     public static final String ARG_SECTION_NUM = "ARG_SECTION_NUM";
     public static final int SECTION_FOOD_NUM = 0;
     public static final int SECTION_HOT_SPOT_NUM = 1;
@@ -84,16 +86,12 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

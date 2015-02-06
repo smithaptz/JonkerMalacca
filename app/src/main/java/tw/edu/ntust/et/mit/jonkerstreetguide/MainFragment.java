@@ -17,6 +17,8 @@ import android.view.ViewGroup;
  * Created by 123 on 2015/1/24.
  */
 public class MainFragment extends Fragment {
+    public static final String TAG = "MainFragment";
+
     private int mSectionNum;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -105,38 +107,38 @@ public class MainFragment extends Fragment {
 
             switch(getSubsectionNum(position)) {
                 case FOOD_CHINESE:
-                    title = "美食主題";
-                    subtitle = "華人";
+                    title = getString(R.string.title_food);
+                    subtitle = getString(R.string.title_food_chinese);
                     queryType = FOOD_CHINESE;
                     pagePositionType = ListFragment.PAGE_POSITION_LEFT;
                  break;
                 case FOOD_NYONYA:
-                    title = "美食主題";
-                    subtitle = "峇峇娘惹";
+                    title = getString(R.string.title_food);
+                    subtitle = getString(R.string.title_food_nyonya);
                     queryType = FOOD_NYONYA;
                     pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
                     break;
                 case SPOT_TRADITION:
-                    title = "文化景點";
-                    subtitle = "傳統行業";
+                    title = getString(R.string.title_spot);
+                    subtitle = getString(R.string.title_spot_tradition);
                     queryType = SPOT_TRADITION;
                     pagePositionType = ListFragment.PAGE_POSITION_LEFT;
                     break;
                 case SPOT_ASSOCIATION:
-                    title = "文化景點";
-                    subtitle = "會館鄉團";
+                    title = getString(R.string.title_spot);;
+                    subtitle =getString(R.string.title_spot_association);
                     queryType = SPOT_ASSOCIATION;
                     pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;
                     break;
                 case SPOT_TEMPLE:
-                    title = "文化景點";
-                    subtitle = "廟宇教堂";
+                    title = getString(R.string.title_spot);
+                    subtitle = getString(R.string.title_spot_temple);
                     queryType = SPOT_TEMPLE;
                     pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
                     break;
                 default:
-                    title = "其它";
-                    subtitle = "其它";
+                    title = getString(R.string.title_other);
+                    subtitle = getString(R.string.title_other);
                     queryType = -1;
                     pagePositionType = ListFragment.PAGE_POSITION_SINGLE;
 

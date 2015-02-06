@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,6 +45,8 @@ public class ListFragment extends Fragment implements LocationListener,
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
         ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener,
         ListView.OnTouchListener {
+    public static final String TAG = "ListFragment";
+
     public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_SUBTITLE = "ARG_SUBTITLE";
     public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
@@ -88,14 +91,12 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("=============onResume================");
         mLocationManager.requestLocationUpdates(mProvider, 10000, 0, this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("=============onPause==============");
         mLocationManager.removeUpdates(this);
     }
 
@@ -111,7 +112,6 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("--------------------------onCreateView");
 
         if (getArguments() != null) {
             Bundle args = getArguments();
@@ -185,7 +185,15 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private void updateData() {
         System.out.println("--------------------------UpdateData");
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("InfoEng");
+        String language = Locale.getDefault().toString();
+        String queryTable = "InfoEng";
+        if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            queryTable = "InfoCht";
+        } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
+            queryTable = "InfoChs";
+        }
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(queryTable);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
         query.whereEqualTo("type", mQueryType);
@@ -235,28 +243,14 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public void onMapClick(InfoData infoData) {
         final Location location = infoData.getLocation();
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Warning")
-                .setMessage("Open google map")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String url = (mCurrentLocation == null) ?
-                                String.format("https://maps.google.com/maps?q=%f,%f",
-                                location.getLatitude(), location.getLongitude()) :
-                                String.format("http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",
-                                        mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(),
-                                        location.getLatitude(), location.getLongitude());
-                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                    }
-                }).create();
-        dialog.show();
+        String url = (mCurrentLocation == null) ?
+                String.format("https://maps.google.com/maps?q=%f,%f",
+                        location.getLatitude(), location.getLongitude()) :
+                String.format("http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",
+                        mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(),
+                        location.getLatitude(), location.getLongitude());
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
     @Override
@@ -298,14 +292,13 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private class ParseInfoDataCallback extends FindCallback<ParseObject> {
         public void done(List<ParseObject> list, ParseException e) {
-            System.out.println("--------------------------parseInfoDataCallback");
             if (e == null) {
-                System.out.println("--------------updateSuccessfully ");
+                Log.d(TAG, "Updated info data successfully: size: " + list.size());
                 mInfos = InfoData.adaptParseObjects(list);
                 mAdapter.addAll(transToAdapterItems(mInfos));
                 mSlideExpandableAdapter.notifyDataSetChanged();
             } else {
-                System.out.println("--------------fail to update ");
+                Log.d(TAG, "Updated info data failed");
                 e.printStackTrace();
             }
         }
@@ -319,13 +312,12 @@ public class ListFragment extends Fragment implements LocationListener,
         }
 
         public void done(List<ParseObject> list, ParseException e) {
-            System.out.println("--------------------------parsePhotoCallback");
             if (e == null) {
-                System.out.println("--------------updateSuccessfully: size: " + list.size());
+                Log.d(TAG, "Updated photo data successfully: size: " + list.size());
                 mItem.setPhotos(PhotoData.adaptParseObjects(list));
                 mAdapter.notifyDataSetChanged();
             } else {
-                System.out.println("--------------fail to update ");
+                Log.d(TAG, "Updated photo data failed");
                 e.printStackTrace();
             }
         }
@@ -413,8 +405,6 @@ public class ListFragment extends Fragment implements LocationListener,
         if (item.getPhotos() == null) {
             updatePhoto(item);
         }
-
-        System.out.println("----------mListView == null: " + (mListView == null) + ", " + position);
     }
 
     @Override

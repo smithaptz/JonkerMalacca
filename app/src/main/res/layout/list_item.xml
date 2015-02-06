@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="地址："
+                android:text="@string/list_item_address"
                 android:id="@+id/list_item_address_const"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
@@ -120,11 +120,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="營業時間："
                 android:id="@+id/list_item_hour_const"
                 android:layout_below="@+id/list_item_address"
                 android:layout_alignLeft="@+id/list_item_address_const"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:text="@string/list_item_business_hour" />
 
             <TextView
                 android:layout_width="wrap_content"

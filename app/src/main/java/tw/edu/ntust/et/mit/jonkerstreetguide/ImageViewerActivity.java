@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
  * Created by 123 on 2015/1/28.
  */
 public class ImageViewerActivity extends FragmentActivity {
+    public static final String TAG = "ImageViewerActivity";
+
     public static final String ARG_PHOTO_URL_LIST =
             "ARG_PHOTO_URL_LIST";
     public static final String ARG_PHOTO_DESCRIPTION_LIST =

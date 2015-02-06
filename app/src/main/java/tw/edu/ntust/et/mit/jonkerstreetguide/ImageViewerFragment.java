@@ -23,6 +23,8 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
  * Created by 123 on 2015/1/27.
  */
 public class ImageViewerFragment extends Fragment {
+    public static final String TAG = "ImageViewerFragment";
+
     public static final String ARG_PHOTO_URL_LIST =
             "ARG_PHOTO_URL_LIST";
     public static final String ARG_PHOTO_DESCRIPTION_LIST =
@@ -83,7 +85,6 @@ public class ImageViewerFragment extends Fragment {
             }
             photoDescriptions.add(description);
         }
-        System.out.println("-----------------newInstance: " + photoUrls.size());
         Bundle bundle = new Bundle();
         bundle.putStringArrayList(ARG_PHOTO_URL_LIST, photoUrls);
         bundle.putStringArrayList(ARG_PHOTO_DESCRIPTION_LIST, photoDescriptions);
@@ -128,14 +129,14 @@ public class ImageViewerFragment extends Fragment {
             ImageView iv = (ImageView)view.findViewById(R.id.image_viewer_photo);
 
             Picasso.with(mContext).load(mPhotoUrls.get(position)).into(iv);
-            ((ViewPager) container).addView(view);
+            container.addView(view);
 
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager) container).removeView((View) object);
+            container.removeView((View) object);
         }
     }
 

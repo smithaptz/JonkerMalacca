@@ -37,7 +37,6 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
     public void setItems(List<PhotoData> photos) {
         mPhotos = photos;
         notifyDataSetChanged();
-        System.out.println("--------------------GalleryAdapter.setItems: " + mPhotos.size());
     }
 
     @Override
@@ -48,11 +47,8 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
             iv = (ImageView) reusableView;
         } else {
             iv = new ImageView(parent.getContext());
-            //iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             iv.setLayoutParams(new FancyCoverFlow.LayoutParams(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL));
         }
-
-        System.out.println("-----------------getCoverFlowItem: " + position);
 
         if (!getItem(position).equals(iv.getTag())) {
             iv.setTag(getItem(position));
@@ -67,8 +63,6 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
                         }
                     });
         }
-
-
 
         return iv;
     }
