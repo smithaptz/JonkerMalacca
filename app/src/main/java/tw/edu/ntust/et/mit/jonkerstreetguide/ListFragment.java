@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.Inflater;
 
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.FastBlur;
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.ListAdapter;
@@ -67,6 +68,9 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private static final float BLUR_SCALE_DOWN_FACTOR = 12f;
     private static final int BLUR_SAMPLE_RADIUS = 4;
+
+    private static final float TITLE_TEXT_ZOOM_SCALE = 0;
+    private static final float SUBTITLE_TEXT_ZOOM_SCALE = 1.7f;
 
     private String mTitle;
     private String mSubtitle;
@@ -148,7 +152,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
         rootView.findViewById(R.id.list_right_button).setVisibility((
                 mPagePositionType == PAGE_POSITION_LEFT ||
-                mPagePositionType == PAGE_POSITION_MIDDLE) ?
+                        mPagePositionType == PAGE_POSITION_MIDDLE) ?
                 View.VISIBLE : View.GONE);
 
         rootView.findViewById(R.id.list_left_button).setVisibility((
@@ -156,37 +160,8 @@ public class ListFragment extends Fragment implements LocationListener,
                         mPagePositionType == PAGE_POSITION_MIDDLE) ?
                 View.VISIBLE : View.GONE);
 
-        mListView = (ListView) rootView.findViewById(R.id.list_items);
-        mListView.setVerticalScrollBarEnabled(false);
-        mListView.setOnTouchListener(this);
-
-        mAdapter = new ListAdapter(getActivity());
-        mAdapter.setLocation(mCurrentLocation);
-        mAdapter.setOnItemGalleryClickListener(this);
-        mAdapter.setOnMapClickListener(this);
-
-        mSlideExpandableAdapter = new SlideExpandableListAdapter(
-                mListView,
-                mAdapter,
-                R.id.list_item_expand_btn,
-                R.id.list_item_expand_layout);
-        mSlideExpandableAdapter.setAnimationDuration(500);
-        mSlideExpandableAdapter.setItemExpandCollapseListener(this);
-        mListView.setAdapter(mSlideExpandableAdapter);
-
-        mSwipeView =  (SwipeLayout) rootView.findViewById(R.id.list_swipe_layout);
-        mSwipeView.setShowMode(SwipeLayout.ShowMode.PullOut);
-        mSwipeView.setDragEdge(SwipeLayout.DragEdge.Top);
-        mSwipeView.addSwipeListener(mSwipeListener);
-        mSwipeView.setOnTouchListener(this);
-
-        mSwipePullDownView = (ViewGroup) rootView.findViewById(R.id.list_swipe_down_layout);
-
-
-        ((ViewGroup) rootView.findViewById(R.id.list_swipe_down_wrapper))
-                .addView(inflater.inflate(R.layout.test, null, false));
-
-        updateData();
+        swipeViewInit(rootView);
+        listViewInit(rootView);
 
         return rootView;
     }
@@ -204,7 +179,41 @@ public class ListFragment extends Fragment implements LocationListener,
         return fragment;
     }
 
-    private void updateData() {
+    protected void swipeViewInit(View rootView) {
+        mSwipeView =  (SwipeLayout) rootView.findViewById(R.id.list_swipe_layout);
+        mSwipeView.setShowMode(SwipeLayout.ShowMode.PullOut);
+        mSwipeView.setDragEdge(SwipeLayout.DragEdge.Top);
+        mSwipeView.addSwipeListener(mSwipeListener);
+        mSwipeView.setOnTouchListener(this);
+
+        mSwipePullDownView = (ViewGroup) rootView.findViewById(R.id.list_swipe_down_layout);
+
+        ((ViewGroup) rootView.findViewById(R.id.list_swipe_down_wrapper))
+                .addView(LayoutInflater.from(getActivity()).inflate(R.layout.test, null, false));
+    }
+
+    protected void listViewInit(View rootView) {
+        mListView = (ListView) rootView.findViewById(R.id.list_items);
+        mListView.setVerticalScrollBarEnabled(false);
+        mListView.setOnTouchListener(this);
+
+        mAdapter = new ListAdapter(getActivity());
+        mAdapter.setLocation(mCurrentLocation);
+        mAdapter.setOnItemGalleryClickListener(this);
+        mAdapter.setOnMapClickListener(this);
+
+        mSlideExpandableAdapter = new SlideExpandableListAdapter(
+                mListView,
+                mAdapter,
+                R.id.list_item_expand_btn,
+                R.id.list_item_expand_layout);
+        mSlideExpandableAdapter.setAnimationDuration(500);
+        mSlideExpandableAdapter.setItemExpandCollapseListener(this);
+        mListView.setAdapter(mSlideExpandableAdapter);
+        updateData();
+    }
+
+    public void updateData() {
         String language = Locale.getDefault().toString();
         String queryTable = "InfoEng";
         if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
@@ -221,7 +230,7 @@ public class ListFragment extends Fragment implements LocationListener,
         query.findInBackground(new ParseInfoDataCallback());
     }
 
-    private void updatePhoto(ListAdapter.Item item) {
+    public void updatePhoto(ListAdapter.Item item) {
         String referenceId = item.getInfoData().getReferenceId();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
@@ -415,9 +424,9 @@ public class ListFragment extends Fragment implements LocationListener,
 
         private void setOpenRatio(float ratio) {
             mTitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
-                    mDefaultTitleTxtSize * lerp(1.0f, 0, ratio));
+                    mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
             mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
-                    mDefaultSubtitleTxtSize * lerp(1.0f, 2.0f, ratio));
+                    mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
             mixTransBackground(mTransBackground, mBlurBackground, ratio);
         }
 
@@ -482,8 +491,8 @@ public class ListFragment extends Fragment implements LocationListener,
                 (int) (view.getMeasuredHeight()/BLUR_SCALE_DOWN_FACTOR),
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(mBlurBackground);
-        canvas.translate(-view.getLeft()/BLUR_SCALE_DOWN_FACTOR,
-                -view.getTop()/BLUR_SCALE_DOWN_FACTOR);
+        canvas.translate(-view.getLeft() / BLUR_SCALE_DOWN_FACTOR,
+                -view.getTop() / BLUR_SCALE_DOWN_FACTOR);
         canvas.scale(1 / BLUR_SCALE_DOWN_FACTOR, 1 /
                 BLUR_SCALE_DOWN_FACTOR);
         Paint paint = new Paint();
@@ -498,7 +507,6 @@ public class ListFragment extends Fragment implements LocationListener,
         int width = blurBitmap.getWidth();
         int height = blurBitmap.getHeight();
 
-        System.out.println("w: " + width + ", h: " + height);
         int boundary = (int) (height * (1.0f - ratio));
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {

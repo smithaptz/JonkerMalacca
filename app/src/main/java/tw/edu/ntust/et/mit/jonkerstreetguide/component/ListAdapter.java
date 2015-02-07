@@ -54,6 +54,14 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         mOnMapClickListener = listener;
     }
 
+    public OnPhotoClickListener getOnItemGalleryClickListener() {
+        return mOnPhotoClickListener;
+    }
+
+    public OnMapClickListener getOnMapClickListener() {
+        return mOnMapClickListener;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mOnPhotoClickListener != null) {
@@ -111,13 +119,14 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             FancyCoverFlow gallery = ViewHolder.get(view, R.id.list_item_gallery);
 
             if (!item.equals(gallery.getTag()) && item.getPhotos() != null) {
-                GalleryAdapter galleryAdapter = (GalleryAdapter) gallery.getAdapter();
+                ListItemGalleryAdapter galleryAdapter = (ListItemGalleryAdapter) gallery.getAdapter();
                 galleryAdapter.setItems(item.getPhotos());
                 gallery.setTag(item);
             }
 
             Location loc = infoData.getLocation();
             ImageView map = ViewHolder.get(view, R.id.list_item_map);
+
             Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
                     .into(map, new Callback.EmptyCallback() {
                         @Override
@@ -137,7 +146,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
     }
 
     private FancyCoverFlow setupGallery(FancyCoverFlow gallery) {
-        gallery.setAdapter(new GalleryAdapter(getContext()));
+        gallery.setAdapter(new ListItemGalleryAdapter(getContext()));
         gallery.setUnselectedAlpha(0.75f);
         gallery.setUnselectedSaturation(0.0f);
         gallery.setUnselectedScale(0.5f);
@@ -150,32 +159,32 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
     }
 
     public static class Item {
-        private InfoData mInfoData;
-        private List<PhotoData> mPhotos;
-        private boolean mViewExpand;
+        private InfoData infoData;
+        private List<PhotoData> photos;
+        private boolean viewExpand;
 
         public Item(InfoData infoData) {
-            mInfoData = infoData;
+            this.infoData = infoData;
         }
 
         public void setPhotos(List<PhotoData> photos) {
-            mPhotos = photos;
+                this.photos = photos;
         }
 
         public InfoData getInfoData() {
-            return mInfoData;
+            return infoData;
         }
 
         public List<PhotoData> getPhotos() {
-            return mPhotos;
+            return photos;
         }
 
         public void setExpandViewState(boolean viewExpand) {
-            mViewExpand = viewExpand;
+            this.viewExpand = viewExpand;
         }
 
         public boolean isViewExpand() {
-            return mViewExpand;
+            return viewExpand;
         }
     }
 }

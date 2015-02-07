@@ -21,4 +21,6 @@
     <string name="map_food">Food</string>
     <string name="map_all">All</string>
 
+    <string name="about_item_website">Website：</string>
+    <string name="about_item_email">E-mail：</string>
 </resources>

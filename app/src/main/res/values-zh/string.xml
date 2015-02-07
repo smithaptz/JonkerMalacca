@@ -17,4 +17,7 @@
     <string name="map_hotspot">文化景點</string>
     <string name="map_food">在地美食</string>
     <string name="map_all">全部</string>
+
+    <string name="about_item_website">網址：</string>
+    <string name="about_item_email">信箱：</string>
 </resources>

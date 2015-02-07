@@ -153,8 +153,6 @@ public class MainFragment extends Fragment {
                     return position;
                 case MainActivity.SECTION_HOT_SPOT_NUM:
                     return position + 2;
-                case MainActivity.SECTION_CULTURE_NUM:
-                    return position + 5;
             }
 
             return 0;
@@ -168,8 +166,6 @@ public class MainFragment extends Fragment {
                     return 2;
                 case MainActivity.SECTION_HOT_SPOT_NUM:
                     return 3;
-                case MainActivity.SECTION_CULTURE_NUM:
-                    return 2;
             }
 
             return 0;

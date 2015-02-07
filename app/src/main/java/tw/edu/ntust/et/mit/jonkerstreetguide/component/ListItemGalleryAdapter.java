@@ -18,7 +18,7 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 /**
  * Created by 123 on 2015/1/26.
  */
-public class GalleryAdapter extends FancyCoverFlowAdapter {
+public class ListItemGalleryAdapter extends FancyCoverFlowAdapter {
     private static final int IMAGE_SIZE_X_DP = 150;
     private static final int IMAGE_SIZE_Y_DP = 150;
 
@@ -28,7 +28,7 @@ public class GalleryAdapter extends FancyCoverFlowAdapter {
     private final int IMAGE_SIZE_X_PIXEL;
     private final int IMAGE_SIZE_Y_PIXEL;
 
-    public GalleryAdapter(Context context) {
+    public ListItemGalleryAdapter(Context context) {
         mContext = context;
         IMAGE_SIZE_X_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_X_DP, mContext);
         IMAGE_SIZE_Y_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_Y_DP, mContext);

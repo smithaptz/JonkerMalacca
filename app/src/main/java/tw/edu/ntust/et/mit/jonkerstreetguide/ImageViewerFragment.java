@@ -121,7 +121,7 @@ public class ImageViewerFragment extends Fragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.image_viwer_page,  null);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.image_viewer_page,  null);
             ((TextView) view.findViewById(R.id.image_viewer_description))
                     .setText(mPhotoDescriptions.get(position));
             ((TextView) view.findViewById(R.id.image_viewer_index))

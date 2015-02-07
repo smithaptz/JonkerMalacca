@@ -20,12 +20,12 @@ public class MainActivity extends FragmentActivity {
     public static final String ARG_SECTION_NUM = "ARG_SECTION_NUM";
     public static final int SECTION_FOOD_NUM = 0;
     public static final int SECTION_HOT_SPOT_NUM = 1;
-    public static final int SECTION_CULTURE_NUM = 2;
+    public static final int SECTION_ABOUT_NUM = 2;
     public static final int SECTION_MAP_NUM = 3;
 
     public static final String SECTION_FOOD_TAG = "SECTION_FOOD";
     public static final String SECTION_HOT_SPOT_TAG = "SECTION_HOT_SPOT";
-    public static final String SECTION_CULTURE_TAG = "SECTION_CULTURE";
+    public static final String SECTION_ABOUT_TAG = "SECTION_ABOUT";
     public static final String SECTION_MAP_TAG = "SECTION_MAP";
 
     private FragmentTabHost mTabHost;
@@ -51,13 +51,10 @@ public class MainActivity extends FragmentActivity {
         addTab(mTabHost.newTabSpec(SECTION_HOT_SPOT_TAG).setIndicator(null,
                         getResources().getDrawable(R.drawable.hotspot_icon_selector)),
                 SECTION_HOT_SPOT_NUM);
-        addTab(mTabHost.newTabSpec(SECTION_CULTURE_TAG).setIndicator(null,
-                        getResources().getDrawable(R.drawable.culture_icon_selector)),
-                SECTION_CULTURE_NUM);
 
-//        addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
-//                        getResources().getDrawable(R.drawable.map_icon_selector)),
-//                SECTION_MAP_NUM);
+        mTabHost.addTab(mTabHost.newTabSpec(SECTION_ABOUT_TAG).setIndicator(null,
+                getResources().getDrawable(R.drawable.about_icon_selector)), AboutFragment.class, null);
+
         mTabHost.addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
                 getResources().getDrawable(R.drawable.map_icon_selector)), MapFragment.class, null);
 

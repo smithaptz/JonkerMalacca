@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:id="@+id/list_item_cover"
+            android:id="@+id/about_item_cover"
             android:src="@drawable/loading_01"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
@@ -35,8 +35,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="蠔煎"
-                    android:id="@+id/list_item_name"
+                    android:text="國立臺灣科技大學"
+                    android:id="@+id/about_item_name"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
@@ -59,23 +59,6 @@
                 android:layout_marginTop="5dp"
                 android:background="#b4545859">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="200 m"
-                    android:id="@+id/list_item_dist"
-                    android:textSize="18sp"
-                    android:layout_alignWithParentIfMissing="false"
-                    android:layout_below="@+id/textView"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:autoText="false"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginBottom="2dp"
-                    android:textColor="#ffffffff" />
 
             </LinearLayout>
         </LinearLayout>
@@ -83,7 +66,7 @@
         <ImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:id="@+id/list_item_expand_btn"
+            android:id="@+id/about_item_expand_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="false"
@@ -95,7 +78,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/list_item_expand_layout"
+        android:id="@+id/about_item_expand_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -105,14 +88,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffffff"
-            android:id="@+id/list_item_description_layout">
+            android:id="@+id/about_item_description_layout">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/list_item_address"
-                android:id="@+id/list_item_address_const"
+                android:text="@string/about_item_website"
+                android:id="@+id/about_item_website_const"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:textSize="14sp" />
@@ -121,19 +104,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_hour_const"
-                android:layout_below="@+id/list_item_address"
-                android:layout_alignLeft="@+id/list_item_address_const"
+                android:id="@+id/about_item_email_const"
+                android:layout_below="@+id/about_item_website"
+                android:layout_alignLeft="@+id/about_item_website_const"
                 android:textSize="14sp"
-                android:text="@string/list_item_business_hour" />
+                android:text="@string/about_item_email" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_description"
-                android:layout_below="@+id/list_item_hour"
-                android:layout_alignLeft="@+id/list_item_hour_const"
+                android:id="@+id/about_item_description"
+                android:layout_below="@+id/about_item_email"
+                android:layout_alignLeft="@+id/about_item_email_const"
                 android:layout_marginTop="10dp"
                 android:textSize="14sp" />
 
@@ -141,28 +124,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_address"
+                android:id="@+id/about_item_website"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false"
-                android:layout_toRightOf="@+id/list_item_address_const"
-                android:layout_alignTop="@+id/list_item_address_const"
+                android:layout_toRightOf="@+id/about_item_website_const"
+                android:layout_alignTop="@+id/about_item_website_const"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_hour"
-                android:layout_toRightOf="@+id/list_item_hour_const"
-                android:layout_alignTop="@+id/list_item_hour_const"
+                android:id="@+id/about_item_email"
+                android:layout_toRightOf="@+id/about_item_email_const"
+                android:layout_alignTop="@+id/about_item_email_const"
                 android:textSize="14sp" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="6dp"
-            android:background="@drawable/drop_shadow"/>
+            android:background="@drawable/drop_shadow"
+            android:focusable="false"
+            android:clickable="false" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -172,63 +157,16 @@
             android:background="#ffffffff"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:id="@+id/list_item_gallery_layout">
+            android:id="@+id/about_item_gallery_layout">
 
             <at.technikum.mti.fancycoverflow.FancyCoverFlow
-                android:id="@+id/list_item_gallery"
+                android:id="@+id/about_item_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/drop_shadow" />
-
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#ffffffff"
-            android:layout_marginTop="5dp"
-            android:gravity="left|top"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/list_item_map_layout">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:id="@+id/list_item_map"
-                android:focusableInTouchMode="true"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:layout_alignParentTop="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/list_item_address_2"
-                android:layout_marginLeft="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/list_item_navigation"
-                android:src="@drawable/navigation_06"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp" />
-        </RelativeLayout>
-
-
     </LinearLayout>
 
     <View

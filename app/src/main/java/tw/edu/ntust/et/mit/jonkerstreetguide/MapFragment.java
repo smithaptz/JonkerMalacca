@@ -40,9 +40,6 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
  * Created by 123 on 2015/1/27.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback
-        , GoogleApiClient.ConnectionCallbacks
-        , GoogleApiClient.OnConnectionFailedListener
-        , LocationListener
         , GoogleMap.OnMarkerClickListener {
     public static final String TAG = "MapFragment";
 
@@ -69,7 +66,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
         GoogleMapOptions options = new GoogleMapOptions();
         options.mapType(GoogleMap.MAP_TYPE_NORMAL)
                 .compassEnabled(true)
-                .zoomControlsEnabled(true);
+                .zoomControlsEnabled(false);
 
         mMapFragment = SupportMapFragment.newInstance(options);
         getFragmentManager().beginTransaction()
@@ -85,31 +82,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.setOnMarkerClickListener(this);
-        new GoogleApiClient.Builder(getActivity())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
         moveCamera(CENTRAL_LAT, CENTRAL_LNG, DEFAULT_ZOOM_SIZE);
 
         markerInit();
         radioGroupInit();
-    }
-    @Override
-    public void onConnected(Bundle bundle) {
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
     @Override
@@ -127,23 +103,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
         for (InfoData data : mInfos) {
             Location loc = data.getLocation();
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
-                    .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                    .title(data.getName())
-                    .snippet(data.getBriefDescription())
-                    .visible(false));
+            List<Marker> markers = mHotSpotMarkers;
+            int pinIconResourceId = R.drawable.hotspot_pin;
+
 
             switch(data.getType()) {
                 case FOOD_CHINESE:
                 case FOOD_NYONYA:
-                    mFoodMarkers.add(marker);
+                    markers = mFoodMarkers;
+                    pinIconResourceId = R.drawable.food_pin;
                     break;
                 case SPOT_ASSOCIATION:
                 case SPOT_TEMPLE:
                 case SPOT_TRADITION:
-                    mHotSpotMarkers.add(marker);
+                    markers = mHotSpotMarkers;
+                    pinIconResourceId = R.drawable.hotspot_pin;
                     break;
+            }
+
+            if (markers != null) {
+                markers.add(mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(pinIconResourceId))
+                        .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                        .title(data.getName())
+                        .snippet(data.getBriefDescription())
+                        .visible(false)));
             }
         }
 

@@ -124,7 +124,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/imageView"
                     android:layout_alignParentBottom="true"
-                    android:background="#c8000000" />
+                    android:background="#d7000000" />
 
             </RelativeLayout>
             <!-- Bottom View End-->
@@ -133,7 +133,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/list_swipe_base">
+                android:id="@+id/list_swipe_base"
+                android:orientation="vertical">
                 <!--What you want to show in SurfaceView-->
             </LinearLayout>
             <!-- Surface View End -->
