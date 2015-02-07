@@ -56,6 +56,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_SUBTITLE = "ARG_SUBTITLE";
+    public static final String ARG_DESCRIPTION_VIEW_ID = "ARG_DESCRIPTION_VIEW_ID";
     public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
     public static final String ARG_PAGE_POSITION_TYPE = "ARG_PAGE_POSITION_TYPE";
 
@@ -74,6 +75,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private String mTitle;
     private String mSubtitle;
+    private int mDescriptionViewId;
     private int mQueryType = -1;
     private int mPagePositionType;
 
@@ -136,6 +138,7 @@ public class ListFragment extends Fragment implements LocationListener,
             Bundle args = getArguments();
             mTitle = args.getString(ARG_TITLE);
             mSubtitle = args.getString(ARG_SUBTITLE);
+            mDescriptionViewId = args.getInt(ARG_DESCRIPTION_VIEW_ID);
             mQueryType = args.getInt(ARG_QUERY_TYPE);
             mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
         }
@@ -166,12 +169,14 @@ public class ListFragment extends Fragment implements LocationListener,
         return rootView;
     }
 
-    public static ListFragment newInstance(String title, String subtitle, int queryType, int pagePositionType) {
+    public static ListFragment newInstance(String title, String subtitle, int descriptionViewId,
+                                           int queryType, int pagePositionType) {
         ListFragment fragment = new ListFragment();
 
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putString(ARG_SUBTITLE, subtitle);
+        args.putInt(ARG_DESCRIPTION_VIEW_ID, descriptionViewId);
         args.putInt(ARG_QUERY_TYPE, queryType);
         args.putInt(ARG_PAGE_POSITION_TYPE, pagePositionType);
         fragment.setArguments(args);
@@ -189,7 +194,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mSwipePullDownView = (ViewGroup) rootView.findViewById(R.id.list_swipe_down_layout);
 
         ((ViewGroup) rootView.findViewById(R.id.list_swipe_down_wrapper))
-                .addView(LayoutInflater.from(getActivity()).inflate(R.layout.test, null, false));
+                .addView(LayoutInflater.from(getActivity()).inflate(mDescriptionViewId, null, false));
     }
 
     protected void listViewInit(View rootView) {
@@ -373,8 +378,7 @@ public class ListFragment extends Fragment implements LocationListener,
             setOpenRatio(openRatio);
         }
 
-        @Override
-        public void onStartOpen(SwipeLayout swipeLayout) {
+        private void blurBackgroundInit() {
             mListLayout.buildDrawingCache();
             mBackground = mListLayout.getDrawingCache();
             captureBlurBackground(mBackground, mSwipeView);
@@ -384,6 +388,16 @@ public class ListFragment extends Fragment implements LocationListener,
                         mBlurBackground.getHeight(), Bitmap.Config.ARGB_8888);
                 mSwipePullDownView.setBackground(new BitmapDrawable(getResources(), mTransBackground));
             }
+        }
+
+        private boolean isBlurBackgroundInit() {
+            return mTransBackground != null && !mTransBackground.isRecycled() &&
+                    mBlurBackground != null && !mBlurBackground.isRecycled();
+        }
+
+        @Override
+        public void onStartOpen(SwipeLayout swipeLayout) {
+            blurBackgroundInit();
 
             if (mInitialized) {
                 return;
@@ -427,7 +441,10 @@ public class ListFragment extends Fragment implements LocationListener,
                     mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
             mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
                     mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
-            mixTransBackground(mTransBackground, mBlurBackground, ratio);
+
+            if (isBlurBackgroundInit()) {
+                mixTransBackground(mTransBackground, mBlurBackground, ratio);
+            }
         }
 
         private float lerp(float x, float y, float ratio) {

@@ -98,7 +98,7 @@ public class AboutFragment extends Fragment implements
         mSwipePullDownView = (ViewGroup) rootView.findViewById(R.id.list_swipe_down_layout);
 
         ((ViewGroup) rootView.findViewById(R.id.list_swipe_down_wrapper))
-                .addView(LayoutInflater.from(getActivity()).inflate(R.layout.test, null, false));
+                .addView(LayoutInflater.from(getActivity()).inflate(R.layout.list_swipe_about, null, false));
     }
 
 
@@ -202,6 +202,11 @@ public class AboutFragment extends Fragment implements
                     setOpenRatio(openRatio);
                 }
 
+                private boolean isBlurBackgroundInit() {
+                    return mTransBackground != null && !mTransBackground.isRecycled() &&
+                            mBlurBackground != null && !mBlurBackground.isRecycled();
+                }
+
                 @Override
                 public void onStartOpen(SwipeLayout swipeLayout) {
                     mListLayout.buildDrawingCache();
@@ -256,7 +261,10 @@ public class AboutFragment extends Fragment implements
                             mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
                     mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
                             mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
-                    mixTransBackground(mTransBackground, mBlurBackground, ratio);
+
+                    if (isBlurBackgroundInit()) {
+                        mixTransBackground(mTransBackground, mBlurBackground, ratio);
+                    }
                 }
 
                 private float lerp(float x, float y, float ratio) {

@@ -102,6 +102,7 @@ public class MainFragment extends Fragment {
         public android.support.v4.app.Fragment getItem(int position) {
             String title;
             String subtitle;
+            int descriptionViewId;
             int queryType;
             int pagePositionType;
 
@@ -109,42 +110,48 @@ public class MainFragment extends Fragment {
                 case FOOD_CHINESE:
                     title = getString(R.string.title_food);
                     subtitle = getString(R.string.title_food_chinese);
+                    descriptionViewId = R.layout.list_swipe_food_chinese;
                     queryType = FOOD_CHINESE;
                     pagePositionType = ListFragment.PAGE_POSITION_LEFT;
                  break;
                 case FOOD_NYONYA:
                     title = getString(R.string.title_food);
                     subtitle = getString(R.string.title_food_nyonya);
+                    descriptionViewId = R.layout.list_swipe_food_nyonya;
                     queryType = FOOD_NYONYA;
                     pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
                     break;
                 case SPOT_TRADITION:
                     title = getString(R.string.title_spot);
                     subtitle = getString(R.string.title_spot_tradition);
+                    descriptionViewId = R.layout.list_swipe_spot_tradition;
                     queryType = SPOT_TRADITION;
                     pagePositionType = ListFragment.PAGE_POSITION_LEFT;
                     break;
                 case SPOT_ASSOCIATION:
                     title = getString(R.string.title_spot);;
                     subtitle =getString(R.string.title_spot_association);
+                    descriptionViewId = R.layout.list_swipe_association;
                     queryType = SPOT_ASSOCIATION;
                     pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;
                     break;
                 case SPOT_TEMPLE:
                     title = getString(R.string.title_spot);
                     subtitle = getString(R.string.title_spot_temple);
+                    descriptionViewId = R.layout.list_swipe_spot_temple;
                     queryType = SPOT_TEMPLE;
                     pagePositionType = ListFragment.PAGE_POSITION_RIGHT;
                     break;
                 default:
                     title = getString(R.string.title_other);
                     subtitle = getString(R.string.title_other);
+                    descriptionViewId = -1;
                     queryType = -1;
                     pagePositionType = ListFragment.PAGE_POSITION_SINGLE;
 
             }
 
-            return ListFragment.newInstance(title, subtitle, queryType, pagePositionType);
+            return ListFragment.newInstance(title, subtitle, descriptionViewId, queryType, pagePositionType);
         }
 
         private int getSubsectionNum(int position) {
