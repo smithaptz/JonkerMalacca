@@ -73,42 +73,72 @@
             android:src="@drawable/right_button" />
     </RelativeLayout>
 
-    <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_swipe_layout"
-        >
-        <!-- Bottom View Start-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#66ddff00"
-            android:id="@+id/list_swipe_wrapper"
-            android:orientation="vertical">
-            <!--What you want to show-->
-        </LinearLayout>
-        <!-- Bottom View End-->
+        android:id="@+id/list_items_layout"
+        android:background="#ffeeeeee">
 
-        <!-- Surface View Start -->
-        <LinearLayout
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/list_swipe_base">
-            <!--What you want to show in SurfaceView-->
-            <ListView
+            android:id="@+id/list_items"
+            android:layout_gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:dividerHeight="5dp"
+            android:divider="#ffeeeeee" />
+
+        <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/list_swipe_layout"
+            >
+            <!-- Bottom View Start-->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/list_items"
-                android:layout_gravity="center"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:dividerHeight="5dp"
-                android:divider="#ffeeeeee" />
-        </LinearLayout>
-        <!-- Surface View End -->
-    </com.daimajia.swipe.SwipeLayout>
+                android:orientation="vertical"
+                android:id="@+id/list_swipe_down_layout">
+                <!--What you want to show-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/list_swipe_down_wrapper"
+                    android:layout_above="@+id/list_swipe_down_divider">
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/list_swipe_down_divider"
+                    android:background="#c8ffffff"
+                    android:layout_above="@+id/imageView" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:id="@+id/imageView"
+                    android:layout_alignParentBottom="true"
+                    android:background="#c8000000" />
+
+            </RelativeLayout>
+            <!-- Bottom View End-->
+
+            <!-- Surface View Start -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_swipe_base">
+                <!--What you want to show in SurfaceView-->
+            </LinearLayout>
+            <!-- Surface View End -->
+        </com.daimajia.swipe.SwipeLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

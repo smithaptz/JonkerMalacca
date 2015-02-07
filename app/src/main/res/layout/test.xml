@@ -2,35 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center_horizontal"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="#c8000000">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Top"
-        android:id="@+id/textView"
-        android:textSize="52sp" />
+        android:text="峇峇娘惹是十五世紀初期定居在滿剌伽（麻六甲）、滿者伯夷國（印尼）和室利佛逝國（新加坡）一帶的大明國後裔，是中國人和馬來人結婚後所生的後代，男性稱為峇峇（baba），女性稱為娘惹（nyonya）。\n\n娘惹菜系是由中國菜系和馬來菜系合併而成的麻六甲菜肴，融會了甜酸、辛香、微辣等多種風味，口味濃重，其中以叻沙(LAKSA)最具盛名。許多馬來西亞原駐民認為：“娘惹”美食見證了馬來人與華人的聯姻喜慶，代表了浪漫豐富的娘惹美食特色。 "
+        android:id="@+id/textView3"
+        android:textColor="#ffffffff"
+        android:lineSpacingExtra="4dp"
+        android:textSize="15sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text\nLarge Text\nLarge Text\nLarge Text\nLarge Text"
-        android:id="@+id/textView3" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/shape_circle"
-        android:focusableInTouchMode="true"
-        android:adjustViewBounds="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bottom"
-        android:id="@+id/textView2"
-        android:textSize="52sp" />
 </LinearLayout>

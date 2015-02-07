@@ -10,7 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map_frame"
-        android:layout_above="@+id/radio_group_list_selector"></FrameLayout>
+        android:layout_above="@+id/radio_group_list_selector"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#ffeeeeee"
+        android:paddingTop="5dp"></FrameLayout>
 
     <RadioGroup
         android:id="@+id/radio_group_list_selector"
