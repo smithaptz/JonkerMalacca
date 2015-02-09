@@ -1,6 +1,0 @@
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "down_button.png 拷貝": Expected end of input but "\u62F7" found.
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "down_button.png 拷貝 2": Expected end of input but "\u62F7" found.
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "right_button.png 拷貝": Expected end of input but "\u62F7" found.
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "left_button.png 拷貝": Expected end of input but "\u62F7" found.
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "photos.png 拷貝": Expected end of input but "\u62F7" found.
-[Mon Jan 26 2015 17:38:08 GMT+0800 (CST)] Layer "loading03.png 拷貝": Expected end of input but "\u62F7" found.

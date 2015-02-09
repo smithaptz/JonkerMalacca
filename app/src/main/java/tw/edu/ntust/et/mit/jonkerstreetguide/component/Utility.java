@@ -7,17 +7,18 @@ import android.location.Location;
 import android.util.DisplayMetrics;
 
 
+import tw.edu.ntust.et.mit.jonkerstreetguide.R;
 import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
 
 
 public class Utility {
-    public static String calDistance(Location currentLocation, InfoData infoData) {
-       return calDistance(currentLocation, infoData.getLocation());
+    public static String calDistance(Context context, Location currentLocation, InfoData infoData) {
+       return calDistance(context, currentLocation, infoData.getLocation());
     }
 
-    public static String calDistance(Location currentLocation, Location location) {
+    public static String calDistance(Context context, Location currentLocation, Location location) {
         if ( currentLocation == null ){
-            return "無法得知距離";
+            return context.getString(R.string.unknown_distance);
         }
         float distance = currentLocation.distanceTo(location);
         return (distance < 1000f) ? String.format("%.1fm", distance) : String.format("%.1fkm", distance / 1000);

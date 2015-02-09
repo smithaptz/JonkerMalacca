@@ -12,9 +12,13 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:id="@+id/list_item_cover"
-            android:src="@drawable/loading_01"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/loading"
+            android:baselineAlignBottom="false"
+            android:cropToPadding="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false" />
 
         <LinearLayout
             android:orientation="vertical"

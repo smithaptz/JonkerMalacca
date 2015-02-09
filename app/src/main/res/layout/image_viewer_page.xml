@@ -10,7 +10,6 @@
         android:id="@+id/image_viewer_photo"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/food_subject"
         android:adjustViewBounds="true" />
 
     <LinearLayout

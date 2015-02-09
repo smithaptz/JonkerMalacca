@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_SUBTITLE = "ARG_SUBTITLE";
+    public static final String ARG_COVER_VIEW_ID = "ARG_COVER_VIEW_ID";
     public static final String ARG_DESCRIPTION_VIEW_ID = "ARG_DESCRIPTION_VIEW_ID";
     public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
     public static final String ARG_PAGE_POSITION_TYPE = "ARG_PAGE_POSITION_TYPE";
@@ -75,6 +77,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private String mTitle;
     private String mSubtitle;
+    private int mCoverViewId;
     private int mDescriptionViewId;
     private int mQueryType = -1;
     private int mPagePositionType;
@@ -105,8 +108,22 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private List<InfoData> mInfos;
 
-    public ListFragment() {
-        // Required empty public constructor
+
+    public static ListFragment newInstance(String title, String subtitle,
+                                           int coverViewId, int descriptionViewId,
+                                           int queryType, int pagePositionType) {
+        ListFragment fragment = new ListFragment();
+
+        Bundle args = new Bundle();
+        args.putString(ARG_TITLE, title);
+        args.putString(ARG_SUBTITLE, subtitle);
+        args.putInt(ARG_COVER_VIEW_ID, coverViewId);
+        args.putInt(ARG_DESCRIPTION_VIEW_ID, descriptionViewId);
+        args.putInt(ARG_QUERY_TYPE, queryType);
+        args.putInt(ARG_PAGE_POSITION_TYPE, pagePositionType);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -134,19 +151,23 @@ public class ListFragment extends Fragment implements LocationListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (getArguments() != null) {
-            Bundle args = getArguments();
-            mTitle = args.getString(ARG_TITLE);
-            mSubtitle = args.getString(ARG_SUBTITLE);
-            mDescriptionViewId = args.getInt(ARG_DESCRIPTION_VIEW_ID);
-            mQueryType = args.getInt(ARG_QUERY_TYPE);
-            mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
-        }
-
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
-        mListLayout = (ViewGroup) rootView.findViewById(R.id.list_items_layout);
+        if (getArguments() == null) {
+            return rootView;
+        }
 
+        Bundle args = getArguments();
+        mTitle = args.getString(ARG_TITLE);
+        mSubtitle = args.getString(ARG_SUBTITLE);
+        mCoverViewId = args.getInt(ARG_COVER_VIEW_ID);
+        mDescriptionViewId = args.getInt(ARG_DESCRIPTION_VIEW_ID);
+        mQueryType = args.getInt(ARG_QUERY_TYPE);
+        mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
+
+        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageResource(mCoverViewId);
+
+        mListLayout = (ViewGroup) rootView.findViewById(R.id.list_items_layout);
         mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);
         mSubtitleTxtView = (TextView) rootView.findViewById(R.id.list_subsection_title);
 
@@ -167,21 +188,6 @@ public class ListFragment extends Fragment implements LocationListener,
         listViewInit(rootView);
 
         return rootView;
-    }
-
-    public static ListFragment newInstance(String title, String subtitle, int descriptionViewId,
-                                           int queryType, int pagePositionType) {
-        ListFragment fragment = new ListFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
-        args.putString(ARG_SUBTITLE, subtitle);
-        args.putInt(ARG_DESCRIPTION_VIEW_ID, descriptionViewId);
-        args.putInt(ARG_QUERY_TYPE, queryType);
-        args.putInt(ARG_PAGE_POSITION_TYPE, pagePositionType);
-        fragment.setArguments(args);
-
-        return fragment;
     }
 
     protected void swipeViewInit(View rootView) {

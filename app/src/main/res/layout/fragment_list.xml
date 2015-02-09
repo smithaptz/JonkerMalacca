@@ -15,7 +15,7 @@
             android:layout_height="144dp"
             android:id="@+id/list_subcategory"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/food_subject"
+            android:src="@drawable/cover_food_chinese"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
             android:scaleType="centerCrop" />

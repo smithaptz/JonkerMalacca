@@ -98,16 +98,16 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
         ((TextView) ViewHolder.get(view, R.id.list_item_name)).setText(infoData.getName());
         ((TextView) ViewHolder.get(view, R.id.list_item_dist)).setText(
-                Utility.calDistance(mLocation, infoData.getLocation()));
+                Utility.calDistance(getContext(), mLocation, infoData.getLocation()));
 
         ImageView iv = ((ImageView) view.findViewById(R.id.list_item_cover));
-        Picasso.with(getContext()).load(infoData.getLogoUrl()).into(iv, new Callback.EmptyCallback() {
-            @Override public void onSuccess() {}
-        });
+        Picasso.with(getContext()).load(infoData.getLogoUrl()).
+                placeholder(R.drawable.loading).into(iv);
+
 
         ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
                 .setImageResource(item.isViewExpand() ?
-        R.drawable.up_button : R.drawable.down_button);
+                        R.drawable.up_button : R.drawable.down_button);
 
         if (item.isViewExpand()) {
             ((TextView) ViewHolder.get(view, R.id.list_item_address)).setText(infoData.getAddress());
@@ -127,14 +127,8 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             Location loc = infoData.getLocation();
             ImageView map = ViewHolder.get(view, R.id.list_item_map);
 
-            Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
-                    .into(map, new Callback.EmptyCallback() {
-                        @Override
-                        public void onSuccess() {
-                        }
-                    });
+            Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17)).into(map);
         }
-
         return view;
     }
 

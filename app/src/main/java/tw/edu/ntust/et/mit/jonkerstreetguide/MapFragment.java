@@ -1,5 +1,7 @@
 package tw.edu.ntust.et.mit.jonkerstreetguide;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,8 +45,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
         , GoogleMap.OnMarkerClickListener {
     public static final String TAG = "MapFragment";
 
-    private static final double CENTRAL_LAT = 2.1968295;
-    private static final double CENTRAL_LNG = 102.2464032;
+    private static final double CENTRAL_LAT = 2.196835;
+    private static final double CENTRAL_LNG = 102.247305;
     private static final float DEFAULT_ZOOM_SIZE = 17f;
 
     private SupportMapFragment mMapFragment;
@@ -122,8 +124,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
             }
 
             if (markers != null) {
+                int scaleFactor = 4;
+                Bitmap pinIcon = BitmapFactory.decodeResource(getResources(), pinIconResourceId);
+                pinIcon = Bitmap.createScaledBitmap(pinIcon, pinIcon.getWidth() / scaleFactor,
+                        pinIcon.getHeight() / scaleFactor, false);
+
                 markers.add(mMap.addMarker(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(pinIconResourceId))
+                        .icon(BitmapDescriptorFactory.fromBitmap(pinIcon))
                         .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                         .title(data.getName())
                         .snippet(data.getBriefDescription())
