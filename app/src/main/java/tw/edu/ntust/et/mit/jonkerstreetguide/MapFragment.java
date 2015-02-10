@@ -71,7 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 .zoomControlsEnabled(false);
 
         mMapFragment = SupportMapFragment.newInstance(options);
-        getFragmentManager().beginTransaction()
+        getChildFragmentManager().beginTransaction()
                 .add(R.id.map_frame, mMapFragment, null)
                 .commit();
 

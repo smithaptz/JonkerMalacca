@@ -1,10 +1,6 @@
 package tw.edu.ntust.et.mit.jonkerstreetguide;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -34,9 +30,6 @@ public class AboutFragment extends Fragment implements
     public static final String TAG = "AboutFragment";
 
     private static final int PULL_DOWN_THRESHOLD_LENGTH = 125;
-
-    private static final float BLUR_SCALE_DOWN_FACTOR = 12f;
-    private static final int BLUR_SAMPLE_RADIUS = 4;
 
     private static final float TITLE_TEXT_ZOOM_SCALE = 0;
     private static final float SUBTITLE_TEXT_ZOOM_SCALE = 1.7f;
@@ -224,6 +217,7 @@ public class AboutFragment extends Fragment implements
                     if (mInitialized) {
                         return;
                     }
+
                     mDefaultTitleTxtSize = (int) mTitleTxtView.getTextSize();
                     mDefaultSubtitleTxtSize = (int) mSubtitleTxtView.getTextSize();
 

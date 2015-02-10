@@ -233,6 +233,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 
 
 	private void enableFor(final View itemView, final View button, final View target, final int position) {
+
 		if(target == lastOpen && position!=lastOpenPosition) {
 			// lastOpen is recycled, so its reference is false
 			lastOpen = null;
@@ -313,6 +314,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 					} else if (lastOpenPosition == position) {
 						lastOpenPosition = -1;
 					}
+
 					animateView(target, type, position);
 					notifiyExpandCollapseListener(type, target, position);
 				}
@@ -345,9 +347,9 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 				type
 		);
 
-        mListView.invalidateViews();
 
         if(type == ExpandCollapseAnimation.EXPAND) {
+            mListView.invalidateViews();
             mListView.setSelection(position + mListView.getHeaderViewsCount());
         }
 
@@ -363,6 +365,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 			@Override
 			public void onAnimationEnd(Animation animation) {
                 if (type == ExpandCollapseAnimation.COLLAPSE) {
+                    mListView.invalidateViews();
                     mListView.setSelection(position + mListView.getHeaderViewsCount());
                 }
 

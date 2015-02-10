@@ -161,7 +161,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
+        options.inSampleSize = 4;
         ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
                 BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
 

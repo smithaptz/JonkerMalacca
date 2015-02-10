@@ -64,15 +64,15 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/about_item_expand_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="false"
             android:src="@drawable/down_button"
             android:adjustViewBounds="true"
-            android:layout_marginRight="20dp" />
+            android:padding="16dp" />
 
 
     </RelativeLayout>
