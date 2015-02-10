@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.AboutAdapter;
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.Utility;
+import tw.edu.ntust.et.mit.jonkermelaka.component.AboutAdapter;
+import tw.edu.ntust.et.mit.jonkermelaka.component.Utility;
 
 /**
  * Created by 123 on 2015/2/7.

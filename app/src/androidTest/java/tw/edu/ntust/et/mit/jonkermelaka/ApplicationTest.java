@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

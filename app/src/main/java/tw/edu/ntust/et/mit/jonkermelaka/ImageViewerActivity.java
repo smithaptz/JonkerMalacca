@@ -1,7 +1,6 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 /**

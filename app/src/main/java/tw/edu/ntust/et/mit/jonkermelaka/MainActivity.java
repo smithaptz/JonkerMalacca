@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -12,6 +12,8 @@ import android.widget.TabWidget;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
+
+import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
 
 
 public class MainActivity extends FragmentActivity {
@@ -51,13 +53,11 @@ public class MainActivity extends FragmentActivity {
         addTab(mTabHost.newTabSpec(SECTION_HOT_SPOT_TAG).setIndicator(null,
                         getResources().getDrawable(R.drawable.hotspot_icon_selector)),
                 SECTION_HOT_SPOT_NUM);
-
         mTabHost.addTab(mTabHost.newTabSpec(SECTION_ABOUT_TAG).setIndicator(null,
                 getResources().getDrawable(R.drawable.about_icon_selector)), AboutFragment.class, null);
 
         mTabHost.addTab(mTabHost.newTabSpec(SECTION_MAP_TAG).setIndicator(null,
                 getResources().getDrawable(R.drawable.map_icon_selector)), MapFragment.class, null);
-
         mTabWidget = mTabHost.getTabWidget();
         setTabWidgetStyle();
         initializeParse();

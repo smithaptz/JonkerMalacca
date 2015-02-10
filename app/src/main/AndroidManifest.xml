@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tw.edu.ntust.et.mit.jonkerstreetguide" >
+    package="tw.edu.ntust.et.mit.jonkermelaka" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -35,7 +35,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="tw.edu.ntust.et.mit.jonkermelaka.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".ImageViewerActivity"
+            android:name="tw.edu.ntust.et.mit.jonkermelaka.ImageViewerActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>

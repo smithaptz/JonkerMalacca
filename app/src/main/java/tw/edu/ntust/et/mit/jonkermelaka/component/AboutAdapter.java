@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide.component;
+package tw.edu.ntust.et.mit.jonkermelaka.component;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
-import tw.edu.ntust.et.mit.jonkerstreetguide.R;
+import tw.edu.ntust.et.mit.jonkermelaka.R;
 
 /**
  * Created by 123 on 2015/2/7.

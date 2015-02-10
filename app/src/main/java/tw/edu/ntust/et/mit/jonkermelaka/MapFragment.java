@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,14 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -32,17 +26,19 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
 
 /**
  * Created by 123 on 2015/1/27.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback
-        , GoogleMap.OnMarkerClickListener {
+        , GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
     public static final String TAG = "MapFragment";
 
     private static final double CENTRAL_LAT = 2.196835;
@@ -56,6 +52,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
     private List<Marker> mFoodMarkers = new ArrayList<>();
     private List<Marker> mHotSpotMarkers = new ArrayList<>();
     private RadioGroup mRadioGroup;
+
+    private Map<Marker, InfoData> mInfoMap;
 
 
     @Override
@@ -76,6 +74,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 .commit();
 
         mMapFragment.getMapAsync(this);
+
+        mInfoMap = new HashMap<>();
+
         return rootView;
     }
 
@@ -84,6 +85,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
         moveCamera(CENTRAL_LAT, CENTRAL_LNG, DEFAULT_ZOOM_SIZE);
 
         markerInit();
@@ -93,7 +95,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         mPositionMarker = marker;
+
         return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        // InfoData data = mInfoMap.get(marker);
     }
 
     private void markerInit() {
@@ -128,13 +136,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 Bitmap pinIcon = BitmapFactory.decodeResource(getResources(), pinIconResourceId);
                 pinIcon = Bitmap.createScaledBitmap(pinIcon, pinIcon.getWidth() / scaleFactor,
                         pinIcon.getHeight() / scaleFactor, false);
-
-                markers.add(mMap.addMarker(new MarkerOptions()
+                Marker marker = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(pinIcon))
                         .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                         .title(data.getName())
                         .snippet(data.getBriefDescription())
-                        .visible(false)));
+                        .visible(false));
+                markers.add(marker);
+                mInfoMap.put(marker, data);
             }
         }
 

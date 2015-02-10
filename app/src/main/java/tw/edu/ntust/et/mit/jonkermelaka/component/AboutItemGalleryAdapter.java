@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide.component;
+package tw.edu.ntust.et.mit.jonkermelaka.component;
 
 import android.content.Context;
 import android.view.View;
@@ -12,8 +12,6 @@ import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
 import at.technikum.mti.fancycoverflow.FancyCoverFlowAdapter;
-import tw.edu.ntust.et.mit.jonkerstreetguide.R;
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 
 /**
  * Created by 123 on 2015/2/7.

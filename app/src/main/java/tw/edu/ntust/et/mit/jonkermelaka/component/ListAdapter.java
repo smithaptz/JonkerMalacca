@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide.component;
+package tw.edu.ntust.et.mit.jonkermelaka.component;
 
 import android.content.Context;
 import android.location.Location;
@@ -10,15 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
-import tw.edu.ntust.et.mit.jonkerstreetguide.R;
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermelaka.R;
+import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
 
 /**
  * Created by 123 on 2015/1/23.

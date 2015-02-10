@@ -1,8 +1,7 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide.model;
+package tw.edu.ntust.et.mit.jonkermelaka.model;
 
 import android.location.Location;
 
-import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 

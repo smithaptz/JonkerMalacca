@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
 
 /**
  * Created by 123 on 2015/1/27.

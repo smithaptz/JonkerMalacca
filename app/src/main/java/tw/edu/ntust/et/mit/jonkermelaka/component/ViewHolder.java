@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide.component;
+package tw.edu.ntust.et.mit.jonkermelaka.component;
 
 import android.util.SparseArray;
 import android.view.View;

@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkerstreetguide;
+package tw.edu.ntust.et.mit.jonkermelaka;
 
 
 import android.content.Context;
@@ -28,19 +28,17 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.squareup.picasso.Picasso;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.Inflater;
 
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.ListAdapter;
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.Utility;
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
-import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermelaka.component.ListAdapter;
+import tw.edu.ntust.et.mit.jonkermelaka.component.Utility;
+import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
 
 
 public class ListFragment extends Fragment implements LocationListener,

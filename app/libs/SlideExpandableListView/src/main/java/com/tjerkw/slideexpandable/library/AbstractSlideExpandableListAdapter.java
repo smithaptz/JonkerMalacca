@@ -1,6 +1,8 @@
 package com.tjerkw.slideexpandable.library;
 
 import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -70,6 +72,8 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
     private View mDummyView;
     private AbsListView.LayoutParams mDummyViewParams;
 
+    private Map<Integer, View> viewMap;
+
 	/**
 	* Will point to the ListView
 	*/
@@ -85,6 +89,8 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
         mDummyView.setLayoutParams(mDummyViewParams);
         mDummyView.setVisibility(View.GONE);
         mListView.addFooterView(mDummyView);
+
+        viewMap = new HashMap<Integer, View>();
 
 	}
 
@@ -149,6 +155,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 	public View getView(int position, View view, ViewGroup viewGroup) {
 		this.parent = viewGroup;
 		view = wrapped.getView(position, view, viewGroup);
+        viewMap.put(position, view);
 		enableFor(view, position);
 		return view;
 	}
@@ -231,10 +238,28 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		itemToolbar.requestLayout();
 	}
 
+    public void expandItem(final int position) {
+        View itemView = viewMap.containsKey(position) ?
+                viewMap.get(position) : getView(position, null, mListView);
+
+        if (!openItems.get(position)) {
+            getExpandToggleButton(itemView).callOnClick();
+        }
+    }
+
+    public void collapseItem(final int position) {
+        View itemView = viewMap.containsKey(position) ?
+                viewMap.get(position) : getView(position, null, mListView);
+
+        if (openItems.get(position)) {
+            getExpandToggleButton(itemView).callOnClick();
+        }
+    }
+
 
 	private void enableFor(final View itemView, final View button, final View target, final int position) {
 
-		if(target == lastOpen && position!=lastOpenPosition) {
+		if(target == lastOpen && position!= lastOpenPosition) {
 			// lastOpen is recycled, so its reference is false
 			lastOpen = null;
 		}
@@ -246,7 +271,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		int height = viewHeights.get(position, -1);
 		if(height == -1) {
 			viewHeights.put(position, target.getMeasuredHeight());
-			updateExpandable(target,position);
+			updateExpandable(target, position);
 		} else {
 			updateExpandable(target, position);
 		}
@@ -291,8 +316,6 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
                     final int itemHeight = mListView.getMeasuredHeight() / mListView.getChildCount();
                     final int leftItemCount = getCount() - (position + 1);
 
-                    System.out.println("---------------------getChildCount: " + mListView.getChildCount() +
-                            ", leftItemCount: " + leftItemCount + ", itemHeight: " + itemHeight);
                     if(mListView.getChildCount() > leftItemCount && ((type == ExpandCollapseAnimation.EXPAND))) {
                         mDummyViewParams.height = itemHeight * (mListView.getChildCount() - leftItemCount - 1);
                         mDummyView.setVisibility(View.VISIBLE);
