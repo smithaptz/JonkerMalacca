@@ -1,15 +1,9 @@
 package tw.edu.ntust.et.mit.jonkerstreetguide;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -34,6 +28,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -42,7 +37,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.Inflater;
 
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.FastBlur;
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.ListAdapter;
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.Utility;
 import tw.edu.ntust.et.mit.jonkerstreetguide.model.InfoData;
@@ -52,7 +46,7 @@ import tw.edu.ntust.et.mit.jonkerstreetguide.model.PhotoData;
 public class ListFragment extends Fragment implements LocationListener,
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
         ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener,
-        ListView.OnTouchListener {
+        ListView.OnTouchListener, View.OnClickListener {
     public static final String TAG = "ListFragment";
 
     public static final String ARG_TITLE = "ARG_TITLE";
@@ -60,6 +54,7 @@ public class ListFragment extends Fragment implements LocationListener,
     public static final String ARG_COVER_VIEW_ID = "ARG_COVER_VIEW_ID";
     public static final String ARG_DESCRIPTION_VIEW_ID = "ARG_DESCRIPTION_VIEW_ID";
     public static final String ARG_QUERY_TYPE = "ARG_QUERY_TYPE";
+    public static final String ARG_PAGE_POSITION = "ARG_PAGE_POSITION";
     public static final String ARG_PAGE_POSITION_TYPE = "ARG_PAGE_POSITION_TYPE";
 
     public static final int PAGE_POSITION_SINGLE = 0;
@@ -80,6 +75,7 @@ public class ListFragment extends Fragment implements LocationListener,
     private int mCoverViewId;
     private int mDescriptionViewId;
     private int mQueryType = -1;
+    private int mPagePosition;
     private int mPagePositionType;
 
     private int touchDownX;
@@ -101,17 +97,14 @@ public class ListFragment extends Fragment implements LocationListener,
     private SwipeLayout mSwipeView;
     private ViewGroup mSwipePullDownView;
 
-    private Bitmap mBlurBackground;
-    private Bitmap mBackground;
-    private Bitmap mTransBackground;
-
 
     private List<InfoData> mInfos;
 
 
     public static ListFragment newInstance(String title, String subtitle,
                                            int coverViewId, int descriptionViewId,
-                                           int queryType, int pagePositionType) {
+                                           int queryType, int pagePosition,
+                                           int pagePositionType) {
         ListFragment fragment = new ListFragment();
 
         Bundle args = new Bundle();
@@ -120,6 +113,7 @@ public class ListFragment extends Fragment implements LocationListener,
         args.putInt(ARG_COVER_VIEW_ID, coverViewId);
         args.putInt(ARG_DESCRIPTION_VIEW_ID, descriptionViewId);
         args.putInt(ARG_QUERY_TYPE, queryType);
+        args.putInt(ARG_PAGE_POSITION, pagePosition);
         args.putInt(ARG_PAGE_POSITION_TYPE, pagePositionType);
         fragment.setArguments(args);
 
@@ -163,9 +157,13 @@ public class ListFragment extends Fragment implements LocationListener,
         mCoverViewId = args.getInt(ARG_COVER_VIEW_ID);
         mDescriptionViewId = args.getInt(ARG_DESCRIPTION_VIEW_ID);
         mQueryType = args.getInt(ARG_QUERY_TYPE);
+        mPagePosition = args.getInt(ARG_PAGE_POSITION);
         mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
 
-        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageResource(mCoverViewId);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
+                BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
 
         mListLayout = (ViewGroup) rootView.findViewById(R.id.list_items_layout);
         mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);
@@ -174,15 +172,19 @@ public class ListFragment extends Fragment implements LocationListener,
         mTitleTxtView.setText(mTitle);
         mSubtitleTxtView.setText(mSubtitle);
 
-        rootView.findViewById(R.id.list_right_button).setVisibility((
-                mPagePositionType == PAGE_POSITION_LEFT ||
-                        mPagePositionType == PAGE_POSITION_MIDDLE) ?
-                View.VISIBLE : View.GONE);
+        rootView.findViewById(R.id.list_cover_layout).setOnTouchListener(this);
 
-        rootView.findViewById(R.id.list_left_button).setVisibility((
-                mPagePositionType == PAGE_POSITION_RIGHT ||
+        View rightBtn = rootView.findViewById(R.id.list_right_button);
+        rightBtn.setVisibility((mPagePositionType == PAGE_POSITION_LEFT ||
                         mPagePositionType == PAGE_POSITION_MIDDLE) ?
                 View.VISIBLE : View.GONE);
+        rightBtn.setOnClickListener(this);
+
+        View leftBtn = rootView.findViewById(R.id.list_left_button);
+        leftBtn.setVisibility((mPagePositionType == PAGE_POSITION_RIGHT ||
+                        mPagePositionType == PAGE_POSITION_MIDDLE) ?
+                View.VISIBLE : View.GONE);
+        leftBtn.setOnClickListener(this);
 
         swipeViewInit(rootView);
         listViewInit(rootView);
@@ -296,47 +298,79 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         boolean result = false;
+        int dist;
 
-        if (v.equals(mSwipeView)) {
-            SwipeLayout.Status openStatus = mSwipeView.getOpenStatus();
-            if (SwipeLayout.Status.Close.equals(openStatus)) {
-                mListView.dispatchTouchEvent(event);
-                result = true;
-            }
-        } else if (v.equals(mListView)) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                touchDownX = (int) event.getRawX();
-                touchDownY = (int) event.getRawY();
-            }
-
-            int dist = (int) event.getRawY() - touchDownY;
-
-            if (mListView.getFirstVisiblePosition() == 0 &&
-                    mListView.getChildAt(0).getTop() >= 0) {
-                onPullDown = true;
-
-                if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
-                    result = true;
-                } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
-                        event.getAction() == MotionEvent.ACTION_UP) &&
-                        dist > Utility.convertDpToPixel(
-                                PULL_DOWN_THRESHOLD_LENGTH, getActivity())) {
-                    mSwipeView.open();
+        switch(v.getId()) {
+            case R.id.list_cover_layout:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    touchDownX = (int) event.getRawX();
+                    touchDownY = (int) event.getRawY();
                 }
-            }
 
-            if (onPullDown) {
-                mSwipeView.onTouchEvent(event);
-            }
+                dist = (int) event.getRawY() - touchDownY;
 
-            if (event.getAction() == MotionEvent.ACTION_CANCEL ||
-                    event.getAction() == MotionEvent.ACTION_UP) {
-                onPullDown = false;
-            }
+                if (SwipeLayout.Status.Open.equals(mSwipeView.getOpenStatus())) {
+                    mSwipeView.close();
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE && dist > Utility.convertDpToPixel(
+                        30, getActivity())) {
+                        mSwipeView.open();
+                }
+                result = true;
 
+                break;
+            case R.id.list_swipe_layout:
+                if (SwipeLayout.Status.Close.equals(
+                        mSwipeView.getOpenStatus())) {
+                    mListView.dispatchTouchEvent(event);
+                    result = true;
+                }
+                break;
+            case R.id.list_items:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    touchDownX = (int) event.getRawX();
+                    touchDownY = (int) event.getRawY();
+                }
+
+                dist = (int) event.getRawY() - touchDownY;
+
+                if (mListView.getFirstVisiblePosition() == 0 &&
+                        mListView.getChildAt(0).getTop() >= 0) {
+                    onPullDown = true;
+
+                    if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
+                        result = true;
+                    } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
+                            event.getAction() == MotionEvent.ACTION_UP) &&
+                            dist > Utility.convertDpToPixel(
+                                    PULL_DOWN_THRESHOLD_LENGTH, getActivity())) {
+                        mSwipeView.open();
+                    }
+                }
+
+                if (onPullDown) {
+                    mSwipeView.onTouchEvent(event);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL ||
+                        event.getAction() == MotionEvent.ACTION_UP) {
+                    onPullDown = false;
+                }
+                break;
         }
 
         return result;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.list_left_button:
+                ((MainFragment) getParentFragment()).moveToPage(mPagePosition - 1);
+                break;
+            case R.id.list_right_button:
+                ((MainFragment) getParentFragment()).moveToPage(mPagePosition + 1);
+                break;
+        }
     }
 
     private class ParseInfoDataCallback extends FindCallback<ParseObject> {
@@ -384,26 +418,8 @@ public class ListFragment extends Fragment implements LocationListener,
             setOpenRatio(openRatio);
         }
 
-        private void blurBackgroundInit() {
-            mListLayout.buildDrawingCache();
-            mBackground = mListLayout.getDrawingCache();
-            captureBlurBackground(mBackground, mSwipeView);
-
-            if (mTransBackground == null || mTransBackground.isRecycled()) {
-                mTransBackground = Bitmap.createBitmap(mBlurBackground.getWidth(),
-                        mBlurBackground.getHeight(), Bitmap.Config.ARGB_8888);
-                mSwipePullDownView.setBackground(new BitmapDrawable(getResources(), mTransBackground));
-            }
-        }
-
-        private boolean isBlurBackgroundInit() {
-            return mTransBackground != null && !mTransBackground.isRecycled() &&
-                    mBlurBackground != null && !mBlurBackground.isRecycled();
-        }
-
         @Override
         public void onStartOpen(SwipeLayout swipeLayout) {
-            blurBackgroundInit();
 
             if (mInitialized) {
                 return;
@@ -448,9 +464,6 @@ public class ListFragment extends Fragment implements LocationListener,
             mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
                     mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
 
-            if (isBlurBackgroundInit()) {
-                mixTransBackground(mTransBackground, mBlurBackground, ratio);
-            }
         }
 
         private float lerp(float x, float y, float ratio) {
@@ -506,40 +519,6 @@ public class ListFragment extends Fragment implements LocationListener,
     @Override
     public void onProviderDisabled(String provider) {
 
-    }
-
-    private void captureBlurBackground(Bitmap bitmap, View view) {
-        mBlurBackground = Bitmap.createBitmap((int)
-                        (view.getMeasuredWidth()/BLUR_SCALE_DOWN_FACTOR),
-                (int) (view.getMeasuredHeight()/BLUR_SCALE_DOWN_FACTOR),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(mBlurBackground);
-        canvas.translate(-view.getLeft() / BLUR_SCALE_DOWN_FACTOR,
-                -view.getTop() / BLUR_SCALE_DOWN_FACTOR);
-        canvas.scale(1 / BLUR_SCALE_DOWN_FACTOR, 1 /
-                BLUR_SCALE_DOWN_FACTOR);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-
-        mBlurBackground = FastBlur.doBlur(mBlurBackground,
-                BLUR_SAMPLE_RADIUS, true);
-    }
-
-    private void mixTransBackground(Bitmap bitmap, Bitmap blurBitmap, float ratio) {
-        int width = blurBitmap.getWidth();
-        int height = blurBitmap.getHeight();
-
-        int boundary = (int) (height * (1.0f - ratio));
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (y < boundary) {
-                    bitmap.setPixel(x, y, 0xffffffff);
-                } else {
-                    bitmap.setPixel(x, y, blurBitmap.getPixel(x, y - boundary));
-                }
-            }
-        }
     }
 
 }

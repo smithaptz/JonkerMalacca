@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/list_cover_layout">
 
         <ImageView
             android:layout_width="match_parent"
@@ -55,22 +56,27 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/list_left_button"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/left_button"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:paddingRight="34dp" />
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/list_right_button"
             android:layout_alignParentLeft="false"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/right_button" />
+            android:src="@drawable/right_button"
+            android:adjustViewBounds="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:paddingLeft="34dp" />
     </RelativeLayout>
 
     <RelativeLayout

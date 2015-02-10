@@ -34,13 +34,17 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mSectionNum = getArguments().getInt(MainActivity.ARG_SECTION_NUM);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = (ViewPager) rootView.findViewById(R.id.listViewPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
         return rootView;
     }
+
+    public void moveToPage(int position) {
+        mViewPager.setCurrentItem(position, true);
+    }
+
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         private final FragmentManager mFragmentManager;
@@ -153,7 +157,7 @@ public class MainFragment extends Fragment {
                     subtitle = getString(R.string.title_other);
             }
 
-            return ListFragment.newInstance(title, subtitle, coverViewId, descriptionViewId, queryType, pagePositionType);
+            return ListFragment.newInstance(title, subtitle, coverViewId, descriptionViewId, queryType, position, pagePositionType);
         }
 
         private int getSubsectionNum(int position) {

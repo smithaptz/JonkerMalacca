@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.AboutAdapter;
-import tw.edu.ntust.et.mit.jonkerstreetguide.component.FastBlur;
 import tw.edu.ntust.et.mit.jonkerstreetguide.component.Utility;
 
 /**
@@ -56,10 +55,6 @@ public class AboutFragment extends Fragment implements
     private SwipeLayout mSwipeView;
     private ViewGroup mSwipePullDownView;
 
-    private Bitmap mBlurBackground;
-    private Bitmap mBackground;
-    private Bitmap mTransBackground;
-
 
     public static AboutFragment newInstance() {
         AboutFragment fragment = new AboutFragment();
@@ -79,6 +74,7 @@ public class AboutFragment extends Fragment implements
         mTitleTxtView.setText("關於");
         mSubtitleTxtView.setText("緣起");
 
+        rootView.findViewById(R.id.list_cover_layout).setOnTouchListener(this);
         rootView.findViewById(R.id.list_right_button).setVisibility(View.GONE);
         rootView.findViewById(R.id.list_left_button).setVisibility(View.GONE);
 
@@ -147,44 +143,64 @@ public class AboutFragment extends Fragment implements
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         boolean result = false;
+        int dist;
 
-        if (v.equals(mSwipeView)) {
-            SwipeLayout.Status openStatus = mSwipeView.getOpenStatus();
-            if (SwipeLayout.Status.Close.equals(openStatus)) {
-                mListView.dispatchTouchEvent(event);
-                result = true;
-            }
-        } else if (v.equals(mListView)) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                touchDownX = (int) event.getRawX();
-                touchDownY = (int) event.getRawY();
-            }
+        switch(v.getId()) {
+            case R.id.list_cover_layout:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    touchDownX = (int) event.getRawX();
+                    touchDownY = (int) event.getRawY();
+                }
 
-            int dist = (int) event.getRawY() - touchDownY;
+                dist = (int) event.getRawY() - touchDownY;
 
-            if (mListView.getFirstVisiblePosition() == 0 &&
-                    mListView.getChildAt(0).getTop() >= 0) {
-                onPullDown = true;
-
-                if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
-                    result = true;
-                } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
-                        event.getAction() == MotionEvent.ACTION_UP) &&
-                        dist > Utility.convertDpToPixel(
-                                PULL_DOWN_THRESHOLD_LENGTH, getActivity())) {
+                if (SwipeLayout.Status.Open.equals(mSwipeView.getOpenStatus())) {
+                    mSwipeView.close();
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE && dist > Utility.convertDpToPixel(
+                        30, getActivity())) {
                     mSwipeView.open();
                 }
-            }
+                result = true;
 
-            if (onPullDown) {
-                mSwipeView.onTouchEvent(event);
-            }
+                break;
+            case R.id.list_swipe_layout:
+                if (SwipeLayout.Status.Close.equals(
+                        mSwipeView.getOpenStatus())) {
+                    mListView.dispatchTouchEvent(event);
+                    result = true;
+                }
+                break;
+            case R.id.list_items:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    touchDownX = (int) event.getRawX();
+                    touchDownY = (int) event.getRawY();
+                }
 
-            if (event.getAction() == MotionEvent.ACTION_CANCEL ||
-                    event.getAction() == MotionEvent.ACTION_UP) {
-                onPullDown = false;
-            }
+                dist = (int) event.getRawY() - touchDownY;
 
+                if (mListView.getFirstVisiblePosition() == 0 &&
+                        mListView.getChildAt(0).getTop() >= 0) {
+                    onPullDown = true;
+
+                    if (event.getAction() == MotionEvent.ACTION_MOVE && dist > 0) {
+                        result = true;
+                    } else if ((event.getAction() == MotionEvent.ACTION_CANCEL ||
+                            event.getAction() == MotionEvent.ACTION_UP) &&
+                            dist > Utility.convertDpToPixel(
+                                    PULL_DOWN_THRESHOLD_LENGTH, getActivity())) {
+                        mSwipeView.open();
+                    }
+                }
+
+                if (onPullDown) {
+                    mSwipeView.onTouchEvent(event);
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_CANCEL ||
+                        event.getAction() == MotionEvent.ACTION_UP) {
+                    onPullDown = false;
+                }
+                break;
         }
 
         return result;
@@ -202,22 +218,8 @@ public class AboutFragment extends Fragment implements
                     setOpenRatio(openRatio);
                 }
 
-                private boolean isBlurBackgroundInit() {
-                    return mTransBackground != null && !mTransBackground.isRecycled() &&
-                            mBlurBackground != null && !mBlurBackground.isRecycled();
-                }
-
                 @Override
                 public void onStartOpen(SwipeLayout swipeLayout) {
-                    mListLayout.buildDrawingCache();
-                    mBackground = mListLayout.getDrawingCache();
-                    captureBlurBackground(mBackground, mSwipeView);
-
-                    if (mTransBackground == null || mTransBackground.isRecycled()) {
-                        mTransBackground = Bitmap.createBitmap(mBlurBackground.getWidth(),
-                                mBlurBackground.getHeight(), Bitmap.Config.ARGB_8888);
-                        mSwipePullDownView.setBackground(new BitmapDrawable(getResources(), mTransBackground));
-                    }
 
                     if (mInitialized) {
                         return;
@@ -261,10 +263,6 @@ public class AboutFragment extends Fragment implements
                             mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
                     mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
                             mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
-
-                    if (isBlurBackgroundInit()) {
-                        mixTransBackground(mTransBackground, mBlurBackground, ratio);
-                    }
                 }
 
                 private float lerp(float x, float y, float ratio) {
@@ -284,40 +282,6 @@ public class AboutFragment extends Fragment implements
         AboutAdapter.Item item = mAdapter.getItem(position);
         item.setExpandViewState(false);
 
-    }
-
-    private void captureBlurBackground(Bitmap bitmap, View view) {
-        mBlurBackground = Bitmap.createBitmap((int)
-                        (view.getMeasuredWidth()/BLUR_SCALE_DOWN_FACTOR),
-                (int) (view.getMeasuredHeight()/BLUR_SCALE_DOWN_FACTOR),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(mBlurBackground);
-        canvas.translate(-view.getLeft() / BLUR_SCALE_DOWN_FACTOR,
-                -view.getTop() / BLUR_SCALE_DOWN_FACTOR);
-        canvas.scale(1 / BLUR_SCALE_DOWN_FACTOR, 1 /
-                BLUR_SCALE_DOWN_FACTOR);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-
-        mBlurBackground = FastBlur.doBlur(mBlurBackground,
-                BLUR_SAMPLE_RADIUS, true);
-    }
-
-    private void mixTransBackground(Bitmap bitmap, Bitmap blurBitmap, float ratio) {
-        int width = blurBitmap.getWidth();
-        int height = blurBitmap.getHeight();
-
-        int boundary = (int) (height * (1.0f - ratio));
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (y < boundary) {
-                    bitmap.setPixel(x, y, 0xffffffff);
-                } else {
-                    bitmap.setPixel(x, y, blurBitmap.getPixel(x, y - boundary));
-                }
-            }
-        }
     }
 
     @Override

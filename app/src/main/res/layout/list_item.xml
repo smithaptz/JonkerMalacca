@@ -85,15 +85,15 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/list_item_expand_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="false"
             android:src="@drawable/down_button"
             android:adjustViewBounds="true"
-            android:layout_marginRight="20dp" />
+            android:padding="16dp" />
 
 
     </RelativeLayout>
@@ -221,15 +221,14 @@
                 android:layout_alignParentLeft="true" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/list_item_navigation"
                 android:src="@drawable/navigation_06"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp" />
+                android:padding="10dp" />
         </RelativeLayout>
 
 
