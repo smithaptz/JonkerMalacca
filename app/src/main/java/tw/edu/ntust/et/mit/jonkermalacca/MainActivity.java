@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka;
+package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -12,8 +12,6 @@ import android.widget.TabWidget;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
-
-import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
 
 
 public class MainActivity extends FragmentActivity {

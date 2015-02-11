@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.component;
+package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.content.Context;
 import android.view.View;
@@ -12,27 +12,28 @@ import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
 import at.technikum.mti.fancycoverflow.FancyCoverFlowAdapter;
+import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
- * Created by 123 on 2015/2/7.
+ * Created by 123 on 2015/1/26.
  */
-public class AboutItemGalleryAdapter extends FancyCoverFlowAdapter {
+public class ListItemGalleryAdapter extends FancyCoverFlowAdapter {
     private static final int IMAGE_SIZE_X_DP = 150;
     private static final int IMAGE_SIZE_Y_DP = 150;
 
     private final Context mContext;
-    private List<String> mPhotos;
+    private List<PhotoData> mPhotos;
 
     private final int IMAGE_SIZE_X_PIXEL;
     private final int IMAGE_SIZE_Y_PIXEL;
 
-    public AboutItemGalleryAdapter(Context context) {
+    public ListItemGalleryAdapter(Context context) {
         mContext = context;
         IMAGE_SIZE_X_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_X_DP, mContext);
         IMAGE_SIZE_Y_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_Y_DP, mContext);
     }
 
-    public void setItems(List<String> photos) {
+    public void setItems(List<PhotoData> photos) {
         mPhotos = photos;
         notifyDataSetChanged();
     }
@@ -51,7 +52,7 @@ public class AboutItemGalleryAdapter extends FancyCoverFlowAdapter {
         if (!getItem(position).equals(iv.getTag())) {
             iv.setTag(getItem(position));
 
-            Picasso.with(mContext).load(getItem(position))
+            Picasso.with(mContext).load(getItem(position).getUrl())
                     .resize(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL)
                     .centerCrop()
                     .into(iv, new Callback.EmptyCallback() {
@@ -74,7 +75,7 @@ public class AboutItemGalleryAdapter extends FancyCoverFlowAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public PhotoData getItem(int position) {
         if (mPhotos == null) {
             return null;
         }

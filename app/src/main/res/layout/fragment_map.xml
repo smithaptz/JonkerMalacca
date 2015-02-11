@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/map_layout">
@@ -10,63 +9,71 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map_frame"
-        android:layout_above="@+id/radio_group_list_selector"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:background="#ffeeeeee"
-        android:paddingTop="5dp"></FrameLayout>
+        android:paddingTop="5dp"
+        android:layout_above="@+id/map_btn_layout">
 
-    <RadioGroup
-        android:id="@+id/radio_group_list_selector"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/map_btn_layout"
         android:orientation="horizontal"
-        android:background="#80000000"
-        android:padding="4dp"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true">
 
-        <RadioButton
+        <FrameLayout
             android:id="@+id/map_food_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/map_food"
-            android:gravity="center_horizontal|center_vertical"
             android:layout_weight="1"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
+            android:background="@drawable/map_button_selector">
 
-        <View
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:background="#aaa" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/map_food"
+                android:id="@+id/map_food_btn_txt"
+                android:layout_gravity="center"
+                android:textColor="#ff9b9b9b" />
+        </FrameLayout>
 
-        <RadioButton
+        <FrameLayout
             android:id="@+id/map_hotspot_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/map_hotspot"
             android:layout_weight="1"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
+            android:background="@drawable/map_button_selector">
 
-        <View
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:background="#aaa" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/map_hotspot"
+                android:id="@+id/map_hotspot_btn_txt"
+                android:layout_gravity="center"
+                android:textColor="#ff9b9b9b" />
+        </FrameLayout>
 
-        <RadioButton
+        <FrameLayout
             android:id="@+id/map_all_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/map_all"
             android:layout_weight="1"
-            android:checked="true"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
+            android:background="@drawable/map_button_selector">
 
-    </RadioGroup>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/map_all"
+                android:id="@+id/map_all_btn_txt"
+                android:layout_gravity="center"
+                android:textColor="#ff9b9b9b" />
+        </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.component;
+package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.content.Context;
 import android.location.Location;
@@ -15,9 +15,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
-import tw.edu.ntust.et.mit.jonkermelaka.R;
-import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
-import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermalacca.R;
+import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
  * Created by 123 on 2015/1/23.

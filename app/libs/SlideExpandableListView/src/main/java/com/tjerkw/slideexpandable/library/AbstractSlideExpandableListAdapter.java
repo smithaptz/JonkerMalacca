@@ -325,7 +325,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 					if (type == ExpandCollapseAnimation.EXPAND) {
 						if (lastOpenPosition != -1 && lastOpenPosition != position) {
 							if (lastOpen != null) {
-								animateView(lastOpen, ExpandCollapseAnimation.COLLAPSE, position);
+								animateView(lastOpen, ExpandCollapseAnimation.COLLAPSE, position, false);
 								notifiyExpandCollapseListener(
 										ExpandCollapseAnimation.COLLAPSE,
 										lastOpen, lastOpenPosition);
@@ -338,7 +338,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 						lastOpenPosition = -1;
 					}
 
-					animateView(target, type, position);
+					animateView(target, type, position, true);
 					notifiyExpandCollapseListener(type, target, position);
 				}
 			}
@@ -364,14 +364,14 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 	 * @param type the animation type, either ExpandCollapseAnimation.COLLAPSE
 	 *			 or ExpandCollapseAnimation.EXPAND
 	 */
-	private void animateView(final View target, final int type, final int position) {
+	private void animateView(final View target, final int type, final int position, final boolean select) {
 		Animation anim = new ExpandCollapseAnimation(
 				target,
 				type
 		);
 
 
-        if(type == ExpandCollapseAnimation.EXPAND) {
+        if (select && type == ExpandCollapseAnimation.EXPAND) {
             mListView.invalidateViews();
             mListView.setSelection(position + mListView.getHeaderViewsCount());
         }
@@ -387,7 +387,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-                if (type == ExpandCollapseAnimation.COLLAPSE) {
+                if (select && type == ExpandCollapseAnimation.COLLAPSE) {
                     mListView.invalidateViews();
                     mListView.setSelection(position + mListView.getHeaderViewsCount());
                 }
@@ -410,7 +410,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		if(isAnyItemExpanded()) {
 			// if visible animate it out
 			if(lastOpen != null) {
-				animateView(lastOpen, ExpandCollapseAnimation.COLLAPSE, lastOpenPosition);
+				animateView(lastOpen, ExpandCollapseAnimation.COLLAPSE, lastOpenPosition, false);
 			}
 			openItems.set(lastOpenPosition, false);
 			lastOpenPosition = -1;

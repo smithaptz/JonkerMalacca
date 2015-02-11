@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka;
+package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,8 +23,9 @@ public class MainFragment extends Fragment {
     public static final int FOOD_CHINESE = 0;
     public static final int FOOD_NYONYA = 1;
     public static final int SPOT_TRADITION = 2;
-    public static final int SPOT_ASSOCIATION = 3;
-    public static final int SPOT_TEMPLE = 4;
+    public static final int SPOT_WALL = 3;
+    public static final int SPOT_ASSOCIATION = 4;
+    public static final int SPOT_TEMPLE = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,11 +134,19 @@ public class MainFragment extends Fragment {
                     queryType = SPOT_TRADITION;
                     pagePositionType = ListFragment.PAGE_POSITION_LEFT;
                     break;
-                case SPOT_ASSOCIATION:
-                    title = getString(R.string.title_spot);;
-                    subtitle =getString(R.string.title_spot_association);
+                case SPOT_WALL:
+                    title = getString(R.string.title_spot);
+                    subtitle = getString(R.string.title_spot_wall);
                     coverViewId = R.drawable.cover_spot_association;
-                    descriptionViewId = R.layout.list_swipe_association;
+                    descriptionViewId = R.layout.list_swipe_spot_wall;
+                    queryType = SPOT_WALL;
+                    pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;
+                    break;
+                case SPOT_ASSOCIATION:
+                    title = getString(R.string.title_spot);
+                    subtitle = getString(R.string.title_spot_association);
+                    coverViewId = R.drawable.cover_spot_association;
+                    descriptionViewId = R.layout.list_swipe_spot_association;
                     queryType = SPOT_ASSOCIATION;
                     pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;
                     break;
@@ -175,7 +184,7 @@ public class MainFragment extends Fragment {
                 case MainActivity.SECTION_FOOD_NUM:
                     return 2;
                 case MainActivity.SECTION_HOT_SPOT_NUM:
-                    return 3;
+                    return 4;
             }
 
             return 0;

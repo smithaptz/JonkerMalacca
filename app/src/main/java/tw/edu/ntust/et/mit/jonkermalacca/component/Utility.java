@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.component;
+package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.location.Location;
 import android.util.DisplayMetrics;
 
 
-import tw.edu.ntust.et.mit.jonkermelaka.R;
-import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermalacca.R;
+import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
 
 
 public class Utility {

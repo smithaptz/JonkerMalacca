@@ -52,43 +52,58 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.google.android.gms:play-services:6.5.87:20:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:recyclerview-v7:21.0.0:17:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
 	android:label
-		ADDED from AndroidManifest.xml:26:9
-	android:allowBackup
-		ADDED from AndroidManifest.xml:24:9
-	android:icon
-		ADDED from AndroidManifest.xml:25:9
-	android:theme
 		ADDED from AndroidManifest.xml:27:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:25:9
+	android:icon
+		ADDED from AndroidManifest.xml:26:9
+	android:theme
+		ADDED from AndroidManifest.xml:28:9
+	android:largeHeap
+		ADDED from AndroidManifest.xml:24:9
 meta-data#com.google.android.gms.version
-ADDED from AndroidManifest.xml:29:9
+ADDED from AndroidManifest.xml:30:9
 MERGED from com.google.android.gms:play-services:6.5.87:21:9
 	android:name
-		ADDED from AndroidManifest.xml:30:13
-	android:value
 		ADDED from AndroidManifest.xml:31:13
-meta-data#com.google.android.maps.v2.API_KEY
-ADDED from AndroidManifest.xml:32:9
-	android:name
-		ADDED from AndroidManifest.xml:33:13
 	android:value
+		ADDED from AndroidManifest.xml:32:13
+meta-data#com.google.android.maps.v2.API_KEY
+ADDED from AndroidManifest.xml:33:9
+	android:name
 		ADDED from AndroidManifest.xml:34:13
-activity#tw.edu.ntust.et.mit.jonkerstreetguide.MainActivity
-ADDED from AndroidManifest.xml:36:9
+	android:value
+		ADDED from AndroidManifest.xml:35:13
+activity#tw.edu.ntust.et.mit.jonkermelaka.MainActivity
+ADDED from AndroidManifest.xml:37:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:40:13
 	android:label
+		ADDED from AndroidManifest.xml:39:13
+	android:name
 		ADDED from AndroidManifest.xml:38:13
-	android:name
-		ADDED from AndroidManifest.xml:37:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:39:13
+ADDED from AndroidManifest.xml:41:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:40:17
-	android:name
-		ADDED from AndroidManifest.xml:40:25
-category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:42:17
 	android:name
-		ADDED from AndroidManifest.xml:42:27
+		ADDED from AndroidManifest.xml:42:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:44:17
+	android:name
+		ADDED from AndroidManifest.xml:44:27
+activity#tw.edu.ntust.et.mit.jonkermelaka.ImageViewerActivity
+ADDED from AndroidManifest.xml:48:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:51:13
+	android:label
+		ADDED from AndroidManifest.xml:50:13
+	android:name
+		ADDED from AndroidManifest.xml:49:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from JonkerStreetGuide:SlideExpandableListView:unspecified:7:5
@@ -98,9 +113,19 @@ MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.google.android.gms:play-services:6.5.87:18:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.android.support:recyclerview-v7:21.0.0:15:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.daimajia.swipelayout:library:1.1.8:6:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
 	android:minSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
+activity#android.support.v7.widget.TestActivity
+ADDED from com.android.support:recyclerview-v7:21.0.0:18:9
+	android:label
+		ADDED from com.android.support:recyclerview-v7:21.0.0:18:19
+	android:name
+		ADDED from com.android.support:recyclerview-v7:21.0.0:18:60

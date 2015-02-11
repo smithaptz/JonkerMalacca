@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.model;
+package tw.edu.ntust.et.mit.jonkermalacca.model;
 
 import android.location.Location;
 
@@ -27,7 +27,7 @@ public class InfoData {
 
     public enum Type {
         FOOD_CHINESE, FOOD_NYONYA, SPOT_TRADITION,
-        SPOT_ASSOCIATION, SPOT_TEMPLE, OTHER
+        SPOT_WALL, SPOT_ASSOCIATION, SPOT_TEMPLE, OTHER
     }
 
     public InfoData(ParseObject parseObject) {
@@ -87,8 +87,10 @@ public class InfoData {
             case 2:
                 return Type.SPOT_TRADITION;
             case 3:
-                return Type.SPOT_ASSOCIATION;
+                return Type.SPOT_WALL;
             case 4:
+                return Type.SPOT_ASSOCIATION;
+            case 5:
                 return Type.SPOT_TEMPLE;
             default:
                 return Type.OTHER;

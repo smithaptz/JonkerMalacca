@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.component;
+package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
-import tw.edu.ntust.et.mit.jonkermelaka.R;
+import tw.edu.ntust.et.mit.jonkermalacca.R;
+import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
  * Created by 123 on 2015/2/7.
@@ -80,7 +81,7 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
             FancyCoverFlow gallery = ViewHolder.get(view, R.id.about_item_gallery);
 
             if (!item.equals(gallery.getTag()) && item.getPhotos() != null) {
-                AboutItemGalleryAdapter galleryAdapter = (AboutItemGalleryAdapter) gallery.getAdapter();
+                ListItemGalleryAdapter galleryAdapter = (ListItemGalleryAdapter) gallery.getAdapter();
                 galleryAdapter.setItems(item.getPhotos());
                 gallery.setTag(item);
             }
@@ -105,13 +106,22 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
 
 
     public static class Item {
+        private int id;
         private String name;
         private String description;
         private String websiteUrl;
         private String emailUrl;
         private int coverResourceId;
-        private List<String> photos;
+        private List<PhotoData> photos;
         private boolean viewExpand;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
 
         public String getName() {
             return name;
@@ -154,11 +164,11 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
         }
 
 
-        public List<String> getPhotos() {
+        public List<PhotoData> getPhotos() {
             return photos;
         }
 
-        public void setPhotos(List<String> photos) {
+        public void setPhotos(List<PhotoData> photos) {
             this.photos = photos;
         }
 

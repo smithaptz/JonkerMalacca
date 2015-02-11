@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka;
+package tw.edu.ntust.et.mit.jonkermalacca;
 
 
 import android.content.Context;
@@ -31,14 +31,16 @@ import com.parse.ParseQuery;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import tw.edu.ntust.et.mit.jonkermelaka.component.ListAdapter;
-import tw.edu.ntust.et.mit.jonkermelaka.component.Utility;
-import tw.edu.ntust.et.mit.jonkermelaka.model.InfoData;
-import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermalacca.component.ListAdapter;
+import tw.edu.ntust.et.mit.jonkermalacca.component.Utility;
+import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
+import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 
 public class ListFragment extends Fragment implements LocationListener,
@@ -94,7 +96,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
     private SwipeLayout mSwipeView;
     private ViewGroup mSwipePullDownView;
-
+    private ImageView mSwipeIndicator;
 
     private List<InfoData> mInfos;
 
@@ -198,6 +200,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mSwipeView.setOnTouchListener(this);
 
         mSwipePullDownView = (ViewGroup) rootView.findViewById(R.id.list_swipe_down_layout);
+        mSwipeIndicator = (ImageView) rootView.findViewById(R.id.list_swipe_indicator);
 
         ((ViewGroup) rootView.findViewById(R.id.list_swipe_down_wrapper))
                 .addView(LayoutInflater.from(getActivity()).inflate(mDescriptionViewId, null, false));
@@ -376,6 +379,18 @@ public class ListFragment extends Fragment implements LocationListener,
             if (e == null) {
                 Log.d(TAG, "Updated info data successfully: size: " + list.size());
                 mInfos = InfoData.adaptParseObjects(list);
+
+                if (mCurrentLocation != null) {
+                    Collections.sort(mInfos, new Comparator<InfoData>() {
+                        @Override
+                        public int compare(InfoData data, InfoData comparedData) {
+                            float dist = mCurrentLocation.distanceTo(data.getLocation());
+                            float dist2 = mCurrentLocation.distanceTo(comparedData.getLocation());
+                            return (int) (dist - dist2);
+                        }
+                    });
+                }
+
                 mAdapter.addAll(transToAdapterItems(mInfos));
                 mSlideExpandableAdapter.notifyDataSetChanged();
             } else {
@@ -409,15 +424,24 @@ public class ListFragment extends Fragment implements LocationListener,
         private boolean mInitialized = false;
         private int mDefaultTitleTxtSize;
         private int mDefaultSubtitleTxtSize;
+        private boolean iconSetup = false;
 
         @Override
         public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
             float openRatio = (float) topOffset/ layout.getMeasuredHeight();
             setOpenRatio(openRatio);
+
+            if (!iconSetup && openRatio > 0.95f) {
+                mSwipeIndicator.setImageResource(R.drawable.swipe_up);
+                iconSetup = true;
+                mSwipeView.open();
+            }
         }
 
         @Override
         public void onStartOpen(SwipeLayout swipeLayout) {
+            mSwipeIndicator.setImageResource(R.drawable.swipe_down);
+            iconSetup = false;
 
             if (mInitialized) {
                 return;
@@ -438,6 +462,7 @@ public class ListFragment extends Fragment implements LocationListener,
 
         @Override
         public void onClose(SwipeLayout layout) {
+
         }
 
         @Override

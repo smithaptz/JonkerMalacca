@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka;
+package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

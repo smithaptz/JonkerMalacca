@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka;
+package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import tw.edu.ntust.et.mit.jonkermelaka.model.PhotoData;
+import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
  * Created by 123 on 2015/1/27.

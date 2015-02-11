@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tw.edu.ntust.et.mit.jonkermelaka.ListFragment"
+    tools:context="tw.edu.ntust.et.mit.jonkermalacca.ListFragment"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
@@ -123,14 +123,17 @@
                     android:layout_height="1dp"
                     android:id="@+id/list_swipe_down_divider"
                     android:background="#c8ffffff"
-                    android:layout_above="@+id/imageView" />
+                    android:layout_above="@+id/list_swipe_indicator" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:id="@+id/imageView"
+                    android:id="@+id/list_swipe_indicator"
                     android:layout_alignParentBottom="true"
-                    android:background="#d7000000" />
+                    android:background="#d7000000"
+                    android:src="@drawable/swipe_down"
+                    android:adjustViewBounds="true"
+                    android:padding="3dp" />
 
             </RelativeLayout>
             <!-- Bottom View End-->

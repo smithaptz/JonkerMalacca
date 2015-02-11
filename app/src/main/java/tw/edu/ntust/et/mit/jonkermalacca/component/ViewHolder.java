@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.component;
+package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.util.SparseArray;
 import android.view.View;

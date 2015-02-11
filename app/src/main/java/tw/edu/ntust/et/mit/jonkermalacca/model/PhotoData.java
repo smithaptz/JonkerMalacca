@@ -1,4 +1,4 @@
-package tw.edu.ntust.et.mit.jonkermelaka.model;
+package tw.edu.ntust.et.mit.jonkermalacca.model;
 
 import com.parse.ParseObject;
 
