@@ -8,4 +8,12 @@
     android:paddingRight="10dp"
     android:background="#d7000000">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:lineSpacingExtra="4dp"
+        android:textSize="15sp"
+        android:text="@string/description_spot_wall" />
+
 </LinearLayout>

@@ -1,6 +1,9 @@
 package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,10 +18,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -27,6 +33,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import tw.edu.ntust.et.mit.jonkermalacca.component.AboutAdapter;
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 import tw.edu.ntust.et.mit.jonkermalacca.component.Utility;
 import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
@@ -35,7 +42,8 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
  */
 public class AboutFragment extends Fragment implements
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
-        AboutAdapter.OnPhotoClickListener, ListView.OnTouchListener {
+        AboutAdapter.OnPhotoClickListener, AboutAdapter.OnUrlClickListener,
+        ListView.OnTouchListener {
     public static final String TAG = "AboutFragment";
 
     private static final int PULL_DOWN_THRESHOLD_LENGTH = 125;
@@ -65,6 +73,13 @@ public class AboutFragment extends Fragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.initTracker(activity, TAG);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
@@ -76,6 +91,18 @@ public class AboutFragment extends Fragment implements
 
         mTitleTxtView.setText("關於");
         mSubtitleTxtView.setText("緣起");
+
+
+
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.RGB_565;
+//        options.inDither = true;
+//        options.inSampleSize = 1;
+//        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
+//                BitmapFactory.decodeResource(getResources(), R.drawable.cover_about, options));
+
+        Picasso.with(getActivity()).load(R.drawable.cover_about).
+                into((ImageView) rootView.findViewById(R.id.list_subcategory));
 
         rootView.findViewById(R.id.list_cover_layout).setOnTouchListener(this);
         rootView.findViewById(R.id.list_right_button).setVisibility(View.GONE);
@@ -109,6 +136,7 @@ public class AboutFragment extends Fragment implements
 
         mAdapter = new AboutAdapter(getActivity());
         mAdapter.setOnItemGalleryClickListener(this);
+        mAdapter.setOnUrlClickListener(this);
 
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
                 mListView,
@@ -124,8 +152,17 @@ public class AboutFragment extends Fragment implements
 
     private void dataInit() {
         List<AboutAdapter.Item> items = new ArrayList<AboutAdapter.Item>();
-        items.add(instanceItem("國立臺灣科技大學", null, null, null, null, -1));
-        items.add(instanceItem("培風中學", null, null, null, null, -1));
+        items.add(instanceItem(getString(R.string.about_ntust_name),
+                getString(R.string.about_ntust_description),
+                getString(R.string.about_ntust_website),
+                null, null, R.drawable.ntust_cover));
+        items.add(instanceItem(getString(R.string.about_pfms_name),
+                getString(R.string.about_pfms_description),
+                getString(R.string.about_pfms_website),
+                null, null, R.drawable.pfms_cover));
+        items.add(instanceItem(getString(R.string.about_whc_name),
+                getString(R.string.about_whc_description),
+                getString(R.string.about_whc_website), null, null, -1));
 
         mAdapter.addAll(items);
     }
@@ -331,6 +368,16 @@ public class AboutFragment extends Fragment implements
             }
         }
     };
+
+    @Override
+    public void onUrlClick(View view, AboutAdapter.Item item) {
+        Tracker t = ((BaseActivity) getActivity()).getTracker();
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_user_behavior))
+                .setAction(getString(R.string.action_open_website))
+                .setLabel(item.getName())
+                .build());
+    }
 
     @Override
     public void onPhotoClick(AdapterView<?> parent, View view, AboutAdapter.Item item, int position) {

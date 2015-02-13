@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
 
 /**
@@ -66,6 +67,12 @@ public class MapFragment extends Fragment implements View.OnClickListener,
 
     private int currentSelectBtn;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.initTracker(activity, TAG);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -27,7 +27,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="55dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -122,27 +123,20 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_hour_const"
-                android:layout_below="@+id/list_item_address"
-                android:layout_alignLeft="@+id/list_item_address_const"
-                android:textSize="14sp"
-                android:text="@string/list_item_business_hour" />
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/list_item_description"
-                android:layout_below="@+id/list_item_hour"
-                android:layout_alignLeft="@+id/list_item_hour_const"
+                android:textSize="14sp"
+                android:layout_alignLeft="@+id/list_item_address_const"
+                android:layout_below="@+id/list_item_address"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp" />
+                android:layout_marginRight="10dp"
+                android:layout_alignParentBottom="false"
+                android:paddingBottom="10dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/list_item_address"
@@ -151,16 +145,9 @@
                 android:layout_alignParentStart="false"
                 android:layout_toRightOf="@+id/list_item_address_const"
                 android:layout_alignTop="@+id/list_item_address_const"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginRight="10dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/list_item_hour"
-                android:layout_toRightOf="@+id/list_item_hour_const"
-                android:layout_alignTop="@+id/list_item_hour_const"
-                android:textSize="14sp" />
         </RelativeLayout>
 
         <View
@@ -212,13 +199,15 @@
                 android:layout_alignParentTop="true" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Text"
                 android:id="@+id/list_item_address_2"
                 android:layout_marginLeft="20dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true" />
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
 
             <ImageView
                 android:layout_width="60dp"

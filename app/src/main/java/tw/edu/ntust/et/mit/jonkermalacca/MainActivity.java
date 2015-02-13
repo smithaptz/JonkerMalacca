@@ -13,8 +13,10 @@ import android.widget.TabWidget;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 
-public class MainActivity extends FragmentActivity {
+
+public class MainActivity extends BaseActivity {
     public static final String TAG = "MainActivity";
 
     public static final String ARG_SECTION_NUM = "ARG_SECTION_NUM";

@@ -16,10 +16,10 @@
             android:layout_height="144dp"
             android:id="@+id/list_subcategory"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/cover_food_chinese"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:background="#ff000000" />
 
         <LinearLayout
             android:orientation="vertical"

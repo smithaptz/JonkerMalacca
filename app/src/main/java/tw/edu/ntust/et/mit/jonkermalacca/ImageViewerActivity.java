@@ -3,10 +3,12 @@ package tw.edu.ntust.et.mit.jonkermalacca;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
+
 /**
  * Created by 123 on 2015/1/28.
  */
-public class ImageViewerActivity extends FragmentActivity {
+public class ImageViewerActivity extends BaseActivity {
     public static final String TAG = "ImageViewerActivity";
 
     public static final String ARG_PHOTO_URL_LIST =

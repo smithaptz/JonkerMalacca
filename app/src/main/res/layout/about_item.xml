@@ -101,27 +101,19 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/about_item_email_const"
-                android:layout_below="@+id/about_item_website"
-                android:layout_alignLeft="@+id/about_item_website_const"
-                android:textSize="14sp"
-                android:text="@string/about_item_email" />
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/about_item_description"
-                android:layout_below="@+id/about_item_email"
-                android:layout_alignLeft="@+id/about_item_email_const"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_below="@+id/about_item_website"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginLeft="20dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/about_item_website"
@@ -130,16 +122,10 @@
                 android:layout_alignParentStart="false"
                 android:layout_toRightOf="@+id/about_item_website_const"
                 android:layout_alignTop="@+id/about_item_website_const"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginRight="10dp"
+                android:autoLink="web" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/about_item_email"
-                android:layout_toRightOf="@+id/about_item_email_const"
-                android:layout_alignTop="@+id/about_item_email_const"
-                android:textSize="14sp" />
         </RelativeLayout>
 
         <View

@@ -3,6 +3,7 @@ package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
@@ -24,10 +25,13 @@ import android.widget.TextView;
 
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -37,8 +41,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 import tw.edu.ntust.et.mit.jonkermalacca.component.ListAdapter;
 import tw.edu.ntust.et.mit.jonkermalacca.component.Utility;
+import tw.edu.ntust.et.mit.jonkermalacca.component.ViewHolder;
 import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
 import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
@@ -124,6 +130,8 @@ public class ListFragment extends Fragment implements LocationListener,
     public void onResume() {
         super.onResume();
         mLocationManager.requestLocationUpdates(mProvider, 10000, 0, this);
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.initTracker(activity, TAG, mSubtitle);
     }
 
     @Override
@@ -160,10 +168,15 @@ public class ListFragment extends Fragment implements LocationListener,
         mPagePosition = args.getInt(ARG_PAGE_POSITION);
         mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
-                BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inPreferredConfig = Bitmap.Config.RGB_565;
+//        options.inDither = true;
+//        options.inSampleSize = 1;
+//        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
+//                BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
+
+        Picasso.with(getActivity()).load(mCoverViewId).
+                into((ImageView) rootView.findViewById(R.id.list_subcategory));
 
         mListLayout = (ViewGroup) rootView.findViewById(R.id.list_items_layout);
         mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);
@@ -294,6 +307,13 @@ public class ListFragment extends Fragment implements LocationListener,
                         location.getLatitude(), location.getLongitude());
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
+
+        Tracker t = ((BaseActivity) getActivity()).getTracker();
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_user_behavior))
+                .setAction(getString(R.string.action_open_map))
+                .setLabel(infoData.getName())
+                .build());
     }
 
     @Override

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_user_behavior">category_user_behavior</string>
+    <string name="action_open_map">action_open_map</string>
+    <string name="action_open_website">action_open_website</string>
+</resources>

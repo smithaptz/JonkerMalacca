@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
+
 /**
  * Created by 123 on 2015/1/24.
  */
@@ -26,6 +28,13 @@ public class MainFragment extends Fragment {
     public static final int SPOT_WALL = 3;
     public static final int SPOT_ASSOCIATION = 4;
     public static final int SPOT_TEMPLE = 5;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.initTracker(activity, TAG);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +146,7 @@ public class MainFragment extends Fragment {
                 case SPOT_WALL:
                     title = getString(R.string.title_spot);
                     subtitle = getString(R.string.title_spot_wall);
-                    coverViewId = R.drawable.cover_spot_association;
+                    coverViewId = R.drawable.cover_spot_wall;
                     descriptionViewId = R.layout.list_swipe_spot_wall;
                     queryType = SPOT_WALL;
                     pagePositionType = ListFragment.PAGE_POSITION_MIDDLE;

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
@@ -39,7 +40,12 @@ public class ImageViewerFragment extends Fragment {
     private ViewPager mViewPager;
     private ImagePagerAdapter mImagePagerAdapter;
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.initTracker(activity, TAG);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

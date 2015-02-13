@@ -1,6 +1,8 @@
 package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,14 +24,19 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
  * Created by 123 on 2015/2/7.
  */
 public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
-        FancyCoverFlow.OnItemClickListener {
+        FancyCoverFlow.OnItemClickListener, View.OnClickListener {
     private final LayoutInflater mInflater;
 
     private OnPhotoClickListener mOnPhotoClickListener;
+    private OnUrlClickListener mOnUrlClickListener;
 
     public interface OnPhotoClickListener {
         void onPhotoClick(AdapterView<?> parent, View view,
                           AboutAdapter.Item item, int position);
+    }
+
+    public interface OnUrlClickListener {
+        void onUrlClick(View view, AboutAdapter.Item item);
     }
 
 
@@ -40,8 +49,16 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
         mOnPhotoClickListener = listener;
     }
 
+    public void setOnUrlClickListener(OnUrlClickListener listener) {
+        mOnUrlClickListener = listener;
+    }
+
     public OnPhotoClickListener getOnItemGalleryClickListener() {
         return mOnPhotoClickListener;
+    }
+
+    public OnUrlClickListener getOnUrlClickListener() {
+        return mOnUrlClickListener;
     }
 
     @Override
@@ -53,10 +70,22 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
     }
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.about_item_website:
+                if (mOnUrlClickListener != null) {
+                    mOnUrlClickListener.onUrlClick(view, (AboutAdapter.Item) view.getTag());
+                }
+                break;
+        }
+    }
+
+    @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view;
         if (convertView == null) {
             view = mInflater.inflate(R.layout.about_item, null);
+            ((TextView) ViewHolder.get(view, R.id.about_item_website)).setOnClickListener(this);
             setupGallery((FancyCoverFlow) view.findViewById(R.id.about_item_gallery));
         } else {
             view = convertView;
@@ -66,16 +95,32 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
 
         ((TextView) ViewHolder.get(view, R.id.about_item_name)).setText(item.getName());
 
-        ImageView iv = ((ImageView) view.findViewById(R.id.about_item_cover));
-        iv.setImageResource(item.getCoverResourceId());
+        Picasso.with(getContext()).load(item.getCoverResourceId()).
+                placeholder(R.drawable.loading).into(((ImageView) ViewHolder.get(view, R.id.about_item_cover)));
+
 
         ((ImageView) ViewHolder.get(view, R.id.about_item_expand_btn))
                 .setImageResource(item.isViewExpand() ?
                         R.drawable.up_button : R.drawable.down_button);
 
         if (item.isViewExpand()) {
-            ((TextView) ViewHolder.get(view, R.id.about_item_website)).setText(item.getWebsiteUrl());
-            ((TextView) ViewHolder.get(view, R.id.about_item_email)).setText(item.getEmailUrl());
+            String webUrl = item.getWebsiteUrl();
+            TextView webUrlTxt = (TextView) ViewHolder.get(view, R.id.about_item_website);
+            TextView webUrlConstTxt = (TextView) ViewHolder.get(view, R.id.about_item_website_const);
+
+            webUrlTxt.setTag(item);
+
+            if (webUrl != null && !webUrl.isEmpty()) {
+                webUrlConstTxt.setVisibility(View.VISIBLE);
+                webUrlTxt.setVisibility(View.VISIBLE);
+                webUrlTxt.setText(item.getWebsiteUrl());
+            } else {
+                webUrlConstTxt.setVisibility(View.GONE);
+                webUrlTxt.setVisibility(View.GONE);
+            }
+
+            //webUrlTxt.requestLayout();
+
             ((TextView) ViewHolder.get(view, R.id.about_item_description)).setText(item.getDescription());
 
             FancyCoverFlow gallery = ViewHolder.get(view, R.id.about_item_gallery);

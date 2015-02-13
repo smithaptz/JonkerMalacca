@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="parse_app_id">v4gzSIYSqRNWMoyT5q2TuMuJgC1PlQk29ELJACnz</string>
-    <string name="parse_client_key">BZoPUJOqlDgUJaImeaaPjvGe8TRI8jgvlg1wys8O</string>
-
-    <string name="app_name">JonkerMalacca</string>
+    <string name="app_name">Jonker Malacca</string>
     <string name="action_settings">Settings</string>
 
     <string name="title_food">美食主題</string>
@@ -26,4 +23,23 @@
     <string name="about_item_email">E-mail：</string>
 
     <string name="unknown_distance">Unknown</string>
+
+    <string name="about_ntust_name">NTUST</string>
+    <string name="about_ntust_website">http://www.ntust.edu.tw/</string>
+    <string name="about_ntust_description"></string>
+    <string name="about_pfms_name">麻六甲培風中學</string>
+    <string name="about_pfms_website">http://www.payfong.edu.my/</string>
+    <string name="about_pfms_description">麻六甲培風中學是麻六甲唯一華文獨立中學，創立於1913年，迄今已102年。多年來，秉持著有教無類，以人為本的教育理念，建立一所與甲州社區緊密聯繫的學習型學校。</string>
+    <string name="about_whc_name">麻六甲世界文化遺產辦公室</string>
+    <string name="about_whc_website"></string>
+    <string name="about_whc_description">麻六甲世界遺產局成立於2011年12月，主要職責為規劃、保存與保護古跡遺址的狀態。</string>
+
+
+    <string name="description_food_chinese"></string>
+    <string name="description_food_nyonya"></string>
+    <string name="description_spot_tradition"></string>
+    <string name="description_spot_wall"></string>
+    <string name="description_spot_association"></string>
+    <string name="description_spot_temple"></string>
+    <string name="description_about"></string>
 </resources>

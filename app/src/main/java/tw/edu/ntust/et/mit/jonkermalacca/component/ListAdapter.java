@@ -99,7 +99,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         ((TextView) ViewHolder.get(view, R.id.list_item_dist)).setText(
                 Utility.calDistance(getContext(), mLocation, infoData.getLocation()));
 
-        ImageView iv = ((ImageView) view.findViewById(R.id.list_item_cover));
+        ImageView iv = (ImageView) ViewHolder.get(view, R.id.list_item_cover);
         Picasso.with(getContext()).load(infoData.getLogoUrl()).
                 placeholder(R.drawable.loading).into(iv);
 
@@ -110,7 +110,6 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
 
         if (item.isViewExpand()) {
             ((TextView) ViewHolder.get(view, R.id.list_item_address)).setText(infoData.getAddress());
-            ((TextView) ViewHolder.get(view, R.id.list_item_hour)).setText(infoData.getBusinessHour());
             ((TextView) ViewHolder.get(view, R.id.list_item_description)).setText(infoData.getDescription());
             ((TextView) ViewHolder.get(view, R.id.list_item_address_2)).setText(infoData.getAddress());
             ViewHolder.get(view, R.id.list_item_navigation).setTag(item);
