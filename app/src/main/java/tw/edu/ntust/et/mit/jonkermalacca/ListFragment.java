@@ -247,7 +247,7 @@ public class ListFragment extends Fragment implements
 
     public void updateData() {
         String language = Locale.getDefault().toString();
-        String queryTable = "InfoEng";
+        String queryTable = "InfoChs"; // temp
         if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
             queryTable = "InfoCht";
         } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
@@ -289,7 +289,7 @@ public class ListFragment extends Fragment implements
             } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
-                description = photoData.getDescriptionEng();
+                description = photoData.getDescriptionChs(); //temp
             }
             photoDescriptions.add(description);
         }
