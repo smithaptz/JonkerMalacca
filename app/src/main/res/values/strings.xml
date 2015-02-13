@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Jonker Malacca</string>
-    <string name="action_settings">Settings</string>
 
     <string name="title_food">美食主題</string>
     <string name="title_food_chinese">特色店家</string>

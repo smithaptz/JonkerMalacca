@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jonker Malacca</string>
+    <string name="title_food">美食主題</string>
+    <string name="title_food_chinese">特色店家</string>
+    <string name="title_food_nyonya">峇峇娘惹</string>
+    <string name="title_spot">文化景點</string>
+    <string name="title_spot_tradition">傳統行業</string>
+    <string name="title_spot_wall">街頭畫作</string>
+    <string name="title_spot_association">會館鄉團</string>
+    <string name="title_spot_temple">廟宇教堂</string>
+    <string name="title_other">其它</string>
+
+    <string name="list_item_address">地址：</string>
+    <string name="list_item_business_hour">營業時間：</string>
+    <string name="map_hotspot">文化景點</string>
+    <string name="map_food">在地美食</string>
+    <string name="map_all">全部</string>
+
+    <string name="about_item_website">網址：</string>
+    <string name="about_item_email">信箱：</string>
+    <string name="unknown_distance">無法得知距離</string>
+
+    <string name="about_ntust_name">國立臺灣科技大學</string>
+    <string name="about_ntust_website">http://www-e.ntust.edu.tw/</string>
+    <string name="about_ntust_description">國立臺灣科技大學，成立於1974年，為台灣第一所技術職業教育高等學府。目前設有工程、電資、管理、設計、人文社會、精誠榮譽及智慧財產學等七個學院，合計共有二十四個獨立系所、師資培育中心及人文社會學科等教學單位。是目前台灣唯一同時納入教育部「5年500億」邁向頂尖大學計畫及發展典範科技大學計畫的大學。</string>
+    <string name="about_pfms_name">馬六甲培風中學</string>
+    <string name="about_pfms_website">http://www.payfong.edu.my/</string>
+    <string name="about_pfms_description">馬六甲培風中學是馬六甲唯一華文獨立中學，創立於1913年，迄今已102年。多年來，秉持著有教無類，以人為本的教育理念，建立一所與甲州社區緊密聯繫的學習型學校。</string>
+    <string name="about_whc_name">馬六甲世界文化遺產局</string>
+    <string name="about_whc_website"></string>
+    <string name="about_whc_description">馬六甲世界遺產局成立於2011年12月，主要職責為規劃、保存與保護古跡遺址的狀態。</string>
+
+
+
+    <string name="description_food_chinese">馬六甲的古老特色店家充滿藝術風味的裝潢，古樸而精緻；風格各異的酒吧和特色咖啡店，不止綜合了南洋與西方風格，亦反映了讓人眷戀的悠閒。來到古城，不妨走進這些特色店家，感受馬六甲的淳樸風情。</string>
+    <string name="description_food_nyonya">峇峇娘惹是十五世紀初期定居在滿剌伽（馬六甲）、滿者伯夷國（印尼）和室利佛逝國（新加坡）一帶的大明國後裔，是中國人和馬來人結婚後所生的後代，男性稱為峇峇（baba），女性稱為娘惹（nyonya）。\n\n娘惹菜系是由中國菜系和馬來菜系合併而成的馬六甲菜肴，融會了甜酸、辛香、微辣等多種風味，口味濃重，其中以叻沙(LAKSA)最具盛名。許多馬來西亞原駐民認為：“娘惹”美食見證了馬來人與華人的聯姻喜慶，代表了浪漫豐富的娘惹美食特色。 "</string>
+    <string name="description_spot_tradition">在馬六甲沿河一帶，至今仍保存著許多華人傳統行業。傳統行業是人類文明的發展產物，它們見證了先輩在社會、經濟、政治、文化、歷史及科技等領域中的發展與變遷，是老祖宗留給我們的生活智慧。</string>
+    <string name="description_spot_wall">馬六甲的街頭畫作藝術或以傳統書法或水墨壁畫呈現；或以輕鬆的生活場景或英雄人物刻畫出一段段馬六甲的歷史，似乎在向世人訴說著馬六甲的古老風俗和老故事。一幅幅獨具匠心的畫作，與馬六甲河岸的景致相互輝映，成為一種活潑的生活藝術。</string>
+    <string name="description_spot_association">從中國南來的華人初到僑居地時，由於對地緣和血緣的凝聚力和認同感，自發性的組織公司或宗親會，為同鄉落腳及業餘憩息之所，並藉以互通聲氣聯絡感情，彼此之間互相照應，會館鄉團就是在這樣一個環境底下成立的。</string>
+    <string name="description_spot_temple">親善街融合了三大宗教，即青雲亭（道教）、甘榜吉寧回教堂（伊斯蘭教）及Sri Poyyatha Vinayagar Moorthi Temple（興都教）。親善街是上個世紀，種族與宗教和諧的文化印證。</string>
+    <string name="description_about">文化街坐落在馬六甲河北岸，是一條古老的街道，這條狹窄兼古老街道裡的百年古屋、廟宇與各籍會館，記載了華人自中國南下落足馬六甲後，留下的遺跡與許多的陳年回憶和故事。街道兩旁的店鋪和住宅多為平房和二層小樓，許多建築已有數百年的歷史，依舊保持著濃郁的中國傳統特色。\n\n作為地方的唯一一間華文獨立中學，Jonker Malacca是培風中學邀請臺灣科技大學合作製作送予世界文化遺產局的旅遊指南APP。我們希望能結合社區與國際力量，將馬六甲的文化之美透過科技與網路傳達到世界的每一個角落。\n\n合作單位：馬六甲培風中學、國立臺灣科技大學、馬六甲世界文化遺產局、茶陽會館</string>
+</resources>
