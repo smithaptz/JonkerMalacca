@@ -45,8 +45,8 @@ ADDED from AndroidManifest.xml:16:5
 		ADDED from AndroidManifest.xml:17:9
 application
 ADDED from AndroidManifest.xml:23:5
-MERGED from JonkerStreetGuide:SlideExpandableListView:unspecified:9:5
-MERGED from JonkerStreetGuide:FancyCoverFlow:unspecified:27:5
+MERGED from JonkerMalacca:SlideExpandableListView:unspecified:9:5
+MERGED from JonkerMalacca:FancyCoverFlow:unspecified:27:5
 MERGED from com.android.support:appcompat-v7:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
@@ -65,20 +65,19 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:28:9
 	android:largeHeap
 		ADDED from AndroidManifest.xml:24:9
-meta-data#com.google.android.gms.version
+meta-data#com.google.android.gms.analytics.globalConfigResource
 ADDED from AndroidManifest.xml:30:9
-MERGED from com.google.android.gms:play-services:6.5.87:21:9
-	android:name
+	android:resource
 		ADDED from AndroidManifest.xml:31:13
-	android:value
-		ADDED from AndroidManifest.xml:32:13
+	android:name
+		ADDED from AndroidManifest.xml:30:20
 meta-data#com.google.android.maps.v2.API_KEY
 ADDED from AndroidManifest.xml:33:9
 	android:name
 		ADDED from AndroidManifest.xml:34:13
 	android:value
 		ADDED from AndroidManifest.xml:35:13
-activity#tw.edu.ntust.et.mit.jonkermelaka.MainActivity
+activity#tw.edu.ntust.et.mit.jonkermalacca.LandingActivity
 ADDED from AndroidManifest.xml:37:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:40:13
@@ -93,21 +92,29 @@ ADDED from AndroidManifest.xml:42:17
 	android:name
 		ADDED from AndroidManifest.xml:42:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:44:17
+ADDED from AndroidManifest.xml:43:17
 	android:name
-		ADDED from AndroidManifest.xml:44:27
-activity#tw.edu.ntust.et.mit.jonkermelaka.ImageViewerActivity
-ADDED from AndroidManifest.xml:48:9
+		ADDED from AndroidManifest.xml:43:27
+activity#tw.edu.ntust.et.mit.jonkermalacca.MainActivity
+ADDED from AndroidManifest.xml:47:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:51:13
-	android:label
 		ADDED from AndroidManifest.xml:50:13
-	android:name
+	android:label
 		ADDED from AndroidManifest.xml:49:13
+	android:name
+		ADDED from AndroidManifest.xml:48:13
+activity#tw.edu.ntust.et.mit.jonkermalacca.ImageViewerActivity
+ADDED from AndroidManifest.xml:53:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:56:13
+	android:label
+		ADDED from AndroidManifest.xml:55:13
+	android:name
+		ADDED from AndroidManifest.xml:54:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
-MERGED from JonkerStreetGuide:SlideExpandableListView:unspecified:7:5
-MERGED from JonkerStreetGuide:FancyCoverFlow:unspecified:23:5
+MERGED from JonkerMalacca:SlideExpandableListView:unspecified:7:5
+MERGED from JonkerMalacca:FancyCoverFlow:unspecified:23:5
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
@@ -123,6 +130,12 @@ MERGED from com.daimajia.swipelayout:library:1.1.8:6:5
 	android:minSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
+meta-data#com.google.android.gms.version
+ADDED from com.google.android.gms:play-services:6.5.87:21:9
+	android:name
+		ADDED from com.google.android.gms:play-services:6.5.87:22:13
+	android:value
+		ADDED from com.google.android.gms:play-services:6.5.87:23:13
 activity#android.support.v7.widget.TestActivity
 ADDED from com.android.support:recyclerview-v7:21.0.0:18:9
 	android:label

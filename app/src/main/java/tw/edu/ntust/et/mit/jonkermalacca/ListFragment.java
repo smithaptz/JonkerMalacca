@@ -325,8 +325,8 @@ public class ListFragment extends Fragment implements
     }
 
     @Override
-    public void onBackPressed() {
-        mSlideExpandableAdapter.collapseLastOpen();
+    public boolean onBackPressed() {
+        return mSlideExpandableAdapter.collapseLastOpen();
     }
 
     @Override

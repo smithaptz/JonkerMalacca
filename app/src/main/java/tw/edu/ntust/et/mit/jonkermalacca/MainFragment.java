@@ -52,16 +52,18 @@ public class MainFragment extends Fragment implements MainActivity.OnBackPressed
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         int currentPos = mViewPager.getCurrentItem();
         String tag = mSectionsPagerAdapter.getFragmentTag(currentPos);
 
         if (tag != null) {
             Fragment currentFragment = getChildFragmentManager().findFragmentByTag(tag);
             if (currentFragment instanceof MainActivity.OnBackPressedListener) {
-                ((MainActivity.OnBackPressedListener) currentFragment).onBackPressed();
+                return ((MainActivity.OnBackPressedListener) currentFragment).onBackPressed();
             }
         }
+
+        return false;
     }
 
     public void moveToPage(int position) {

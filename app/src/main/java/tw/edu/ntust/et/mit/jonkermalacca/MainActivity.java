@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
     ViewPager mViewPager;
 
     public interface OnBackPressedListener {
-        void onBackPressed();
+        boolean onBackPressed();
     }
 
     @Override
@@ -84,17 +84,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        boolean result = false;
         String currentTabTag = mTabHost.getCurrentTabTag();
         if (mTabHost.getCurrentTabTag() != null) {
             Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(currentTabTag);
 
             if (currentFragment instanceof OnBackPressedListener) {
-                ((OnBackPressedListener) currentFragment).onBackPressed();
-                return;
+                result = ((OnBackPressedListener) currentFragment).onBackPressed();
             }
         }
 
-        super.onBackPressed();
+        if (!result) {
+            super.onBackPressed();
+        }
     }
 
     @Override
