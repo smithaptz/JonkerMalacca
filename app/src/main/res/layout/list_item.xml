@@ -6,7 +6,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffffffff">
+        android:background="#ffffffff"
+        android:id="@+id/list_item_cover_layout">
 
         <ImageView
             android:layout_width="match_parent"
@@ -16,9 +17,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/loading"
             android:baselineAlignBottom="false"
-            android:cropToPadding="false"
-            android:layout_alignParentEnd="false"
-            android:layout_alignParentStart="false" />
+            android:cropToPadding="false" />
 
         <LinearLayout
             android:orientation="vertical"

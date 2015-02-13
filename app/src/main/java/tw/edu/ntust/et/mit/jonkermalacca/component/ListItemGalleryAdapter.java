@@ -12,6 +12,7 @@ import java.util.List;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
 import at.technikum.mti.fancycoverflow.FancyCoverFlowAdapter;
+import tw.edu.ntust.et.mit.jonkermalacca.R;
 import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 /**
@@ -55,8 +56,10 @@ public class ListItemGalleryAdapter extends FancyCoverFlowAdapter {
             Picasso.with(mContext).load(getItem(position).getUrl())
                     .resize(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL)
                     .centerCrop()
+                    .placeholder(R.drawable.loading_photo)
                     .into(iv, new Callback.EmptyCallback() {
-                        @Override public void onSuccess() {
+                        @Override
+                        public void onSuccess() {
                             notifyDataSetChanged();
                         }
                     });

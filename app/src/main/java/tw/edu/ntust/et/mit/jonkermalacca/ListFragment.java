@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,7 +50,8 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.InfoData;
 import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 
 
-public class ListFragment extends Fragment implements LocationListener,
+public class ListFragment extends Fragment implements
+        MainActivity.OnBackPressedListener, LocationListener,
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
         ListAdapter.OnPhotoClickListener, ListAdapter.OnMapClickListener,
         ListView.OnTouchListener, View.OnClickListener {
@@ -235,7 +237,7 @@ public class ListFragment extends Fragment implements LocationListener,
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
                 mListView,
                 mAdapter,
-                R.id.list_item_expand_btn,
+                R.id.list_item_cover_layout,
                 R.id.list_item_expand_layout);
         mSlideExpandableAdapter.setAnimationDuration(500);
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
@@ -269,6 +271,9 @@ public class ListFragment extends Fragment implements LocationListener,
         query.whereEqualTo("public", true);
         query.findInBackground(new ParsePhotoDataCallback(item));
     }
+
+
+
 
     @Override
     public void onPhotoClick(AdapterView<?> parent, View view, ListAdapter.Item item, int position) {
@@ -317,6 +322,11 @@ public class ListFragment extends Fragment implements LocationListener,
                 .setAction(getString(R.string.action_open_map))
                 .setLabel(infoData.getName())
                 .build());
+    }
+
+    @Override
+    public void onBackPressed() {
+        mSlideExpandableAdapter.collapseLastOpen();
     }
 
     @Override

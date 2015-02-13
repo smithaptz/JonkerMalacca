@@ -1,5 +1,6 @@
 package tw.edu.ntust.et.mit.jonkermalacca;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
@@ -33,11 +34,11 @@ public class MainActivity extends BaseActivity {
     private FragmentTabHost mTabHost;
     private TabWidget mTabWidget;
 
-
-    /**
-     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
-     */
     ViewPager mViewPager;
+
+    public interface OnBackPressedListener {
+        void onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,21 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        String currentTabTag = mTabHost.getCurrentTabTag();
+        if (mTabHost.getCurrentTabTag() != null) {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(currentTabTag);
+
+            if (currentFragment instanceof OnBackPressedListener) {
+                ((OnBackPressedListener) currentFragment).onBackPressed();
+                return;
+            }
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -91,5 +107,4 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
 }

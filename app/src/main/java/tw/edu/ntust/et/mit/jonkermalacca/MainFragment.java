@@ -10,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tw.edu.ntust.et.mit.jonkermalacca.component.BaseActivity;
 
 /**
  * Created by 123 on 2015/1/24.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements MainActivity.OnBackPressedListener {
     public static final String TAG = "MainFragment";
 
     private int mSectionNum;
@@ -48,6 +51,19 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onBackPressed() {
+        int currentPos = mViewPager.getCurrentItem();
+        String tag = mSectionsPagerAdapter.getFragmentTag(currentPos);
+
+        if (tag != null) {
+            Fragment currentFragment = getChildFragmentManager().findFragmentByTag(tag);
+            if (currentFragment instanceof MainActivity.OnBackPressedListener) {
+                ((MainActivity.OnBackPressedListener) currentFragment).onBackPressed();
+            }
+        }
+    }
+
     public void moveToPage(int position) {
         mViewPager.setCurrentItem(position, true);
     }
@@ -56,10 +72,12 @@ public class MainFragment extends Fragment {
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         private final FragmentManager mFragmentManager;
         private FragmentTransaction mCurTransaction = null;
+        private Map<Integer, String> tagMap;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
             mFragmentManager = fm;
+            tagMap = new HashMap<>();
         }
         @Override
         public long getItemId(int position) {
@@ -73,10 +91,10 @@ public class MainFragment extends Fragment {
             }
 
             final long itemId = getItemId(position);
-
             Fragment fragment = getItem(position);
-            mCurTransaction.add(container.getId(), fragment,
-                    makeFragmentName(container.getId(), itemId));
+            String tag = makeFragmentName(container.getId(), itemId);
+            mCurTransaction.add(container.getId(), fragment, tag);
+            tagMap.put(position, tag);
 
             return fragment;
         }
@@ -107,6 +125,10 @@ public class MainFragment extends Fragment {
 
         private String makeFragmentName(int viewId, long id) {
             return "android:switcher:" + viewId + ":" + id;
+        }
+
+        public String getFragmentTag(int position) {
+            return tagMap.get(position);
         }
 
         @Override
@@ -185,7 +207,6 @@ public class MainFragment extends Fragment {
 
             return 0;
         }
-
 
         @Override
         public int getCount() {

@@ -132,6 +132,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             Picasso.with(getContext())
                     .load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
                     .config(Bitmap.Config.RGB_565)
+                    .placeholder(R.drawable.loading_map)
                     .into(map);
         }
         return view;

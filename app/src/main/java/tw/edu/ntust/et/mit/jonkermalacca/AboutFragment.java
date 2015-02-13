@@ -41,6 +41,7 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
  * Created by 123 on 2015/2/7.
  */
 public class AboutFragment extends Fragment implements
+        MainActivity.OnBackPressedListener,
         SlideExpandableListAdapter.OnItemExpandCollapseListener,
         AboutAdapter.OnPhotoClickListener, AboutAdapter.OnUrlClickListener,
         ListView.OnTouchListener {
@@ -145,7 +146,7 @@ public class AboutFragment extends Fragment implements
         mSlideExpandableAdapter = new SlideExpandableListAdapter(
                 mListView,
                 mAdapter,
-                R.id.about_item_expand_btn,
+                R.id.about_item_cover_layout,
                 R.id.about_item_expand_layout);
         mSlideExpandableAdapter.setAnimationDuration(500);
         mSlideExpandableAdapter.setItemExpandCollapseListener(this);
@@ -156,33 +157,39 @@ public class AboutFragment extends Fragment implements
 
     private void dataInit() {
         List<AboutAdapter.Item> items = new ArrayList<AboutAdapter.Item>();
-        items.add(instanceItem(getString(R.string.about_ntust_name),
+        items.add(instanceItem(1000, getString(R.string.about_ntust_name),
                 getString(R.string.about_ntust_description),
                 getString(R.string.about_ntust_website),
-                null, null, R.drawable.ntust_cover));
-        items.add(instanceItem(getString(R.string.about_pfms_name),
+                null, R.drawable.ntust_cover));
+        items.add(instanceItem(1001, getString(R.string.about_pfms_name),
                 getString(R.string.about_pfms_description),
                 getString(R.string.about_pfms_website),
-                null, null, R.drawable.pfms_cover));
-        items.add(instanceItem(getString(R.string.about_whc_name),
+                null, R.drawable.pfms_cover));
+        items.add(instanceItem(1002, getString(R.string.about_whc_name),
                 getString(R.string.about_whc_description),
-                getString(R.string.about_whc_website), null, null, -1));
+                getString(R.string.about_whc_website), null, R.drawable.whc_cover));
 
         mAdapter.addAll(items);
     }
 
-    private AboutAdapter.Item instanceItem(
-            String name, String description, String webUrl,
-            String email, List<PhotoData> photos, int coverResouceId) {
+    private AboutAdapter.Item instanceItem(int id, String name,
+            String description, String webUrl, List<PhotoData> photos,
+            int coverResouceId) {
+
         AboutAdapter.Item item = new AboutAdapter.Item();
+        item.setId(id);
         item.setName(name);
         item.setDescription(description);
         item.setWebsiteUrl(webUrl);
-        item.setEmailUrl(email);
         item.setPhotos(photos);
         item.setCoverResourceId(coverResouceId);
 
         return item;
+    }
+
+    @Override
+    public void onBackPressed() {
+        mSlideExpandableAdapter.collapseLastOpen();
     }
 
     @Override
