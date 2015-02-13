@@ -175,8 +175,11 @@ public class ListFragment extends Fragment implements LocationListener,
 //        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
 //                BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
 
-        Picasso.with(getActivity()).load(mCoverViewId).
-                into((ImageView) rootView.findViewById(R.id.list_subcategory));
+        Picasso.with(getActivity())
+                .load(mCoverViewId)
+                .config(Bitmap.Config.RGB_565)
+                .resize(1080, 432)
+                .into((ImageView) rootView.findViewById(R.id.list_subcategory));
 
         mListLayout = (ViewGroup) rootView.findViewById(R.id.list_items_layout);
         mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);

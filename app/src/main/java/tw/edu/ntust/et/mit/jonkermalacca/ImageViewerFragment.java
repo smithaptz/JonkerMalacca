@@ -1,6 +1,7 @@
 package tw.edu.ntust.et.mit.jonkermalacca;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -132,9 +133,12 @@ public class ImageViewerFragment extends Fragment {
                     .setText(mPhotoDescriptions.get(position));
             ((TextView) view.findViewById(R.id.image_viewer_index))
                     .setText((position + 1) + "/" + getCount());
-            ImageView iv = (ImageView)view.findViewById(R.id.image_viewer_photo);
+            ImageView iv = (ImageView) view.findViewById(R.id.image_viewer_photo);
 
-            Picasso.with(mContext).load(mPhotoUrls.get(position)).into(iv);
+            Picasso.with(mContext)
+                    .load(mPhotoUrls.get(position))
+                    .config(Bitmap.Config.RGB_565)
+                    .into(iv);
             container.addView(view);
 
             return view;

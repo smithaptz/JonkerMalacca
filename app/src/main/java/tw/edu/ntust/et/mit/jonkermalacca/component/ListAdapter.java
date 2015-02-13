@@ -1,6 +1,7 @@
 package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,8 +101,11 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
                 Utility.calDistance(getContext(), mLocation, infoData.getLocation()));
 
         ImageView iv = (ImageView) ViewHolder.get(view, R.id.list_item_cover);
-        Picasso.with(getContext()).load(infoData.getLogoUrl()).
-                placeholder(R.drawable.loading).into(iv);
+        Picasso.with(getContext())
+                .load(infoData.getLogoUrl())
+                .config(Bitmap.Config.RGB_565)
+                .resize(1080, 360)
+                .placeholder(R.drawable.loading).into(iv);
 
 
         ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
@@ -125,7 +129,10 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             Location loc = infoData.getLocation();
             ImageView map = ViewHolder.get(view, R.id.list_item_map);
 
-            Picasso.with(getContext()).load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17)).into(map);
+            Picasso.with(getContext())
+                    .load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
+                    .config(Bitmap.Config.RGB_565)
+                    .into(map);
         }
         return view;
     }

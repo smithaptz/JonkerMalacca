@@ -101,8 +101,12 @@ public class AboutFragment extends Fragment implements
 //        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
 //                BitmapFactory.decodeResource(getResources(), R.drawable.cover_about, options));
 
-        Picasso.with(getActivity()).load(R.drawable.cover_about).
-                into((ImageView) rootView.findViewById(R.id.list_subcategory));
+        Picasso.with(getActivity())
+                .load(R.drawable.cover_about)
+                .config(Bitmap.Config.RGB_565)
+                .resize(1080, 432)
+                .into((ImageView) rootView.findViewById(R.id.list_subcategory));
+
 
         rootView.findViewById(R.id.list_cover_layout).setOnTouchListener(this);
         rootView.findViewById(R.id.list_right_button).setVisibility(View.GONE);

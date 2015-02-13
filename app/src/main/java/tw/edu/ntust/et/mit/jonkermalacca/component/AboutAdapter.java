@@ -95,8 +95,12 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
 
         ((TextView) ViewHolder.get(view, R.id.about_item_name)).setText(item.getName());
 
-        Picasso.with(getContext()).load(item.getCoverResourceId()).
-                placeholder(R.drawable.loading).into(((ImageView) ViewHolder.get(view, R.id.about_item_cover)));
+        Picasso.with(getContext())
+                .load(item.getCoverResourceId())
+                .config(Bitmap.Config.RGB_565)
+                .resize(1080, 360)
+                .placeholder(R.drawable.loading)
+                .into(((ImageView) ViewHolder.get(view, R.id.about_item_cover)));
 
 
         ((ImageView) ViewHolder.get(view, R.id.about_item_expand_btn))
