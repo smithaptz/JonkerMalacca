@@ -1,8 +1,10 @@
 package tw.edu.ntust.et.mit.jonkermalacca.component;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +28,11 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         FancyCoverFlow.OnItemClickListener, View.OnClickListener {
     private final LayoutInflater mInflater;
+    private final Picasso mPicasso;
     private Location mLocation;
 
     private OnPhotoClickListener mOnPhotoClickListener;
     private OnMapClickListener mOnMapClickListener;
-
 
     public interface OnPhotoClickListener {
         void onPhotoClick(AdapterView<?> parent, View view,
@@ -41,9 +43,10 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         void onMapClick(InfoData infoData);
     }
 
-    public ListAdapter(Context context) {
+    public ListAdapter(BaseActivity context) {
         super(context, 0);
         mInflater = LayoutInflater.from(context);
+        mPicasso = context.getImageLoader();
     }
 
     public void setOnItemGalleryClickListener(OnPhotoClickListener listener) {
@@ -101,12 +104,10 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
                 Utility.calDistance(getContext(), mLocation, infoData.getLocation()));
 
         ImageView iv = (ImageView) ViewHolder.get(view, R.id.list_item_cover);
-        Picasso.with(getContext())
-                .load(infoData.getLogoUrl())
+        mPicasso.load(infoData.getLogoUrl())
                 .config(Bitmap.Config.RGB_565)
                 .resize(1080, 360)
                 .placeholder(R.drawable.loading).into(iv);
-
 
         ((ImageView) ViewHolder.get(view, R.id.list_item_expand_btn))
                 .setImageResource(item.isViewExpand() ?
@@ -129,8 +130,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
             Location loc = infoData.getLocation();
             ImageView map = ViewHolder.get(view, R.id.list_item_map);
 
-            Picasso.with(getContext())
-                    .load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
+            mPicasso.load(getGoogleMapPicUrl(loc.getLatitude(), loc.getLongitude(), 520, 180, 17))
                     .config(Bitmap.Config.RGB_565)
                     .placeholder(R.drawable.loading_map)
                     .into(map);
@@ -146,7 +146,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
     }
 
     private FancyCoverFlow setupGallery(FancyCoverFlow gallery) {
-        gallery.setAdapter(new ListItemGalleryAdapter(getContext()));
+        gallery.setAdapter(new ListItemGalleryAdapter((BaseActivity) getContext()));
         gallery.setUnselectedAlpha(0.75f);
         gallery.setUnselectedSaturation(0.0f);
         gallery.setUnselectedScale(0.5f);

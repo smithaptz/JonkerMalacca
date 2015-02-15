@@ -26,6 +26,7 @@ import tw.edu.ntust.et.mit.jonkermalacca.model.PhotoData;
 public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
         FancyCoverFlow.OnItemClickListener, View.OnClickListener {
     private final LayoutInflater mInflater;
+    private final Picasso mPicasso;
 
     private OnPhotoClickListener mOnPhotoClickListener;
     private OnUrlClickListener mOnUrlClickListener;
@@ -40,9 +41,10 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
     }
 
 
-    public AboutAdapter(Context context) {
+    public AboutAdapter(BaseActivity context) {
         super(context, 0);
         mInflater = LayoutInflater.from(context);
+        mPicasso = context.getImageLoader();
     }
 
     public void setOnItemGalleryClickListener(OnPhotoClickListener listener) {
@@ -95,8 +97,7 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
 
         ((TextView) ViewHolder.get(view, R.id.about_item_name)).setText(item.getName());
 
-        Picasso.with(getContext())
-                .load(item.getCoverResourceId())
+        mPicasso.load(item.getCoverResourceId())
                 .config(Bitmap.Config.RGB_565)
                 .resize(1080, 360)
                 .placeholder(R.drawable.loading)
@@ -140,7 +141,7 @@ public class AboutAdapter extends ArrayAdapter<AboutAdapter.Item> implements
     }
 
     private FancyCoverFlow setupGallery(FancyCoverFlow gallery) {
-        gallery.setAdapter(new ListItemGalleryAdapter(getContext()));
+        gallery.setAdapter(new ListItemGalleryAdapter((BaseActivity) getContext()));
         gallery.setUnselectedAlpha(0.75f);
         gallery.setUnselectedSaturation(0.0f);
         gallery.setUnselectedScale(0.5f);

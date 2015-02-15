@@ -170,14 +170,7 @@ public class ListFragment extends Fragment implements
         mPagePosition = args.getInt(ARG_PAGE_POSITION);
         mPagePositionType = args.getInt(ARG_PAGE_POSITION_TYPE);
 
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inPreferredConfig = Bitmap.Config.RGB_565;
-//        options.inDither = true;
-//        options.inSampleSize = 1;
-//        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
-//                BitmapFactory.decodeResource(getResources(), mCoverViewId, options));
-
-        Picasso.with(getActivity())
+        ((BaseActivity) getActivity()).getImageLoader()
                 .load(mCoverViewId)
                 .config(Bitmap.Config.RGB_565)
                 .resize(1080, 432)
@@ -229,7 +222,7 @@ public class ListFragment extends Fragment implements
         mListView.setVerticalScrollBarEnabled(false);
         mListView.setOnTouchListener(this);
 
-        mAdapter = new ListAdapter(getActivity());
+        mAdapter = new ListAdapter((BaseActivity) getActivity());
         mAdapter.setLocation(mCurrentLocation);
         mAdapter.setOnItemGalleryClickListener(this);
         mAdapter.setOnMapClickListener(this);

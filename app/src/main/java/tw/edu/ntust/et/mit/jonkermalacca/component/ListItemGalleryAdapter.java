@@ -22,16 +22,16 @@ public class ListItemGalleryAdapter extends FancyCoverFlowAdapter {
     private static final int IMAGE_SIZE_X_DP = 150;
     private static final int IMAGE_SIZE_Y_DP = 150;
 
-    private final Context mContext;
+    private final BaseActivity mBaseActivity;
     private List<PhotoData> mPhotos;
 
     private final int IMAGE_SIZE_X_PIXEL;
     private final int IMAGE_SIZE_Y_PIXEL;
 
-    public ListItemGalleryAdapter(Context context) {
-        mContext = context;
-        IMAGE_SIZE_X_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_X_DP, mContext);
-        IMAGE_SIZE_Y_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_Y_DP, mContext);
+    public ListItemGalleryAdapter(BaseActivity context) {
+        mBaseActivity = context;
+        IMAGE_SIZE_X_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_X_DP, mBaseActivity);
+        IMAGE_SIZE_Y_PIXEL = (int) Utility.convertDpToPixel(IMAGE_SIZE_Y_DP, mBaseActivity);
     }
 
     public void setItems(List<PhotoData> photos) {
@@ -53,7 +53,8 @@ public class ListItemGalleryAdapter extends FancyCoverFlowAdapter {
         if (!getItem(position).equals(iv.getTag())) {
             iv.setTag(getItem(position));
 
-            Picasso.with(mContext).load(getItem(position).getUrl())
+            mBaseActivity.getImageLoader()
+                    .load(getItem(position).getUrl())
                     .resize(IMAGE_SIZE_X_PIXEL, IMAGE_SIZE_Y_PIXEL)
                     .centerCrop()
                     .placeholder(R.drawable.loading_photo)

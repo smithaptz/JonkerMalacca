@@ -1,12 +1,15 @@
 package tw.edu.ntust.et.mit.jonkermalacca.component;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
 
 import tw.edu.ntust.et.mit.jonkermalacca.R;
 
@@ -14,7 +17,23 @@ import tw.edu.ntust.et.mit.jonkermalacca.R;
  * Created by 123 on 2015/2/12.
  */
 public class BaseActivity extends FragmentActivity {
+    private static Picasso mPicasso;
     private Tracker mTracker;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (mPicasso == null) {
+            Runtime rt = Runtime.getRuntime();
+            int memoryCache = (int) (rt.maxMemory() * 0.75);
+            mPicasso = new Picasso.Builder(this).memoryCache(new LruCache(memoryCache)).build();
+        }
+    }
+
+    public Picasso getImageLoader() {
+        return mPicasso;
+    }
 
     public synchronized Tracker getTracker() {
         if (mTracker == null) {

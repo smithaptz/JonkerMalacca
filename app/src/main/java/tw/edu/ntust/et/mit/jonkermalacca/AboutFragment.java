@@ -90,19 +90,10 @@ public class AboutFragment extends Fragment implements
         mTitleTxtView = (TextView) rootView.findViewById(R.id.list_section_title);
         mSubtitleTxtView = (TextView) rootView.findViewById(R.id.list_subsection_title);
 
-        mTitleTxtView.setText("關於");
-        mSubtitleTxtView.setText("緣起");
+        mTitleTxtView.setText(R.string.title_about);
+        mSubtitleTxtView.setText(R.string.title_about_orign);
 
-
-
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inPreferredConfig = Bitmap.Config.RGB_565;
-//        options.inDither = true;
-//        options.inSampleSize = 1;
-//        ((ImageView) rootView.findViewById(R.id.list_subcategory)).setImageBitmap(
-//                BitmapFactory.decodeResource(getResources(), R.drawable.cover_about, options));
-
-        Picasso.with(getActivity())
+        ((BaseActivity) getActivity()).getImageLoader()
                 .load(R.drawable.cover_about)
                 .config(Bitmap.Config.RGB_565)
                 .resize(1080, 432)
@@ -139,7 +130,7 @@ public class AboutFragment extends Fragment implements
         mListView.setVerticalScrollBarEnabled(false);
         mListView.setOnTouchListener(this);
 
-        mAdapter = new AboutAdapter(getActivity());
+        mAdapter = new AboutAdapter((BaseActivity) getActivity());
         mAdapter.setOnItemGalleryClickListener(this);
         mAdapter.setOnUrlClickListener(this);
 

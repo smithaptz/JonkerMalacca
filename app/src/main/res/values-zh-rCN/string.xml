@@ -10,6 +10,9 @@
     <string name="title_spot_association">会馆乡团</string>
     <string name="title_spot_temple">庙宇教堂</string>
     <string name="title_other">其它</string>
+    <string name="title_about">关于</string>
+    <string name="title_about_orign">缘起</string>
+
 
     <string name="list_item_address">地址：</string>
     <string name="list_item_business_hour">营业时间：</string>
