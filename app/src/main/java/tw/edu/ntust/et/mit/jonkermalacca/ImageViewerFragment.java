@@ -88,7 +88,7 @@ public class ImageViewerFragment extends Fragment {
             } else if ("zh_CN".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
-                description = photoData.getDescriptionChs(); // temp
+                description = photoData.getDescriptionEng(); // temp
             }
             photoDescriptions.add(description);
         }

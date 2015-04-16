@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jonker Malacca</string>
+    <string name="title_food">Keenakan Makanan</string>
+    <string name="title_food_chinese">Keistimewaan Makanan Tempatan</string>
+    <string name="title_food_nyonya">Masakan Nyonya</string>
+    <string name="title_spot">Pengembaraan Budaya</string>
+    <string name="title_spot_tradition">Perniagaan tradisional</string>
+    <string name="title_spot_wall">Seni Jalanan</string>
+    <string name="title_spot_association">Persatuan Jalinan Mesra</string>
+    <string name="title_spot_temple">Tempat Ibadat</string>
+    <string name="title_other">Lain-lain</string>
+    <string name="title_about">Selanjutnya</string>
+    <string name="title_about_orign">Titik Permulaan</string>
+
+    <string name="list_item_address">Alamat: </string>
+    <string name="list_item_business_hour">Waktu Berniaga:</string>
+    <string name="map_hotspot">Pengembaraan Budaya</string>
+    <string name="map_food">Keenakan Makanan</string>
+    <string name="map_all">Semua</string>
+
+    <string name="about_item_website">Alamat Web:</string>
+    <string name="about_item_email">Peti Surat:</string>
+    <string name="unknown_distance">Jarak tidak diketahui</string>
+
+    <string name="about_ntust_name">NTUST</string>
+    <string name="about_ntust_website">http://www.ntust.edu.tw/</string>
+    <string name="about_ntust_description">Universiti Sains dan Teknologi Kebangsaan Taiwan didirikan pada tahun 1974. Universiti ini bukan sahaja merupaka salah satu institut pendidikan tinggi yang cemerlang di Taiwan malah di rantau   Asia. Universiti ini membekalkan pilihan jurusan yang beraneka dan alam pembelajaran yang mesra turut disediakan.</string>
+    <string name="about_pfms_name">Sekolah Menengah Pay Fong Melaka</string>
+    <string name="about_pfms_website">http://www.payfong.edu.my/</string>
+    <string name="about_pfms_description">Sekolah Menengah Pay Fong yang didirikan pada tahun 1913 merupakan satu-satunya Sekolah Persendirian Cina di Melaka. Sekolah ini ialah sebuah sekolah yang bukan berasaskan keuntungan. Maka, perbelanjaan sekolah adalah bergantung kepada sumbangan wang khususnya daripada komuniti Cina untuk pendidikan kemanusiaan, kebudayaan dan warisan tradisi.</string>
+    <string name="about_whc_name">Pejabat Warisan Dunia Melaka</string>
+    <string name="about_whc_website"></string>
+    <string name="about_whc_description">Pejabat Warisan Dunia Melaka ditubuhkan pada Disember 2011 dengan  tujuan untuk merancang, memelihara dan memulihara keadaan warisan dunia Bandar Bersejarah Melaka.</string>
+
+
+
+    <string name="description_food_chinese">Kombinasi budaya yang berlainan telah menzahirkan keistimewaan masakan Melaka. Justeru, makanan tempatan ini bukan sahaja membekalkan tenaga untuk meneruskan pengembaraan di bandar bersejarah, malah pelancong dapat menikmati keharmonian yang tersirat dalam aroma masakan negeri selat ini.</string>
+    <string name="description_food_nyonya">Baba Nyonya merupakan golongan keturunan kaum Cina yang unik kedudukannya dalam kalangan kaum Cina yang terdapat di Negeri-negeri Selat khususnya di Melaka. Kebudayaan Peranakan yang berasal daripada warisan tradisi Cina mempunyai unsur-unsur pengaruh kebudayaan Melayu. Integrasi kebudayaan yang berlainan melalui perkahwinan campur melambangkan pengamalan cara hidup yang harmoni.\n\nMasakan Nyonya dengan rempah ratus yang beraneka memaparkan kewibawaan dan tradisi dalam penyediaan masakan Cina and Melayu. Justeru, peluang untuk menikmati masakan Nyonya tidak boleh dilepaskan semasa pengembaraan di Melaka.</string>
+    <string name="description_spot_tradition">Meskipun bentuk pekerjaan mengalami perubahan yang drastik, sesetengah perniagaan tradisional sepanjang Sungai Melaka masih dikekalkan. Perniagaan tradisional ini perlu dijelajahi dan digalakkan supaya kewibawaan nenek moyang kita dapat diwarisi.</string>
+    <string name="description_spot_wall">Seni jalanan di Melaka dipersembahkan dalam pelbagai bentuk. Pelancong dapat mengenali sejarah dan cara hidup penduduk Melaka melalui karya lukisan yang mengkagumkan ini.</string>
+    <string name="description_spot_association">Nanyang, satu istilah yang khususnya digunakan oleh orang Cina yang berhijrah ke Nusantara. Pelbagai persatuan yang berasaskan jalinan keturunan atau geografi telah ditubuhkan untuk menjaga kebajikan sesama semasa berada di tanah yang asing pada ketika itu.</string>
+    <string name="description_spot_temple">Kita bersembahyang supaya kita dapat hidup dengan aman dan damai. Kendatipun kita mungkin mengamalkan kepercayaan yang berlainan, namun keharmonian hidup yang kita dahagakan dan kejar adalah sama. Harmony Street (Jalan Tokong Besi) merupakan satu teladan yang perlu dicontohi kerana tempat ibadat agama yang berlainan dapat didirikan sepanjang jalan ini.</string>
+    <string name="description_about">Jonker Malacca merupakan aplikasi mudah alih yang diperkenalkan oleh Sekolah Menengah Pay Fong dengan kerjasama daripada Universiti Sains dan Teknologi Kebangsaan Taiwan dalam perekaan . Aplikasi ini direka khas untuk Pejabat Warisan Dunia Melaka supaya aplikasi ini dapat dimanfaatkan kepada pelancong sebagai manual pelancongan alternatif untuk mengenali elemen kebudayaan dan persejarahan Melaka.\n\nJonker Walk dengan bangunan bersejarah yang didirikan sepanjang jalan  mengisahkan usaha dan sumbangan migran Cina dalam pembangunan dan perkembangan pusat perdagangan pada ketika perhijrahan ke Nusantara. Meskipun jalan ini sekarang dipenuhi dengan pelbagai aktiviti komersial, kita dapat menghayati kisah-kisah yang terharu daripada ciri-ciri seni bina bangunan yang eksotik dengan tulus ikhlas.</string>
+</resources>

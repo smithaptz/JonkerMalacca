@@ -240,11 +240,13 @@ public class ListFragment extends Fragment implements
 
     public void updateData() {
         String language = Locale.getDefault().toString();
-        String queryTable = "InfoChs"; // temp
+        String queryTable = "InfoEng"; // temp
         if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
             queryTable = "InfoCht";
         } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
             queryTable = "InfoChs";
+        } else if("ms".equals(language) || "ms_MY".equals(language)) {
+            queryTable = "InfoMY";
         }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(queryTable);
