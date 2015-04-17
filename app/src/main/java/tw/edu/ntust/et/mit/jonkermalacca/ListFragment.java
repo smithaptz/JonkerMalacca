@@ -72,11 +72,8 @@ public class ListFragment extends Fragment implements
 
     private static final int PULL_DOWN_THRESHOLD_LENGTH = 125;
 
-    private static final float BLUR_SCALE_DOWN_FACTOR = 12f;
-    private static final int BLUR_SAMPLE_RADIUS = 4;
-
-    private static final float TITLE_TEXT_ZOOM_SCALE = 0;
-    private static final float SUBTITLE_TEXT_ZOOM_SCALE = 1.7f;
+    private float mTitleTextZoomScale = 0;
+    private float mSubtitleTextZoomScale = 1.7f;
 
     private String mTitle;
     private String mSubtitle;
@@ -183,6 +180,20 @@ public class ListFragment extends Fragment implements
         mTitleTxtView.setText(mTitle);
         mSubtitleTxtView.setText(mSubtitle);
 
+        float textSizeRatio = 0.82f;
+        String language = Locale.getDefault().toString();
+        if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            textSizeRatio = 1.0f;
+        } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
+            textSizeRatio = 1.0f;
+        } else if("ms".equals(language) || "ms_MY".equals(language)) {
+            textSizeRatio = 0.75f;
+        }
+
+        mTitleTxtView.setTextScaleX(textSizeRatio);
+        mSubtitleTxtView.setTextScaleX(textSizeRatio);
+        mSubtitleTextZoomScale *= textSizeRatio;
+
         rootView.findViewById(R.id.list_cover_layout).setOnTouchListener(this);
 
         View rightBtn = rootView.findViewById(R.id.list_right_button);
@@ -284,7 +295,7 @@ public class ListFragment extends Fragment implements
             } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
                 description = photoData.getDescriptionChs();
             } else {
-                description = photoData.getDescriptionChs(); //temp
+                description = photoData.getDescriptionEng(); //temp
             }
             photoDescriptions.add(description);
         }
@@ -511,9 +522,9 @@ public class ListFragment extends Fragment implements
 
         private void setOpenRatio(float ratio) {
             mTitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
-                    mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
+                    mDefaultTitleTxtSize * lerp(1.0f, mTitleTextZoomScale, ratio));
             mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX ,
-                    mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
+                    mDefaultSubtitleTxtSize * lerp(1.0f, mSubtitleTextZoomScale, ratio));
 
         }
 

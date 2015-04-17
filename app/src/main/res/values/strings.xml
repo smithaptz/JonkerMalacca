@@ -13,11 +13,17 @@
     <string name="title_about">About</string>
     <string name="title_about_orign">Genesis</string>
 
-    <string name="about_item_website">Website：</string>
-    <string name="about_item_email">Email：</string>
+    <string name="about_item_website">Website: </string>
+    <string name="about_item_email">Email: </string>
     <string name="unknown_distance">Unknown Distance</string>
 
-    <string name="about_ntust_name">NTUST</string>
+    <string name="list_item_address">Address: </string>
+    <string name="list_item_business_hour">Business Hour: </string>
+    <string name="map_hotspot">Cultural Exploration</string>
+    <string name="map_food">Delicacies</string>
+    <string name="map_all">All</string>
+
+    <string name="about_ntust_name">National Taiwan University of Science and Technology</string>
     <string name="about_ntust_website">http://www.ntust.edu.tw/</string>
     <string name="about_ntust_description">-	National Taiwan University of Science and Technology which was founded in 1974 is one of the Taiwan’s leading universities, possessing an excellent record as an outstanding research and educational institution in Asia. An extensive spectrum of programs is offered in an innovative and friendly learning environment.</string>
     <string name="about_pfms_name">Malacca Pay Fong Middle School</string>

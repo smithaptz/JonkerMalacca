@@ -38,7 +38,8 @@
                 android:text="@string/map_food"
                 android:id="@+id/map_food_btn_txt"
                 android:layout_gravity="center"
-                android:textColor="#ff9b9b9b" />
+                android:textColor="#ff9b9b9b"
+                android:gravity="center" />
         </FrameLayout>
 
         <FrameLayout
@@ -55,7 +56,8 @@
                 android:text="@string/map_hotspot"
                 android:id="@+id/map_hotspot_btn_txt"
                 android:layout_gravity="center"
-                android:textColor="#ff9b9b9b" />
+                android:textColor="#ff9b9b9b"
+                android:gravity="center" />
         </FrameLayout>
 
         <FrameLayout
@@ -72,7 +74,8 @@
                 android:text="@string/map_all"
                 android:id="@+id/map_all_btn_txt"
                 android:layout_gravity="center"
-                android:textColor="#ff9b9b9b" />
+                android:textColor="#ff9b9b9b"
+                android:gravity="center" />
         </FrameLayout>
     </LinearLayout>
 

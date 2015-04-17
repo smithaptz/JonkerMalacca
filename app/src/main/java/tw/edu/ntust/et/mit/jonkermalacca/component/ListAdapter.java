@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import at.technikum.mti.fancycoverflow.FancyCoverFlow;
 import tw.edu.ntust.et.mit.jonkermalacca.R;
@@ -29,6 +30,7 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         FancyCoverFlow.OnItemClickListener, View.OnClickListener {
     private final LayoutInflater mInflater;
     private final Picasso mPicasso;
+    private final int textSize;
     private Location mLocation;
 
     private OnPhotoClickListener mOnPhotoClickListener;
@@ -47,6 +49,17 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         super(context, 0);
         mInflater = LayoutInflater.from(context);
         mPicasso = context.getImageLoader();
+
+        String language = Locale.getDefault().toString();
+        if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            textSize = 24;
+        } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
+            textSize = 24;
+        } else if("ms".equals(language) || "ms_MY".equals(language)) {
+            textSize = 18;
+        } else {
+            textSize = 20;
+        }
     }
 
     public void setOnItemGalleryClickListener(OnPhotoClickListener listener) {
@@ -91,6 +104,8 @@ public class ListAdapter extends ArrayAdapter<ListAdapter.Item> implements
         if (convertView == null) {
             view = mInflater.inflate(R.layout.list_item, null);
             view.findViewById(R.id.list_item_navigation).setOnClickListener(this);
+            ((TextView) view.findViewById(R.id.list_item_name)).setTextSize(textSize);
+            ((TextView) view.findViewById(R.id.list_item_dist)).setTextSize(textSize * 0.75f);
             setupGallery((FancyCoverFlow) view.findViewById(R.id.list_item_gallery));
         } else {
             view = convertView;

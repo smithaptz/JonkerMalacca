@@ -49,8 +49,8 @@ public class AboutFragment extends Fragment implements
 
     private static final int PULL_DOWN_THRESHOLD_LENGTH = 125;
 
-    private static final float TITLE_TEXT_ZOOM_SCALE = 0;
-    private static final float SUBTITLE_TEXT_ZOOM_SCALE = 1.7f;
+    private float mTitleTextZoomScale = 0;
+    private float mSubtitleTextZoomScale = 1.7f;
 
     private int touchDownX;
     private int touchDownY;
@@ -92,6 +92,20 @@ public class AboutFragment extends Fragment implements
 
         mTitleTxtView.setText(R.string.title_about);
         mSubtitleTxtView.setText(R.string.title_about_orign);
+
+        float textSizeRatio = 0.82f;
+        String language = Locale.getDefault().toString();
+        if ("zh_TW".equals(language) || "zh_HK".equals(language)) {
+            textSizeRatio = 1.0f;
+        } else if ("zh_CN".equals(language) || "zh_SG".equals(language)) {
+            textSizeRatio = 1.0f;
+        } else if("ms".equals(language) || "ms_MY".equals(language)) {
+            textSizeRatio = 0.75f;
+        }
+
+        mTitleTxtView.setTextScaleX(textSizeRatio);
+        mSubtitleTxtView.setTextScaleX(textSizeRatio);
+        mSubtitleTextZoomScale *= textSizeRatio;
 
         ((BaseActivity) getActivity()).getImageLoader()
                 .load(R.drawable.cover_about)
@@ -313,9 +327,9 @@ public class AboutFragment extends Fragment implements
 
                 private void setOpenRatio(float ratio) {
                     mTitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                            mDefaultTitleTxtSize * lerp(1.0f, TITLE_TEXT_ZOOM_SCALE, ratio));
+                            mDefaultTitleTxtSize * lerp(1.0f, mTitleTextZoomScale, ratio));
                     mSubtitleTxtView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                            mDefaultSubtitleTxtSize * lerp(1.0f, SUBTITLE_TEXT_ZOOM_SCALE, ratio));
+                            mDefaultSubtitleTxtSize * lerp(1.0f, mSubtitleTextZoomScale, ratio));
 
                 }
 

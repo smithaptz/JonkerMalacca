@@ -14,16 +14,16 @@
     <string name="title_about_orign">Titik Permulaan</string>
 
     <string name="list_item_address">Alamat: </string>
-    <string name="list_item_business_hour">Waktu Berniaga:</string>
+    <string name="list_item_business_hour">Waktu Berniaga: </string>
     <string name="map_hotspot">Pengembaraan Budaya</string>
     <string name="map_food">Keenakan Makanan</string>
     <string name="map_all">Semua</string>
 
-    <string name="about_item_website">Alamat Web:</string>
-    <string name="about_item_email">Peti Surat:</string>
+    <string name="about_item_website">Alamat Web: </string>
+    <string name="about_item_email">Peti Surat: </string>
     <string name="unknown_distance">Jarak tidak diketahui</string>
 
-    <string name="about_ntust_name">NTUST</string>
+    <string name="about_ntust_name">Universiti Sains dan Teknologi Kebangsaan Taiwan</string>
     <string name="about_ntust_website">http://www.ntust.edu.tw/</string>
     <string name="about_ntust_description">Universiti Sains dan Teknologi Kebangsaan Taiwan didirikan pada tahun 1974. Universiti ini bukan sahaja merupaka salah satu institut pendidikan tinggi yang cemerlang di Taiwan malah di rantau   Asia. Universiti ini membekalkan pilihan jurusan yang beraneka dan alam pembelajaran yang mesra turut disediakan.</string>
     <string name="about_pfms_name">Sekolah Menengah Pay Fong Melaka</string>
